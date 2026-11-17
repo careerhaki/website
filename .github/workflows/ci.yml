@@ -54,5 +54,5 @@ jobs:
 
       - name: Temporary - confirm the trackers start
         run: |
-          google-chrome --headless=new --no-sandbox --virtual-time-budget=20000 --dump-dom http://localhost:3000/ > dom.html
-          grep -o '<script[^>]*src="https://[^"]*"' dom.html | sed 's/.*src=/TRACKER /'
+          timeout 20 google-chrome --headless=new --no-sandbox --log-net-log=net.json http://localhost:3000/ || true
+          grep -o -E '"url":"https://[^"?]*(googletagmanager|google-analytics|posthog)[^"?]*' net.json | sort -u | sed 's/"url":"/TRACKER /'
