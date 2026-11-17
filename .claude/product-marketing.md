@@ -4,11 +4,11 @@ Source of truth: the operating brief in the Claude project "CareerHaki - Site". 
 
 ## What it is
 
-End-to-end career coaching and mentorship for people in tech, delivered 1:1 by working practitioners, from first clarity call through the first 90 days in the new job.
+End-to-end career coaching and mentorship for people in tech, delivered by working practitioners, from first clarity call through the first 90 days in the new job.
 
 ## Who it is for
 
-Recent graduates and candidates with two to three years of experience who want a better role in cloud, data, software, DevOps or security. They are in Canada, the US and India. Most arrive by referral from an alumnus.
+Recent graduates and candidates with two to three years of experience who want a better role in cloud, data, agentic AI, software, DevOps or security. They are in Canada, the US and India. Most arrive by referral from an alumnus.
 
 ## What they feel
 
@@ -21,8 +21,8 @@ Working name: The Ascent. Three stages: Prepare (clarity, skills, resume, person
 ## Why it is different
 
 - It does not end at the offer; it covers the first 90 days on the job.
-- Mentors are engineers doing the work today.
-- Weekly 1:1 sessions with the founder, a senior enterprise cloud architect and former college professor.
+- Mentors are engineers doing the work today, and each student has access to several mentors in their own field.
+- The founder, Nithish (a senior enterprise cloud architect and former college professor), runs office hours for students. Do not call these a weekly 1:1.
 
 ## Confirmed proof
 

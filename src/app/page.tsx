@@ -8,10 +8,11 @@ export const metadata = pageMetadata({ path: "/" });
 // operating brief); "82 in 100" is always a count of students.
 const hero = {
   eyebrow: "Career coaching and mentorship for people in ",
-  // Order set by Nithish. The first word is the one shown when still.
-  fields: ["tech", "data", "Agentic AI", "cloud", "software", "DevOps", "security"],
+  // Order set by Nithish; DevOps and security cut from the rotation on
+  // 17 November (they stay in the lead). The first word is the still one.
+  fields: ["tech", "data", "Agentic AI", "cloud", "software"],
   title: "A better role in tech, coached by engineers who do the job today.",
-  lead: "For recent graduates and engineers two to three years in who want their next role in cloud, data, agentic AI, software, DevOps or security. You get a weekly 1:1 and sessions with mentors who work in the field, from your first resume draft through your first 90 days in the new job.",
+  lead: "For recent graduates and engineers two to three years in who want their next role in cloud, data, agentic AI, software, DevOps or security. You work with mentors who do the job in your field, from your first resume draft through your first 90 days in the new job.",
   stats: [
     {
       id: "hired",

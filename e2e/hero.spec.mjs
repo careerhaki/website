@@ -3,7 +3,7 @@
 // approved motion (H1, H2, H4, N2) with it off.
 import { expect, test } from "@playwright/test";
 
-const fields = ["tech", "data", "Agentic AI", "cloud", "software", "DevOps", "security"];
+const fields = ["tech", "data", "Agentic AI", "cloud", "software"];
 const figures = ["120+", "82 in 100", "4.9 out of 5"];
 
 const hero = (page) => page.locator("section[aria-labelledby=hero-title]");

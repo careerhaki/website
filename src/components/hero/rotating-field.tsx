@@ -9,7 +9,7 @@ const INTERVAL = 2400;
 /**
  * Full rounds before it rests on the first word for good. WCAG 2.2.2 asks
  * that motion which starts by itself and runs beside other content either
- * stops or can be paused; one round shows every field and then stops.
+ * stops or can be paused; one round shows every field (about 12 seconds for five) and then stops.
  * Infinity loops for as long as the hero is on screen.
  */
 const ROUNDS = 1;
