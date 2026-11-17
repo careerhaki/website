@@ -1,0 +1,166 @@
+/*
+ * Pain section: surface band, H2, pain items, closing line. Spacing from the
+ * approved mockup (Direction A).
+ */
+.band {
+  background-color: var(--color-surface);
+}
+
+.inner {
+  max-width: var(--container-site);
+  margin-inline: auto;
+  padding: var(--spacing-section) var(--spacing-gutter);
+}
+
+.title {
+  margin: 0;
+  max-width: 18ch;
+  font-size: var(--text-h2);
+  line-height: var(--text-h2--line-height);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(26.25rem, 100%), 1fr)); /* 420px */
+  gap: 2.5rem 4.5rem; /* 40px 72px */
+  margin-top: clamp(2.5rem, 5vw, 4.5rem); /* 40 to 72px */
+}
+
+/* Pain item: 2px rule above, H3, a sentence or two. The rule is two layers:
+   a hairline-grey track and the orange rule over it, so both motions below
+   move only transform and opacity. */
+.item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem; /* 10px */
+  padding-top: 1.25rem; /* 20px */
+}
+
+.item::before,
+.item::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 2px;
+}
+
+.item::before {
+  background-color: var(--color-line);
+}
+
+.item::after {
+  background-color: var(--color-accent);
+  transform-origin: left;
+}
+
+.itemTitle {
+  margin: 0;
+  font-size: var(--text-h3);
+  line-height: var(--text-h3--line-height);
+  letter-spacing: -0.01em;
+}
+
+.itemBody {
+  margin: 0;
+  max-width: 46ch;
+  color: var(--color-muted);
+  text-wrap: pretty;
+}
+
+.turn {
+  margin: clamp(2.5rem, 5vw, 4rem) 0 0; /* 40 to 64px */
+  max-width: 40ch;
+  font-family: var(--font-serif);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--text-h3);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+/* The phrase that takes the underline in P2. Kept on one line so its
+   underline is one stroke. */
+.mark {
+  position: relative;
+  white-space: nowrap;
+}
+
+/*
+ * P1, the rules draw in. RevealGroup marks the grid ready and each item
+ * revealed as it arrives. Until then the rule is undrawn and the words wait
+ * just below their place. The rule draws first; the words follow.
+ */
+.item::after {
+  transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) var(--reveal-delay, 0ms);
+}
+
+.item > * {
+  transition:
+    opacity 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) calc(var(--reveal-delay, 0ms) + 0.15s),
+    transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) calc(var(--reveal-delay, 0ms) + 0.15s);
+}
+
+.grid[data-reveal-ready] .item:not([data-revealed])::after {
+  transform: scaleX(0);
+}
+
+.grid[data-reveal-ready] .item:not([data-revealed]) > * {
+  opacity: 0;
+  transform: translateY(0.5rem);
+}
+
+/*
+ * P2, the turn. The closing line names a scroll timeline; the section shares
+ * it with the items above. As the line rises from the lower part of the
+ * screen to the middle, the orange rules fade to the grey track, then the
+ * underline draws under the closing words. Scrolling back reverses it.
+ * Only where the browser supports scroll-driven animations and motion is
+ * welcome; otherwise the still version is the mockup.
+ */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .band {
+      timeline-scope: --pain-turn;
+    }
+
+    .turn {
+      view-timeline: --pain-turn block;
+    }
+
+    .item::after {
+      animation: pain-quiet linear both;
+      animation-timeline: --pain-turn;
+      animation-range: cover 20% cover 45%;
+    }
+
+    .mark::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -0.06em;
+      height: 0.08em;
+      background-color: var(--color-accent);
+      transform-origin: left;
+      animation: pain-mark linear both;
+      animation-timeline: --pain-turn;
+      animation-range: cover 30% cover 48%;
+    }
+  }
+}
+
+@keyframes pain-quiet {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes pain-mark {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
