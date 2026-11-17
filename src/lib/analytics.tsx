@@ -14,63 +14,81 @@ const enabled =
   process.env.VERCEL_ENV === "production" ||
   process.env.ANALYTICS_FORCE === "1";
 
-const googleAnalytics = `
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', '${GA_MEASUREMENT_ID}');
-`;
+/**
+ * Together the two trackers are about 450 KB of script and several hundred
+ * milliseconds of work on a mid-range phone. Loaded during page load they
+ * took Lighthouse mobile from 98 to 89. So they start on the visitor's first
+ * touch, scroll, key press or pointer move, or after 8 seconds, whichever
+ * comes first. A visit shorter than 8 seconds with no interaction at all is
+ * not counted.
+ */
+const loader = `
+(function () {
+  var started = false;
+  var triggers = ['pointerdown', 'pointermove', 'touchstart', 'scroll', 'keydown'];
 
-// PostHog's loader protocol: a stub that queues calls until the real library
-// arrives, then the library reads the stub and takes over.
-const postHog = `
-(function (doc, stub) {
-  if (stub.__SV) return;
-  window.posthog = stub;
-  stub._i = [];
-  stub.people = stub.people || [];
-  ['capture', 'identify', 'reset', 'register', 'group', 'opt_in_capturing', 'opt_out_capturing'].forEach(function (name) {
-    stub[name] = function () {
-      stub.push([name].concat(Array.prototype.slice.call(arguments, 0)));
-    };
-  });
-  stub.init = function (token, config, name) {
-    var script = doc.createElement('script');
+  function addScript(src) {
+    var script = document.createElement('script');
     script.async = true;
     script.crossOrigin = 'anonymous';
-    script.src = config.api_host.replace('.i.posthog.com', '-assets.i.posthog.com') + '/static/array.js';
-    doc.head.appendChild(script);
-    stub._i.push([token, config, name]);
-  };
-  stub.__SV = 1;
-})(document, window.posthog || []);
-posthog.init('${POSTHOG_KEY}', {
-  api_host: '${POSTHOG_HOST}',
-  defaults: '2026-08-30',
-  person_profiles: 'identified_only'
-});
+    script.src = src;
+    document.head.appendChild(script);
+  }
+
+  function startGoogleAnalytics() {
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag('js', new Date());
+    window.gtag('config', '${GA_MEASUREMENT_ID}');
+    addScript('https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}');
+  }
+
+  // PostHog's loader protocol: a stub that queues calls until the real
+  // library arrives, then the library reads the stub and takes over.
+  function startPostHog() {
+    var stub = window.posthog || [];
+    if (stub.__SV) return;
+    window.posthog = stub;
+    stub._i = [];
+    stub.people = stub.people || [];
+    ['capture', 'identify', 'reset', 'register', 'group', 'opt_in_capturing', 'opt_out_capturing'].forEach(function (name) {
+      stub[name] = function () {
+        stub.push([name].concat(Array.prototype.slice.call(arguments, 0)));
+      };
+    });
+    stub.__SV = 1;
+    stub._i.push(['${POSTHOG_KEY}', {
+      api_host: '${POSTHOG_HOST}',
+      defaults: '2026-08-30',
+      person_profiles: 'identified_only',
+      disable_surveys: true
+    }, undefined]);
+    addScript('${POSTHOG_HOST}'.replace('.i.posthog.com', '-assets.i.posthog.com') + '/static/array.js');
+  }
+
+  function start() {
+    if (started) return;
+    started = true;
+    triggers.forEach(function (name) { window.removeEventListener(name, start); });
+    var whenIdle = window.requestIdleCallback || function (run) { return setTimeout(run, 1); };
+    whenIdle(startGoogleAnalytics);
+    whenIdle(startPostHog);
+  }
+
+  triggers.forEach(function (name) {
+    window.addEventListener(name, start, { passive: true });
+  });
+  setTimeout(start, 8000);
+})();
 `;
 
-/**
- * Google Analytics and PostHog. Both load after the page has finished
- * loading and the browser is idle, so they never delay the headline or
- * the booking button.
- */
+/** Google Analytics and PostHog, started by the small loader above. */
 export function Analytics() {
   if (!enabled) return null;
 
   return (
-    <>
-      <Script
-        src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-        strategy="lazyOnload"
-      />
-      <Script id="google-analytics" strategy="lazyOnload">
-        {googleAnalytics}
-      </Script>
-      <Script id="posthog" strategy="lazyOnload">
-        {postHog}
-      </Script>
-    </>
+    <Script id="analytics" strategy="afterInteractive">
+      {loader}
+    </Script>
   );
 }
