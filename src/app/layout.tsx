@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Newsreader } from "next/font/google";
 
+import { SiteHeader } from "@/components/site-header";
 import { Analytics } from "@/lib/analytics";
 import { site } from "@/lib/site";
 
@@ -48,6 +49,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${newsreader.variable}`}>
       <body>
+        <SiteHeader />
         {children}
         <Analytics />
       </body>

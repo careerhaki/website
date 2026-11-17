@@ -1,0 +1,68 @@
+/*
+ * The design system's one pair of buttons. Primary: accent fill, ink text
+ * (never white: it fails contrast). Secondary: ink outline that fills on
+ * hover. Motion H5: the arrow nudges forward on hover and the pill presses
+ * in on tap.
+ */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  min-height: 3.375rem; /* 54px */
+  padding: 0 1.875rem;
+  border: 1.5px solid transparent;
+  border-radius: var(--radius-pill);
+  font-size: 1rem;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background-color 0.2s,
+    color 0.2s,
+    border-color 0.2s,
+    transform 0.12s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.button:active {
+  transform: scale(0.97);
+}
+
+.small {
+  min-height: 2.75rem; /* 44px, navigation */
+  padding: 0 1.25rem;
+  font-size: var(--text-small);
+}
+
+.primary {
+  background-color: var(--color-accent);
+  color: var(--color-ink);
+}
+
+.primary:hover {
+  background-color: var(--color-accent-hover);
+}
+
+.secondary {
+  border-color: var(--color-ink);
+  background-color: transparent;
+  color: var(--color-ink);
+}
+
+.secondary:hover {
+  background-color: var(--color-ink);
+  color: var(--color-bg);
+}
+
+.arrow {
+  width: 1rem;
+  height: 1rem;
+  flex: none;
+  transition: transform 0.22s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.button:hover .arrow,
+.button:focus-visible .arrow {
+  transform: translateX(4px);
+}
