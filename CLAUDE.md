@@ -48,6 +48,7 @@ Node 22 and npm. Run from the repository root.
 | Build | `npm run build` | Production build; the same command Vercel runs. Must pass before a pull request is ready. |
 | Lint | `npm run lint` | ESLint with the Next.js rules. Next.js 16 no longer lints during the build, so run it yourself. |
 | Test | `npm test` | Checks the colour tokens against the design system and their WCAG AA contrast. No install needed. |
+| Screenshots | `npm run screenshots` | Playwright opens the built site on a phone and a desktop screen, checks each page loads and fits, and saves full-page screenshots to `screenshots/`. Run `npm run build` first. Needs `npm install --no-save @playwright/test@1.63.0` and `npx playwright install chromium` once; CI does this itself and attaches the screenshots to every run. |
 | Type check | `npm run typecheck` | TypeScript across the project. |
 
 Where things live: pages in `src/app/`, design tokens in `src/app/globals.css`, site name, address and page metadata in `src/lib/site.ts`, images in `src/assets/`, tests in `tests/`.
