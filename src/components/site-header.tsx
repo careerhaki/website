@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { type CSSProperties, useEffect, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 
 import logo from "@/assets/careerhaki-logo.png";
 import { ButtonLink } from "@/components/button";
@@ -92,7 +93,6 @@ export function SiteHeader() {
     );
     root.dataset.menuOpen = "";
     for (const element of others) element.inert = true;
-    const frame = requestAnimationFrame(() => firstLinkRef.current?.focus());
 
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -107,7 +107,6 @@ export function SiteHeader() {
     document.addEventListener("keydown", onKeyDown);
     wide.addEventListener("change", onWide);
     return () => {
-      cancelAnimationFrame(frame);
       delete root.dataset.menuOpen;
       for (const element of others) element.inert = false;
       document.removeEventListener("keydown", onKeyDown);
@@ -116,6 +115,14 @@ export function SiteHeader() {
   }, [open]);
 
   const close = () => setOpen(false);
+
+  // Opening moves focus to the first link. The sheet is rendered open first
+  // (flushSync), because a hidden link cannot take focus.
+  const toggle = () => {
+    const opening = !open;
+    flushSync(() => setOpen(opening));
+    if (opening) firstLinkRef.current?.focus();
+  };
 
   return (
     <>
@@ -164,7 +171,7 @@ export function SiteHeader() {
               aria-expanded={open}
               aria-controls="site-menu"
               aria-label={open ? "Close menu" : "Open menu"}
-              onClick={() => setOpen((value) => !value)}
+              onClick={toggle}
             >
               <svg
                 aria-hidden="true"
