@@ -6,7 +6,7 @@ export const navLinks = [
   { href: "/the-ascent", label: "The Ascent" },
   { href: "/results", label: "Results" },
   { href: "/mentors", label: "Mentors" },
-  { href: "/growthhaki", label: "GrowthHaki" },
+  { href: "/growthhaki", label: "GrowthHaki", translate: "no" },
   { href: "/for-employers", label: "For employers" },
   { href: "/about", label: "About" },
 ] as const;

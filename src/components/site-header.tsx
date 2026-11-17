@@ -11,6 +11,31 @@ import { bookingPath, navLinks } from "@/lib/navigation";
 
 import styles from "./site-header.module.css";
 
+// Built once (rendering-hoist-jsx): the three lines turn into a close icon
+// through CSS when the button is expanded.
+const menuIcon = (
+  <svg
+    aria-hidden="true"
+    width="20"
+    height="20"
+    viewBox="0 0 20 20"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+  >
+    <g className={styles.line1}>
+      <line x1="3" y1="6" x2="17" y2="6" />
+    </g>
+    <g className={styles.line2}>
+      <line x1="3" y1="10" x2="17" y2="10" />
+    </g>
+    <g className={styles.line3}>
+      <line x1="3" y1="14" x2="17" y2="14" />
+    </g>
+  </svg>
+);
+
 /**
  * The site navigation: logo, links, "Book a call", and on phones a menu
  * button that opens a full-screen sheet. Motion N1 to N4; see the stylesheet.
@@ -34,7 +59,9 @@ export function SiteHeader() {
     const sentinel = sentinelRef.current;
     if (!header || !sentinel) return;
     const observer = new IntersectionObserver(([entry]) => {
-      header.dataset.scrolled = String(!entry.isIntersecting);
+      const scrolled = !entry.isIntersecting;
+      header.dataset.scrolled = String(scrolled);
+      document.documentElement.toggleAttribute("data-scrolled", scrolled);
     });
     observer.observe(sentinel);
     return () => observer.disconnect();
@@ -145,6 +172,7 @@ export function SiteHeader() {
                 key={link.href}
                 href={link.href}
                 className={styles.link}
+                translate={"translate" in link ? link.translate : undefined}
                 aria-current={pathname === link.href ? "page" : undefined}
               >
                 {link.label}
@@ -165,20 +193,7 @@ export function SiteHeader() {
               aria-label={open ? "Close menu" : "Open menu"}
               onClick={() => setOpen((value) => !value)}
             >
-              <svg
-                aria-hidden="true"
-                width="20"
-                height="20"
-                viewBox="0 0 20 20"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-              >
-                <line className={styles.line1} x1="3" y1="6" x2="17" y2="6" />
-                <line className={styles.line2} x1="3" y1="10" x2="17" y2="10" />
-                <line className={styles.line3} x1="3" y1="14" x2="17" y2="14" />
-              </svg>
+              {menuIcon}
             </button>
           </div>
         </div>
@@ -201,6 +216,7 @@ export function SiteHeader() {
               <Link
                 href={link.href}
                 className={styles.sheetLink}
+                translate={"translate" in link ? link.translate : undefined}
                 aria-current={pathname === link.href ? "page" : undefined}
                 onClick={close}
               >

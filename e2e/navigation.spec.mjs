@@ -33,7 +33,7 @@ test("navigation: links on desktop, menu sheet on phone", async ({ page }, testI
   await expect(page.getByRole("button", { name: "Open menu" })).toBeFocused();
 });
 
-test("navigation: the bar condenses after scrolling", async ({ page }) => {
+test("navigation: the bar condenses after scrolling", async ({ page }, testInfo) => {
   await page.goto("/");
   const header = page.locator("header");
   await expect(header).toHaveAttribute("data-scrolled", "false");
@@ -42,6 +42,11 @@ test("navigation: the bar condenses after scrolling", async ({ page }) => {
     window.scrollTo(0, 400);
   });
   await expect(header).toHaveAttribute("data-scrolled", "true");
+  // The bar keeps its place in the page, so nothing below it moves.
+  const box = await header.boundingBox();
+  expect(box.y).toBe(0);
+  await page.waitForTimeout(400);
+  await page.screenshot({ path: `screenshots/${testInfo.project.name}/scrolled.png` });
   await page.evaluate(() => window.scrollTo(0, 0));
   await expect(header).toHaveAttribute("data-scrolled", "false");
 });
