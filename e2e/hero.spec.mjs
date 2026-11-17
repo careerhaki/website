@@ -50,9 +50,10 @@ test("hero: reduce motion shows the still version", async ({ page }) => {
         return { opacity: style.opacity, transform: style.transform };
       }),
     );
+  // Everything at full opacity and in its own place (no offset left over).
   for (const { opacity, transform } of shown) {
     expect(opacity).toBe("1");
-    expect(transform).toBe("none");
+    expect(["none", "matrix(1, 0, 0, 1, 0, 0)"]).toContain(transform);
   }
   for (const figure of figures) {
     await expect(hero(page).locator("[aria-hidden=true]", { hasText: figure }).first()).toBeVisible();
@@ -88,9 +89,16 @@ test("N2: the navigation's button is an outline while the hero's is on screen", 
 test.describe("with motion", () => {
   test.use({ reducedMotion: "no-preference" });
 
+  // The page clock is paused, so time moves only when the test moves it.
+  const pauseClock = async (page) => {
+    const now = await page.evaluate(() => Date.now());
+    await page.clock.pauseAt(now + 50);
+  };
+
   test("H4: one round through every field, headline still, then rests", async ({ page }) => {
     await page.clock.install();
     await page.goto("/");
+    await pauseClock(page);
     await page.evaluate(() => document.fonts.ready);
     const box = hero(page).locator("[data-active]").locator("..");
 
@@ -123,6 +131,7 @@ test.describe("with motion", () => {
   test("H4: the field pauses while the hero is off screen", async ({ page }) => {
     await page.clock.install();
     await page.goto("/");
+    await pauseClock(page);
     await page.evaluate(() => {
       document.body.style.minHeight = "400vh";
       window.scrollTo(0, 2400);
@@ -154,5 +163,19 @@ test.describe("with motion", () => {
     );
     await page.evaluate(() => document.fonts.ready);
     await page.screenshot({ path: `screenshots/${testInfo.project.name}/home-motion.png` });
+  });
+
+  test("H2: a figure never breaks across lines", async ({ page }) => {
+    await page.goto("/");
+    await page.evaluate(() => document.fonts.ready);
+    const heights = await hero(page)
+      .locator("li > span:first-child")
+      .evaluateAll((elements) => elements.map((element) => element.getBoundingClientRect().height));
+    const lineHeights = await hero(page)
+      .locator("li > span:first-child")
+      .evaluateAll((elements) =>
+        elements.map((element) => parseFloat(getComputedStyle(element).fontSize) * 1.5),
+      );
+    heights.forEach((height, i) => expect(height).toBeLessThan(lineHeights[i]));
   });
 });

@@ -1,11 +1,14 @@
 /*
  * Stat row: hairline above, figures in Newsreader, one-line label under each.
- * Columns collapse on their own (no fixed column count).
+ * Columns collapse on their own (no fixed column count). Flex rather than an
+ * equal-column grid: a figure never breaks across lines ("4.9 out of 5" did
+ * at 1440px), so a longer figure takes the room it needs and the row wraps
+ * when there is not enough.
  */
 .row {
   position: relative;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 1.75rem 3rem; /* 28px 48px */
   margin: 0;
   padding: 1.75rem 0 0; /* 28px */
@@ -37,6 +40,7 @@
 }
 
 .stat {
+  flex: 1 1 15rem;
   display: flex;
   flex-direction: column;
   gap: 0.375rem; /* 6px */
@@ -49,6 +53,7 @@
   line-height: var(--text-stat--line-height);
   letter-spacing: var(--tracking-headline);
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
 /* Holds its final width while counting (set by CountUp), so the text after

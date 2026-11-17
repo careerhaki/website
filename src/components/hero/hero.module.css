@@ -6,8 +6,8 @@
   width: 100%;
   max-width: var(--container-site);
   margin-inline: auto;
-  padding: clamp(2.5rem, 6vw, 5.5rem) var(--spacing-gutter)
-    clamp(3.5rem, 6vw, 5.5rem); /* 40 to 88px, 56 to 88px */
+  padding: clamp(2.5rem, 5vw, 4rem) var(--spacing-gutter)
+    clamp(3.5rem, 6vw, 5.5rem); /* 40 to 64px, 56 to 88px */
 }
 
 /* H4: the sentence is quiet (muted) and the changing word carries the only
@@ -91,7 +91,9 @@
 }
 
 .stats {
-  margin-top: clamp(3rem, 6vw, 5.5rem); /* 48 to 88px */
+  /* 48 to 64px: on a 1440 by 900 laptop the whole row, labels included, is
+     in view without scrolling. */
+  margin-top: clamp(3rem, 5vw, 4rem);
 }
 
 /* H1: the lead, the buttons and the stat row rise into place in turn, once,
