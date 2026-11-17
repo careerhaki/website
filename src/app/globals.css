@@ -122,6 +122,42 @@
     outline-offset: 3px;
   }
 
+  /* Anchors and keyboard focus stop below the sticky bar, never under it. */
+  html {
+    scroll-padding-top: calc(var(--head-h, 5.25rem) + 1rem);
+  }
+
+  /* No double-tap zoom delay; the tap highlight is replaced by the buttons'
+     own pressed state. */
+  a,
+  button {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* The phone menu sheet is open: the page behind it does not scroll. */
+  html[data-menu-open] {
+    overflow: hidden;
+  }
+
+  /*
+   * "Reduce motion": every transition and animation finishes at once, so the
+   * still version shows everything in its final place. Components need no
+   * extra rules of their own.
+   */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-delay: 0ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      transition-delay: 0ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
   ::selection {
     background-color: var(--color-accent);
     color: var(--color-ink);
