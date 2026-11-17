@@ -80,14 +80,19 @@ export function SiteHeader() {
   useEffect(() => {
     if (!open) return;
     const root = document.documentElement;
-    const keep = new Set<Element | null>([headerRef.current, sheetRef.current]);
+    const header = headerRef.current;
+    const sheet = sheetRef.current;
+    // Everything outside the bar and the sheet, at the top level of the page.
+    // An element that holds the bar or the sheet stays live.
     const others = Array.from(document.body.children).filter(
       (element): element is HTMLElement =>
-        element instanceof HTMLElement && !keep.has(element),
+        element instanceof HTMLElement &&
+        !(header && element.contains(header)) &&
+        !(sheet && element.contains(sheet)),
     );
     root.dataset.menuOpen = "";
     for (const element of others) element.inert = true;
-    firstLinkRef.current?.focus();
+    const frame = requestAnimationFrame(() => firstLinkRef.current?.focus());
 
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -102,6 +107,7 @@ export function SiteHeader() {
     document.addEventListener("keydown", onKeyDown);
     wide.addEventListener("change", onWide);
     return () => {
+      cancelAnimationFrame(frame);
       delete root.dataset.menuOpen;
       for (const element of others) element.inert = false;
       document.removeEventListener("keydown", onKeyDown);
