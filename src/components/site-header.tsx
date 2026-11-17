@@ -28,7 +28,6 @@ export function SiteHeader() {
   const sheetRef = useRef<HTMLElement>(null);
   const sentinelRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
-  const firstLinkRef = useRef<HTMLAnchorElement>(null);
 
   // N1: mark the bar as scrolled once the top-of-page marker leaves the screen.
   useEffect(() => {
@@ -121,7 +120,7 @@ export function SiteHeader() {
   const toggle = () => {
     const opening = !open;
     flushSync(() => setOpen(opening));
-    if (opening) firstLinkRef.current?.focus();
+    if (opening) sheetRef.current?.querySelector<HTMLElement>("a[href]")?.focus();
   };
 
   return (
@@ -207,7 +206,6 @@ export function SiteHeader() {
               style={{ "--i": index } as CSSProperties}
             >
               <Link
-                ref={index === 0 ? firstLinkRef : undefined}
                 href={link.href}
                 className={styles.sheetLink}
                 aria-current={pathname === link.href ? "page" : undefined}
