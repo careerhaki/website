@@ -4,10 +4,14 @@ The marketing site, tools and student portal for CareerHaki, an end-to-end caree
 
 ## Read first
 
-The full context lives in the Claude project "CareerHaki - Site", in two documents. Read both at the start of a work session when the project is attached:
+The full context lives in the Claude project "CareerHaki - Site", in four documents. Read them in this order at the start of a work session when the project is attached:
 
 - `careerhaki-operating-brief.md`: the business, confirmed proof, truth rules, voice, brand.
 - `careerhaki-build-plan.md`: product definition, stack, stages, modules and what "done" means.
+- `careerhaki-decisions.md`: the decisions log, newest first.
+- `careerhaki-design-system.md`: final colours, type, spacing, components, motion rules.
+
+Where they disagree, the decisions log and the design system win, because they are newer.
 
 If they are not available, the essentials are below. Do not guess the rest; ask Nithish.
 
@@ -15,9 +19,9 @@ If they are not available, the essentials are below. Do not guess the rest; ask 
 
 - **Customer:** recent graduates and candidates with two to three years of experience who want a better role in tech. Canada, the US and India.
 - **Primary action on every page:** book a discovery call. Secondary: employer enquiry.
-- **Program:** working name "The Ascent", in three stages: Prepare, Land, Thrive.
+- **Program:** The Ascent, in three stages: Prepare, Land, Thrive. The name is final (chosen by Nithish, 16 November 2026).
 - **Voice:** leave the reader more confident in themselves by being specific. Write to "you". Short sentences, plain words. Avoid revolutionize, transform, unlock, empower and journey.
-- **Brand:** accent orange `#E17032` (proposed) or brand orange `#F26716`, charcoal `#262626`, dark grey `#494E54`, iron `#DBDEE3`. Final palette and typeface come from module 1.1.
+- **Brand:** the palette and typefaces are final (Direction A, module 1.1) and are defined in `careerhaki-design-system.md`; in code they live in `src/app/globals.css`. Warm off-white background `#FAF6F0`, charcoal text `#262626`, orange `#E17032` as the only accent. Small orange text uses `#A4470F`, and orange buttons carry charcoal text, never white. Headlines are Newsreader; body and interface are Inter. The logo stays in Gotham and is only ever used as the supplied image file. Do not use the older brand-guide values (`#F26716`, `#494E54`, `#DBDEE3`) on the site.
 
 ## Truth rules
 
