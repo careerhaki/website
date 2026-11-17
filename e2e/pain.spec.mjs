@@ -99,6 +99,7 @@ test.describe("with motion", () => {
     await expect.poll(async () => (await rule(lastItem)).opacity).toBeLessThan(0.05);
     await expect.poll(async () => scaleX((await underline(page)).transform)).toBeGreaterThan(0.95);
     await page.evaluate(() => document.fonts.ready);
+    await page.waitForTimeout(900); // let P1 finish on the items just revealed
     await page.screenshot({ path: `screenshots/${testInfo.project.name}/pain-turn.png` });
 
     // Back down the page: it reverses.
