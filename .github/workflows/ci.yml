@@ -51,3 +51,8 @@ jobs:
 
       - name: Lighthouse, mobile
         run: node scripts/lighthouse-check.mjs http://localhost:3000/
+
+      - name: Temporary - confirm the trackers start
+        run: |
+          google-chrome --headless=new --no-sandbox --virtual-time-budget=20000 --dump-dom http://localhost:3000/ > dom.html
+          grep -o '<script[^>]*src="https://[^"]*"' dom.html | sed 's/.*src=/TRACKER /'
