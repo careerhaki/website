@@ -12,12 +12,13 @@ const inter = Inter({
   display: "swap",
 });
 
-// Headlines. Variable weight plus the optical-size axis, so large headlines
-// use the display cut and small serif text uses the text cut.
+// Headlines. The design system uses Newsreader at one weight only (500), so
+// only that weight is loaded. The headline is the largest element on most
+// pages, so this file's size sets how fast the page looks finished.
 // The italic (stage numerals) is added with the stage card in module 1.3.
 const newsreader = Newsreader({
   subsets: ["latin"],
-  axes: ["opsz"],
+  weight: "500",
   variable: "--font-newsreader",
   display: "swap",
 });
