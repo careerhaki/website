@@ -22,6 +22,21 @@ test("navigation: links on desktop, menu sheet on phone", async ({ page }, testI
   await expect(closeButton).toHaveAttribute("aria-expanded", "true");
   const sheet = page.getByRole("navigation", { name: "Menu" });
   await expect(sheet.getByRole("link")).toHaveCount(7);
+  await page.waitForTimeout(300);
+  console.log("DIAG", JSON.stringify(await page.evaluate(() => {
+    const link = document.querySelector("#site-menu a");
+    const sheet = document.getElementById("site-menu");
+    const before = document.activeElement?.outerHTML.slice(0, 90);
+    link.focus();
+    return {
+      before,
+      after: document.activeElement?.outerHTML.slice(0, 90),
+      inert: link.closest("[inert]")?.tagName ?? null,
+      visibility: getComputedStyle(sheet).visibility,
+      liVisibility: getComputedStyle(link.parentElement).visibility,
+      bodyKids: Array.from(document.body.children).map((e) => e.tagName + (e.id ? "#" + e.id : "") + (e.inert ? "(inert)" : "")),
+    };
+  })));
   await expect(sheet.getByRole("link", { name: "The Ascent" })).toBeFocused();
   await page.evaluate(() => document.fonts.ready);
   await page.screenshot({ path: "screenshots/phone/menu-open.png" });
