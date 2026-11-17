@@ -37,6 +37,8 @@ jobs:
       - run: npm test
 
       - run: npm run build
+        env:
+          ANALYTICS_FORCE: "1" # temporary, one-off measurement
 
       - name: Start the built site
         run: |
