@@ -1,7 +1,8 @@
 name: CI
 
 # Runs on every pull request and on main: lint, type check, tests, production
-# build, then Lighthouse (mobile) against the built site.
+# build, then Playwright (phone and desktop screenshots) and Lighthouse
+# (mobile) against the built site.
 
 on:
   pull_request:
@@ -17,7 +18,7 @@ concurrency:
 
 jobs:
   check:
-    name: Lint, test, build, Lighthouse
+    name: Lint, test, build, screenshots, Lighthouse
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -46,6 +47,25 @@ jobs:
             sleep 1
           done
           echo "The site did not start" && exit 1
+
+      # Playwright is pinned here rather than in package.json, the same way
+      # Lighthouse is, so it adds nothing to the site's own install.
+      - name: Install Playwright
+        run: |
+          npm install --no-save @playwright/test@1.63.0
+          npx playwright install --with-deps chromium
+
+      - name: Playwright, phone and desktop screenshots
+        run: npm run screenshots
+
+      - name: Upload the screenshots
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: screenshots/
+          if-no-files-found: warn
+          retention-days: 14
 
       - name: Lighthouse, mobile
         run: node scripts/lighthouse-check.mjs http://localhost:3000/

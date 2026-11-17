@@ -19,3 +19,7 @@ next-env.d.ts
 *.pem
 npm-debug.log*
 lighthouse-*.json
+
+# playwright
+/screenshots/
+/test-results/
