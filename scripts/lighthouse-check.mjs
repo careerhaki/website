@@ -59,6 +59,19 @@ const line = [
 ].join(", ");
 
 console.log(`Lighthouse mobile, median of ${RUNS}: ${line}`);
+
+// What the page weighs and what Lighthouse treats as its largest element.
+const last = runs[RUNS - 1];
+const requests = last.audits["network-requests"]?.details?.items ?? [];
+for (const request of requests) {
+  console.log(
+    `${String(Math.round(request.transferSize / 1024)).padStart(5)} KB  ${request.resourceType.padEnd(10)} ${request.url}`,
+  );
+}
+const lcpElement =
+  last.audits["largest-contentful-paint-element"]?.details?.items?.[0]?.items?.[0]
+    ?.node?.snippet;
+if (lcpElement) console.log(`Largest element: ${lcpElement}`);
 // Shown on the pull request's checks page.
 console.log(`::notice title=Lighthouse mobile (median of ${RUNS})::${line}`);
 
