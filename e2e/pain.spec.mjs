@@ -77,6 +77,12 @@ test.describe("with motion", () => {
     page,
   }, testInfo) => {
     await page.goto("/");
+    // The sections after this one are not built yet; give the page room
+    // below so the closing line can reach the middle of the screen, as it
+    // will on the full homepage.
+    await page.evaluate(() => {
+      document.body.style.paddingBottom = "100vh";
+    });
     const turn = section(page).locator("p").last();
     const place = (block) =>
       turn.evaluate((element, where) => element.scrollIntoView({ block: where }), block);

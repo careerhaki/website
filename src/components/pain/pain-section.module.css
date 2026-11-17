@@ -89,13 +89,14 @@
 /*
  * P1, the rules draw in. RevealGroup marks the grid ready and each item
  * revealed as it arrives. Until then the rule is undrawn and the words wait
- * just below their place. The rule draws first; the words follow.
+ * just below their place (set at once, out of sight). On arrival the rule
+ * draws first and the words follow.
  */
-.item::after {
+.item[data-revealed]::after {
   transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) var(--reveal-delay, 0ms);
 }
 
-.item > * {
+.item[data-revealed] > * {
   transition:
     opacity 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) calc(var(--reveal-delay, 0ms) + 0.15s),
     transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) calc(var(--reveal-delay, 0ms) + 0.15s);
