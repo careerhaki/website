@@ -37,8 +37,6 @@ jobs:
       - run: npm test
 
       - run: npm run build
-        env:
-          ANALYTICS_FORCE: "1" # temporary, one-off measurement
 
       - name: Start the built site
         run: |
@@ -51,8 +49,3 @@ jobs:
 
       - name: Lighthouse, mobile
         run: node scripts/lighthouse-check.mjs http://localhost:3000/
-
-      - name: Temporary - confirm the trackers start
-        run: |
-          timeout 20 google-chrome --headless=new --no-sandbox --log-net-log=net.json http://localhost:3000/ || true
-          grep -o -E '"url":"https://[^"?]*(googletagmanager|google-analytics|posthog)[^"?]*' net.json | sort -u | sed 's/"url":"/TRACKER /'
