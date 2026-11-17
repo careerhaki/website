@@ -1,5 +1,5 @@
 // The navigation on a phone and a desktop: what shows, the phone menu sheet
-// with the keyboard, the bar condensing after a scroll, and the skip link.
+// with the keyboard (Tab into it, Escape out), the bar condensing after a scroll, and the skip link.
 import { expect, test } from "@playwright/test";
 
 test("navigation: links on desktop, menu sheet on phone", async ({ page }, testInfo) => {
@@ -22,6 +22,8 @@ test("navigation: links on desktop, menu sheet on phone", async ({ page }, testI
   await expect(closeButton).toHaveAttribute("aria-expanded", "true");
   const sheet = page.getByRole("navigation", { name: "Menu" });
   await expect(sheet.getByRole("link")).toHaveCount(7);
+  await expect(closeButton).toBeFocused();
+  await page.keyboard.press("Tab");
   await expect(sheet.getByRole("link", { name: "The Ascent" })).toBeFocused();
   await page.evaluate(() => document.fonts.ready);
   await page.screenshot({ path: "screenshots/phone/menu-open.png" });

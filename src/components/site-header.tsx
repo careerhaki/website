@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { type CSSProperties, useEffect, useRef, useState } from "react";
-import { flushSync } from "react-dom";
 
 import logo from "@/assets/careerhaki-logo.png";
 import { ButtonLink } from "@/components/button";
@@ -76,7 +75,9 @@ export function SiteHeader() {
   }, [pathname]);
 
   // N4: while the sheet is open, the rest of the page is inert and does not
-  // scroll; Escape or a wide window closes it.
+  // scroll; Escape or a wide window closes it. Focus stays on the menu button
+  // (now "Close menu", expanded); the sheet comes right after the bar, so the
+  // next Tab goes straight to its first link.
   useEffect(() => {
     if (!open) return;
     const root = document.documentElement;
@@ -114,14 +115,6 @@ export function SiteHeader() {
   }, [open]);
 
   const close = () => setOpen(false);
-
-  // Opening moves focus to the first link. The sheet is rendered open first
-  // (flushSync), because a hidden link cannot take focus.
-  const toggle = () => {
-    const opening = !open;
-    flushSync(() => setOpen(opening));
-    if (opening) sheetRef.current?.querySelector<HTMLElement>("a[href]")?.focus();
-  };
 
   return (
     <>
@@ -170,7 +163,7 @@ export function SiteHeader() {
               aria-expanded={open}
               aria-controls="site-menu"
               aria-label={open ? "Close menu" : "Open menu"}
-              onClick={toggle}
+              onClick={() => setOpen((value) => !value)}
             >
               <svg
                 aria-hidden="true"
