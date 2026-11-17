@@ -1,0 +1,51 @@
+name: CI
+
+# Runs on every pull request and on main: lint, type check, tests, production
+# build, then Lighthouse (mobile) against the built site.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Lint, test, build, Lighthouse
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run lint
+
+      - run: npm run typecheck
+
+      - run: npm test
+
+      - run: npm run build
+
+      - name: Start the built site
+        run: |
+          npm run start &
+          for i in $(seq 1 30); do
+            curl --silent --fail --output /dev/null http://localhost:3000 && exit 0
+            sleep 1
+          done
+          echo "The site did not start" && exit 1
+
+      - name: Lighthouse, mobile
+        run: node scripts/lighthouse-check.mjs http://localhost:3000/

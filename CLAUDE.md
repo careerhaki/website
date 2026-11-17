@@ -35,7 +35,20 @@ Next.js 16 (App Router), TypeScript, Tailwind CSS, deployed on Vercel. Content i
 
 ## Commands
 
-To be filled in at module 1.2, when the project is created: install, dev, build, lint, test.
+Node 22 and npm. Run from the repository root.
+
+| Task | Command | Notes |
+|---|---|---|
+| Install | `npm install` | Run once after cloning and whenever `package.json` changes. |
+| Dev | `npm run dev` | Local site at http://localhost:3000, reloads on save. |
+| Build | `npm run build` | Production build; the same command Vercel runs. Must pass before a pull request is ready. |
+| Lint | `npm run lint` | ESLint with the Next.js rules. Next.js 16 no longer lints during the build, so run it yourself. |
+| Test | `npm test` | Checks the colour tokens against the design system and their WCAG AA contrast. No install needed. |
+| Type check | `npm run typecheck` | TypeScript across the project. |
+
+Where things live: pages in `src/app/`, design tokens in `src/app/globals.css`, site name, address and page metadata in `src/lib/site.ts`, images in `src/assets/`, tests in `tests/`.
+
+Search engines are told not to index any deployment until `SITE_LIVE=1` is set on the Vercel production environment at launch (module 1.6).
 
 ## How to work
 

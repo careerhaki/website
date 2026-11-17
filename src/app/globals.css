@@ -1,0 +1,129 @@
+@import "tailwindcss";
+
+/*
+ * CareerHaki design tokens.
+ * Source of truth: careerhaki-design-system.md (Direction A, final).
+ * Change a value there first, then here. tests/design-tokens.test.mjs
+ * checks the colours and their contrast.
+ */
+
+@theme static {
+  /* Colour. Tailwind's default palette is removed: only these exist. */
+  --color-*: initial;
+  --color-bg: #faf6f0; /* page background */
+  --color-surface: #f2eadf; /* alternate bands, cards */
+  --color-ink: #262626; /* text, dark band, dark card */
+  --color-muted: #5c5852; /* secondary text on bg and surface */
+  --color-line: #ddd3c5; /* hairlines on light grounds */
+  --color-accent: #e17032; /* primary button fill, rules, numerals on ink */
+  --color-accent-text: #a4470f; /* small orange text on light grounds */
+  --color-accent-hover: #ec8a52; /* primary button hover */
+  --color-on-ink-muted: #c9c2b8; /* secondary text on ink */
+  --color-on-ink-line: #4a4641; /* hairlines on ink */
+
+  /*
+   * Type scale. Sizes are the design system's pixel values written in rem
+   * (16px = 1rem) so text follows the reader's browser setting.
+   * Use as text-display, text-h1, text-body and so on.
+   */
+  --text-*: initial;
+  --text-display: clamp(3.25rem, 8.6vw, 7.75rem); /* 52 to 124px */
+  --text-display--line-height: 0.98;
+  --text-h1: clamp(2.5rem, 6vw, 5.375rem); /* 40 to 86px */
+  --text-h1--line-height: 1.03;
+  --text-h2: clamp(2rem, 4.1vw, 3.625rem); /* 32 to 58px */
+  --text-h2--line-height: 1.08;
+  --text-h3: clamp(1.75rem, 2.4vw, 2.125rem); /* 28 to 34px */
+  --text-h3--line-height: 1.2;
+  --text-card-title: clamp(1.875rem, 3vw, 2.625rem); /* 30 to 42px */
+  --text-card-title--line-height: 1.05;
+  --text-stat: clamp(2.75rem, 5vw, 4.5rem); /* 44 to 72px */
+  --text-stat--line-height: 1;
+  --text-stat-lg: clamp(3.5rem, 7vw, 6.5rem); /* 56 to 104px, dark band */
+  --text-stat-lg--line-height: 1;
+  --text-lead: clamp(1.125rem, 1.55vw, 1.3125rem); /* 18 to 21px */
+  --text-lead--line-height: 1.55;
+  --text-body: 1.0625rem; /* 17px */
+  --text-body--line-height: 1.6;
+  --text-small: 0.9375rem; /* 15px */
+  --text-small--line-height: 1.5;
+  --text-eyebrow: 0.8125rem; /* 13px, uppercase */
+  --text-eyebrow--line-height: 1.4;
+  --text-eyebrow--letter-spacing: 0.08em;
+  --text-eyebrow--font-weight: 600;
+  --text-numeral: 1.375rem; /* 22px Newsreader italic */
+  --text-numeral--line-height: 1.2;
+
+  --tracking-*: initial;
+  --tracking-headline: -0.02em;
+  --tracking-eyebrow: 0.08em;
+
+  --font-weight-*: initial;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+
+  /*
+   * Spacing. The base unit is 4px, so the design system's scale maps to
+   * Tailwind's numbers: 4=1, 8=2, 12=3, 16=4, 20=5, 24=6, 28=7, 32=8, 36=9,
+   * 40=10, 48=12, 64=16, 72=18, 88=22, 128=32 (for example gap-6 is 24px).
+   */
+  --spacing: 0.25rem;
+  --spacing-gutter: clamp(1.25rem, 5vw, 4rem); /* container side padding */
+  --spacing-section: clamp(4rem, 8vw, 8rem); /* section top and bottom */
+  --spacing-section-cta: clamp(4.5rem, 9vw, 9rem); /* final call-to-action */
+  --spacing-step: 2.25rem; /* stage cards step upward by 36px */
+
+  /* Layout */
+  --container-*: initial;
+  --container-site: 77.5rem; /* 1240px */
+  --breakpoint-*: initial;
+  --breakpoint-nav: 53.75rem; /* 860px: navigation and button stacking */
+
+  /* Radius: one per element type. */
+  --radius-*: initial;
+  --radius-pill: 999px; /* buttons */
+  --radius-card: 1.125rem; /* 18px, cards */
+
+  /* Typefaces come from next/font (see layout.tsx), with the fallbacks
+     named in the design system. */
+  --font-sans: var(--font-inter), system-ui, "Segoe UI", sans-serif;
+  --font-serif: var(--font-newsreader), Georgia, "Times New Roman", serif;
+}
+
+@layer base {
+  html {
+    background-color: var(--color-bg);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+  }
+
+  body {
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Headlines: Newsreader 500, tightened, balanced wrap, sentence case. */
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-serif);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: var(--tracking-headline);
+    font-optical-sizing: auto;
+    text-wrap: balance;
+  }
+
+  /* Visible keyboard focus on every interactive element. */
+  :focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: var(--color-ink);
+  }
+}
