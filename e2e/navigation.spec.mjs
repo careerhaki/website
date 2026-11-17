@@ -53,3 +53,16 @@ test("navigation: the first Tab reaches the skip link", async ({ page }) => {
   await expect(skip).toBeFocused();
   await expect(skip).toBeVisible();
 });
+
+test("navigation: fits a 360px phone", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "phone", "phone only");
+  await page.setViewportSize({ width: 360, height: 740 });
+  await page.goto("/");
+  await page.evaluate(() => document.fonts.ready);
+  const overflow = await page.evaluate(
+    () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+  );
+  expect(overflow, "pixels wider than the screen").toBeLessThanOrEqual(0);
+  const button = await page.getByRole("button", { name: "Open menu" }).boundingBox();
+  expect(button.x + button.width, "menu button inside the screen").toBeLessThanOrEqual(360);
+});

@@ -272,3 +272,18 @@
     transition-delay: calc(60ms + var(--i, 0) * 35ms);
   }
 }
+
+/* Small phones (360px): logo, button and menu button still fit on one line. */
+@media (width < 25rem) {
+  .inner {
+    gap: 0.75rem;
+  }
+
+  .actions {
+    gap: 0.5rem;
+  }
+
+  .cta {
+    padding: 0 0.875rem;
+  }
+}
