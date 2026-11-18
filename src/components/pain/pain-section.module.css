@@ -4,6 +4,17 @@
  */
 .band {
   background-color: var(--color-surface);
+  /* Below the fold: the browser skips laying out and painting the section
+     until it nears the screen. The size is the measured height (phone, then
+     desktop); "auto" keeps the real height once it has been drawn. */
+  content-visibility: auto;
+  contain-intrinsic-block-size: auto 76rem; /* 1220px */
+}
+
+@media (width >= 64rem) {
+  .band {
+    contain-intrinsic-block-size: auto 61rem; /* 975px */
+  }
 }
 
 .inner {

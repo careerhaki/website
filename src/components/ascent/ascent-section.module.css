@@ -16,6 +16,15 @@
   max-width: var(--container-site);
   margin-inline: auto;
   padding: var(--spacing-section) var(--spacing-gutter);
+  /* Below the fold: see the pain section. Measured heights, phone first. */
+  content-visibility: auto;
+  contain-intrinsic-block-size: auto 128rem; /* 2050px, the content box: padding is added */
+}
+
+@media (width >= 64rem) {
+  .section {
+    contain-intrinsic-block-size: auto 70.5rem; /* 1130px */
+  }
 }
 
 .eyebrow {
