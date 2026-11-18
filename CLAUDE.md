@@ -51,7 +51,7 @@ Node 22 and npm. Run from the repository root.
 | Screenshots | `npm run screenshots` | Playwright opens the built site on a phone and a desktop screen, checks each page loads and fits, and saves full-page screenshots to `screenshots/`. Run `npm run build` first. Needs `npm install --no-save @playwright/test@1.63.0` and `npx playwright install chromium` once; CI does this itself and attaches the screenshots to every run. |
 | Type check | `npm run typecheck` | TypeScript across the project. |
 
-Where things live: pages in `src/app/`, design tokens in `src/app/globals.css`, site name, address and page metadata in `src/lib/site.ts`, images in `src/assets/`, tests in `tests/`.
+Where things live: pages in `src/app/`, design tokens in `src/app/globals.css`, fonts in `src/assets/fonts/` (Inter and Newsreader, SIL Open Font License, loaded with `next/font/local` so builds need no network), site name, address and page metadata in `src/lib/site.ts`, images in `src/assets/`, tests in `tests/`.
 
 Search engines are told not to index any deployment until `SITE_LIVE=1` is set on the Vercel production environment at launch (module 1.6).
 
