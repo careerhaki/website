@@ -1,0 +1,254 @@
+/*
+ * Proof band: ink ground, heading left, large orange figures right, hairlines
+ * between them. Spacing from the design system; the one breakpoint is the
+ * navigation's (860px), where the heading and figures sit side by side.
+ */
+.band {
+  position: relative;
+  isolation: isolate;
+  /* The ink layer is a little wider than the band (below); its rounded
+     corners sit outside and are clipped, so at rest the band is square. */
+  overflow-x: clip;
+  color: var(--color-bg);
+  --lights-from: 0.84;
+}
+
+@media (width >= 53.75rem) {
+  .band {
+    --lights-from: 0.9;
+  }
+}
+
+/* The ink ground is its own layer, so motion A can grow it with a
+   transform alone, without touching the text. */
+.band::before {
+  content: "";
+  position: absolute;
+  inset: 0 calc(var(--radius-card) * -1);
+  z-index: -1;
+  border-radius: var(--radius-card);
+  background-color: var(--color-ink);
+}
+
+.inner {
+  display: grid;
+  gap: 2.75rem 4rem; /* 44px 64px */
+  max-width: var(--container-site);
+  margin-inline: auto;
+  padding: var(--spacing-section) var(--spacing-gutter);
+}
+
+@media (width >= 53.75rem) {
+  .inner {
+    grid-template-columns: 5fr 7fr;
+    align-items: start;
+  }
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--color-accent);
+  font-size: var(--text-eyebrow);
+  font-weight: var(--text-eyebrow--font-weight);
+  line-height: var(--text-eyebrow--line-height);
+  letter-spacing: var(--text-eyebrow--letter-spacing);
+  text-transform: uppercase;
+}
+
+.title {
+  margin: 1rem 0 0; /* 16px */
+  max-width: 13ch;
+  font-size: var(--text-h2);
+  line-height: var(--text-h2--line-height);
+}
+
+.word {
+  display: inline-block;
+}
+
+.rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.row {
+  position: relative;
+  padding: 1.75rem 0 2rem; /* 28px 32px */
+}
+
+.row:last-child {
+  padding-bottom: 0;
+}
+
+/* The hairline, as its own layer so motion B draws it with a transform. */
+.row::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  background-color: var(--color-on-ink-line);
+  transform-origin: left;
+}
+
+/*
+ * The figure sits on one line box exactly one wheel high; text and wheels
+ * both align to its top, so the figure looks like ordinary text.
+ */
+.figure {
+  --wheel: 1.04em;
+  margin: 0;
+  height: var(--wheel);
+  color: var(--color-accent);
+  font-family: var(--font-serif);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--text-stat-lg);
+  line-height: var(--wheel);
+  letter-spacing: var(--tracking-headline);
+  font-variant-numeric: tabular-nums;
+  white-space: pre;
+}
+
+/* A wheel shows one digit. The digits it rolls past stack above the real
+   one (generated content, empty alternative text) and are clipped. */
+.wheel {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: var(--wheel);
+  overflow: clip;
+  vertical-align: top;
+}
+
+.digit {
+  display: block;
+}
+
+.digit::before {
+  display: block;
+  white-space: pre;
+}
+
+.digit[data-d="1"]::before { content: "0" / ""; }
+.digit[data-d="2"]::before { content: "0\A 1" / ""; }
+.digit[data-d="3"]::before { content: "0\A 1\A 2" / ""; }
+.digit[data-d="4"]::before { content: "0\A 1\A 2\A 3" / ""; }
+.digit[data-d="5"]::before { content: "0\A 1\A 2\A 3\A 4" / ""; }
+.digit[data-d="6"]::before { content: "0\A 1\A 2\A 3\A 4\A 5" / ""; }
+.digit[data-d="7"]::before { content: "0\A 1\A 2\A 3\A 4\A 5\A 6" / ""; }
+.digit[data-d="8"]::before { content: "0\A 1\A 2\A 3\A 4\A 5\A 6\A 7" / ""; }
+.digit[data-d="9"]::before { content: "0\A 1\A 2\A 3\A 4\A 5\A 6\A 7\A 8" / ""; }
+
+.label {
+  margin: 0.75rem 0 0; /* 12px */
+  color: var(--color-on-ink-muted);
+  font-size: var(--text-small);
+  line-height: var(--text-small--line-height);
+}
+
+/*
+ * ----- Motion A and B -----
+ * CSS scroll-driven animations: no script, nothing on the main thread while
+ * scrolling, and they follow the scroll both ways. Browsers without them
+ * (Firefox today) and "reduce motion" keep the still version above.
+ */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* A, lights down: the ink grows from a rounded panel inside the page
+       margins to the full width while the band enters the screen. A scale,
+       so it runs on the compositor; its corners slide out past the edges. */
+    .band {
+      view-timeline: --proof-band block;
+    }
+
+    .band::before {
+      animation: lights-down linear both;
+      animation-timeline: --proof-band;
+      animation-range: entry 0% entry 90%;
+    }
+
+    /* A: the heading's words come up out of the dark, one after another,
+       as the heading rises through the lower part of the screen. */
+    .title {
+      view-timeline: --proof-title block;
+    }
+
+    .word {
+      animation: word-up linear both;
+      animation-timeline: --proof-title;
+      animation-range: cover calc(var(--i) * 3%) cover calc(18% + var(--i) * 3%);
+    }
+
+    /* B: each row draws its hairline, rolls its digits up to the real
+       figure (rightmost first), then settles its label. All of it happens
+       while the row enters the screen, so it has finished by the time the
+       whole row is in view: reachable even when the band is the last thing
+       on the page. */
+    .row {
+      view-timeline: --proof-row block;
+    }
+
+    .row::before {
+      animation: draw linear both;
+      animation-timeline: --proof-row;
+      animation-range: entry 0% entry 45%;
+    }
+
+    .digit {
+      animation: roll linear both;
+      animation-timeline: --proof-row;
+      animation-range: entry 15% entry min(100%, calc(78% + var(--k) * 10%));
+    }
+
+    .label {
+      animation: settle linear both;
+      animation-timeline: --proof-row;
+      animation-range: entry 75% entry 100%;
+    }
+
+    /* B: from 860px the heading holds still beside the figures. */
+    @media (width >= 53.75rem) {
+      .head {
+        position: sticky;
+        top: max(calc(var(--head-h, 5.25rem) + 2rem), 28vh);
+      }
+    }
+  }
+}
+
+/* Starts about one page margin in from each side: 0.84 on a phone
+   (412px), 0.9 from 860px. */
+@keyframes lights-down {
+  from {
+    scale: var(--lights-from) 1;
+  }
+}
+
+/* From dim (close to the hairline grey on ink) to full, rising a little. */
+@keyframes word-up {
+  from {
+    opacity: 0.15;
+    translate: 0 0.25em;
+  }
+}
+
+@keyframes draw {
+  from {
+    scale: 0 1;
+  }
+}
+
+/* The digit column starts pushed down so the wheel shows 0, and rolls up to
+   the real digit. */
+@keyframes roll {
+  from {
+    translate: 0 calc(var(--d) * var(--wheel));
+  }
+}
+
+@keyframes settle {
+  from {
+    opacity: 0;
+    translate: 0 0.375rem;
+  }
+}
