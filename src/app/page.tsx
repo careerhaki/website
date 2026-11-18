@@ -1,4 +1,5 @@
 import { Hero } from "@/components/hero/hero";
+import { AscentSection } from "@/components/ascent/ascent-section";
 import { PainSection } from "@/components/pain/pain-section";
 import { pageMetadata } from "@/lib/site";
 
@@ -66,6 +67,55 @@ const pain = {
   turnMark: "already yours",
 } as const;
 
+// "How CareerHaki works". Stage copy from the mockup, reviewed with the
+// copywriting skill ("your mentors": students have several). Facts confirmed
+// by Nithish on 17 November: weekly group office hours, a 1:1 whenever
+// needed, mentors in the student's field (platform sessions cover tools,
+// job platforms and personal brand, as the plan needs).
+const ascent = {
+  eyebrow: "The CareerHaki program",
+  title: "The Ascent",
+  lead: "Three stages that take you from where you are now to your first 90 days in a better role.",
+  stages: [
+    {
+      name: "Prepare",
+      line: "Know the role, then close the gap.",
+      body: "Your mentors map the skills and certifications your target role asks for, then rebuild your resume and LinkedIn around what you’ve shipped.",
+      items: ["Career roadmap", "Skill and certification plan", "Resume and LinkedIn", "Real-world projects"],
+    },
+    {
+      name: "Land",
+      line: "Apply with a plan.",
+      body: "You target the right roles, run technical and behavioural mock interviews with working engineers, and get coaching through the offer and the negotiation.",
+      items: ["Application strategy", "Mock interviews", "Offer and negotiation"],
+    },
+    {
+      name: "Thrive",
+      line: "Start strong in the new job.",
+      body: "Most coaching stops at the offer. We stay with you through your first 90 days, while you ramp up, learn the team and earn trust.",
+      items: ["First 90 days plan", "Workplace relationships", "Ongoing mentorship"],
+    },
+  ],
+  facts: [
+    {
+      label: "Weekly office hours",
+      line: "A group session with Nithish every week, and a 1:1 with him whenever you need one.",
+    },
+    {
+      label: "Mentors in your field",
+      line: "Engineers who work in your area coach you on skills, tools, communication and how you show up online, depending on what your plan needs.",
+    },
+    {
+      label: "A private chat space",
+      line: "Ask questions between sessions and get answers from your mentors.",
+    },
+    {
+      label: "Open-ended",
+      line: "You stay in the program until you’re hired, then through your first 90 days in the job.",
+    },
+  ],
+} as const;
+
 // The homepage sections below arrive in the next pull requests of
 // module 1.3 and in 1.4.
 export default function HomePage() {
@@ -73,6 +123,7 @@ export default function HomePage() {
     <main id="main">
       <Hero {...hero} />
       <PainSection {...pain} />
+      <AscentSection {...ascent} />
     </main>
   );
 }

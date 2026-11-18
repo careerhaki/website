@@ -30,7 +30,10 @@ test("pain: heading, four items, closing line, in heading order", async ({ page 
   const levels = await page
     .locator("main h1, main h2, main h3")
     .evaluateAll((headings) => headings.map((heading) => Number(heading.tagName[1])));
-  expect(levels).toEqual([1, 2, 3, 3, 3, 3]);
+  // One H1, and no level is ever skipped going down the page.
+  expect(levels[0]).toBe(1);
+  expect(levels.filter((level) => level === 1)).toHaveLength(1);
+  levels.slice(1).forEach((level, i) => expect(level).toBeLessThanOrEqual(levels[i] + 1));
 });
 
 test("pain: reduce motion shows the still version", async ({ page }) => {
