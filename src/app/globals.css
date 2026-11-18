@@ -135,6 +135,25 @@
     touch-action: manipulation;
   }
 
+  /*
+   * The page sits above the footer (z-index 0), on its own ground, so the
+   * footer's motion B can slide the footer's content out from under it. The
+   * soft edge shows only where B runs (see site-footer.module.css).
+   */
+  #main {
+    position: relative;
+    z-index: 1;
+    background-color: var(--color-bg);
+  }
+
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) and (width >= 53.75rem) and (height >= 37.5rem) {
+      #main {
+        box-shadow: 0 1.875rem 2.5rem -1.875rem rgb(38 38 38 / 0.35);
+      }
+    }
+  }
+
   /* The phone menu sheet is open: the page behind it does not scroll. */
   html[data-menu-open] {
     overflow: hidden;

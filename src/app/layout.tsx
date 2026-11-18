@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 
+import { SiteFooter } from "@/components/site-footer/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { Analytics } from "@/lib/analytics";
 import { site } from "@/lib/site";
@@ -73,6 +74,7 @@ export default function RootLayout({
       <body>
         <SiteHeader />
         {children}
+        <SiteFooter />
         <Analytics />
       </body>
     </html>

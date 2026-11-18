@@ -13,3 +13,12 @@ export const navLinks = [
 
 /** Where every "Book a call" button goes. The Cal.com embed lands in 1.5. */
 export const bookingPath = "/book-a-call";
+
+/** The employer enquiry. The form on /for-employers gets this id in 1.5. */
+export const employerEnquiryPath = "/for-employers#enquire";
+
+/** Legal pages, built in module 1.4. */
+export const legalLinks = [
+  { href: "/privacy", label: "Privacy" },
+  { href: "/terms", label: "Terms" },
+] as const;
