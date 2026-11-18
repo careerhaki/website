@@ -58,14 +58,6 @@ jobs:
       - name: Playwright, phone and desktop screenshots
         run: npm run screenshots
 
-      # TEMPORARY: lets Claude look at the screenshots; removed before review.
-      - name: Print screenshots
-        if: ${{ !cancelled() }}
-        run: |
-          for f in screenshots/*/*.png; do
-            echo "SHOT-BEGIN $f"; base64 -w0 "$f"; echo; echo "SHOT-END $f"
-          done
-
       - name: Upload the screenshots
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
