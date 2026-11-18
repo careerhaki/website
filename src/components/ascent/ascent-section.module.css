@@ -217,13 +217,14 @@
       .bar {
         position: sticky;
         top: calc(var(--head-h, 5.25rem) - 1.25rem);
-        z-index: 5;
+        z-index: 30;
         display: flex;
         gap: 1.25rem; /* 20px */
         margin: 1.5rem calc(var(--spacing-gutter) * -1) 0;
         padding: 0.75rem var(--spacing-gutter);
         border-bottom: 1px solid var(--color-line);
-        background-color: rgb(250 246 240 / 0.96);
+        /* Solid: the cards scroll under it and must not show through. */
+        background-color: var(--color-bg);
         font-size: var(--text-eyebrow);
         font-weight: var(--text-eyebrow--font-weight);
         letter-spacing: var(--text-eyebrow--letter-spacing);
