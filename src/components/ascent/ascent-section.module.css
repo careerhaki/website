@@ -1,0 +1,372 @@
+/*
+ * The Ascent: eyebrow, display title, lead, three stage cards, fact row.
+ * Spacing from the approved mockup (Direction A).
+ *
+ * One breakpoint of its own, 64rem (1024px): from there the three cards sit
+ * side by side and step up. Below it they stack, because three columns
+ * under about 300px each are too narrow for the card titles.
+ */
+@property --dark {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 1;
+}
+
+.section {
+  max-width: var(--container-site);
+  margin-inline: auto;
+  padding: var(--spacing-section) var(--spacing-gutter);
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--color-accent-text);
+  font-size: var(--text-eyebrow);
+  font-weight: var(--text-eyebrow--font-weight);
+  line-height: var(--text-eyebrow--line-height);
+  letter-spacing: var(--text-eyebrow--letter-spacing);
+  text-transform: uppercase;
+}
+
+.title {
+  margin: 1rem 0 0; /* 16px */
+  font-size: var(--text-display);
+  line-height: var(--text-display--line-height);
+}
+
+.lead {
+  margin: 1.5rem 0 0; /* 24px */
+  max-width: 44ch;
+  color: var(--color-muted);
+  font-size: var(--text-lead);
+  line-height: var(--text-lead--line-height);
+  text-wrap: pretty;
+}
+
+/* ----- Stage cards ----- */
+
+.climb {
+  position: relative;
+  margin-top: clamp(2.5rem, 5vw, 4rem); /* 40 to 64px */
+  container-type: inline-size;
+}
+
+.stages {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(18.75rem, 100%), 1fr)); /* 300px */
+  gap: 1.25rem; /* 20px */
+  align-items: start;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stage {
+  /* 1 = the dark card. Only Thrive changes it, during the climb. */
+  --dark: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem; /* 14px */
+  padding: clamp(1.5rem, 2.6vw, 2.25rem); /* 24 to 36px */
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface);
+}
+
+.stage:nth-child(3) {
+  --dark: 1;
+  background-color: color-mix(in srgb, var(--color-ink) calc(var(--dark) * 100%), var(--color-surface));
+  color: color-mix(in srgb, var(--color-bg) calc(var(--dark) * 100%), var(--color-ink));
+}
+
+.numeral {
+  font-family: var(--font-newsreader-italic), Georgia, "Times New Roman", serif;
+  font-size: 1.375rem; /* 22px */
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1;
+  color: color-mix(in srgb, var(--color-accent) calc(var(--dark) * 100%), var(--color-accent-text));
+}
+
+.stageName {
+  margin: 0;
+  font-size: var(--text-card-title);
+  line-height: var(--text-card-title--line-height);
+  color: inherit;
+}
+
+.stageLine {
+  margin: 0;
+  font-weight: 600;
+}
+
+.stageBody {
+  margin: 0;
+  color: color-mix(in srgb, var(--color-on-ink-muted) calc(var(--dark) * 100%), var(--color-muted));
+  text-wrap: pretty;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem; /* 8px */
+  margin: 0.5rem 0 0;
+  padding: 1rem 0 0;
+  border-top: 1px solid
+    color-mix(in srgb, var(--color-on-ink-line) calc(var(--dark) * 100%), var(--color-line));
+  list-style: none;
+  font-size: var(--text-small);
+  line-height: var(--text-small--line-height);
+}
+
+/* Desktop: side by side, stepping up by 36px, Prepare lowest. */
+@media (width >= 64rem) {
+  .stages {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .stage:nth-child(1) {
+    margin-top: calc(var(--spacing-step) * 2);
+  }
+
+  .stage:nth-child(2) {
+    margin-top: var(--spacing-step);
+  }
+}
+
+.facts {
+  margin-top: clamp(3rem, 6vw, 5rem); /* 48 to 80px */
+}
+
+/* The marker and the phone bar exist only for the motion below. */
+.marker,
+.bar {
+  display: none;
+}
+
+/*
+ * ----- H3, the climb -----
+ * CSS scroll-driven animations: no script, nothing on the main thread while
+ * scrolling, and it follows the scroll both ways. Browsers without them
+ * (Firefox today) and "reduce motion" keep the still version above.
+ */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .section {
+      timeline-scope: --ascent, --stage-1, --stage-2, --stage-3;
+    }
+
+    .stages {
+      view-timeline: --ascent block;
+    }
+
+    /* Desktop: from the stages' top at 92% of the screen to 30%, the cards
+       climb, the marker hops, and Thrive turns dark at the top. */
+    @media (width >= 64rem) {
+      .stage:nth-child(2),
+      .stage:nth-child(3),
+      .marker {
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+        animation-timeline: --ascent;
+        animation-range: cover 8vh cover 70vh;
+      }
+
+      .stage:nth-child(2) {
+        animation-name: climb-land;
+      }
+
+      .stage:nth-child(3) {
+        animation-name: climb-thrive, thrive-dark;
+      }
+
+      .marker {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        display: block;
+        width: 0.75rem; /* 12px */
+        height: 0.75rem;
+        margin: -0.375rem 0 0 -0.375rem;
+        border-radius: 50%;
+        background-color: var(--color-accent);
+        box-shadow: 0 0 0 6px rgb(225 112 50 / 0.18);
+        pointer-events: none;
+        animation-name: hop;
+      }
+    }
+
+    /* Phones and tablets: the sticky stage bar fills as you read, the stage
+       you are on turns dark, and Thrive turns dark at the middle. */
+    @media (width < 64rem) {
+      .stage:nth-child(1) {
+        view-timeline: --stage-1 block;
+      }
+
+      .stage:nth-child(2) {
+        view-timeline: --stage-2 block;
+      }
+
+      .stage:nth-child(3) {
+        view-timeline: --stage-3 block;
+        animation: thrive-dark linear both;
+        animation-timeline: --stage-3;
+        animation-range: cover 45vh cover calc(45vh + 6rem);
+      }
+
+      .bar {
+        position: sticky;
+        top: calc(var(--head-h, 5.25rem) - 1.25rem);
+        z-index: 30;
+        display: flex;
+        gap: 1.25rem; /* 20px */
+        margin: 1.5rem calc(var(--spacing-gutter) * -1) 0;
+        padding: 0.75rem var(--spacing-gutter);
+        border-bottom: 1px solid var(--color-line);
+        /* Solid: the cards scroll under it and must not show through. */
+        background-color: var(--color-bg);
+        font-size: var(--text-eyebrow);
+        font-weight: var(--text-eyebrow--font-weight);
+        letter-spacing: var(--text-eyebrow--letter-spacing);
+        text-transform: uppercase;
+      }
+
+      .barLabel {
+        color: var(--color-muted);
+        animation-timing-function: linear;
+        animation-range: cover 50vh cover calc(50vh + 1px);
+      }
+
+      /* Each label turns dark when its card reaches the middle of the
+         screen, and back when the next card does. */
+      .barLabel:nth-child(1) {
+        animation-name: label-on, label-off;
+        animation-fill-mode: both, forwards;
+        animation-timeline: --stage-1, --stage-2;
+      }
+
+      .barLabel:nth-child(2) {
+        animation-name: label-on, label-off;
+        animation-fill-mode: both, forwards;
+        animation-timeline: --stage-2, --stage-3;
+      }
+
+      .barLabel:nth-child(3) {
+        animation-name: label-on;
+        animation-fill-mode: both;
+        animation-timeline: --stage-3;
+      }
+
+      .barFill {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -1px;
+        height: 2px;
+        background-color: var(--color-accent);
+        transform-origin: left;
+        animation: fill linear both;
+        animation-timeline: --ascent;
+        animation-range: cover 50vh cover calc(100% - 50vh);
+      }
+    }
+  }
+}
+
+@keyframes climb-land {
+  0%,
+  10% {
+    translate: 0 var(--spacing-step);
+  }
+  50%,
+  100% {
+    translate: 0 0;
+  }
+}
+
+@keyframes climb-thrive {
+  0%,
+  45% {
+    translate: 0 calc(var(--spacing-step) * 2);
+  }
+  90%,
+  100% {
+    translate: 0 0;
+  }
+}
+
+@keyframes thrive-dark {
+  0%,
+  90% {
+    --dark: 0;
+  }
+  96%,
+  100% {
+    --dark: 1;
+  }
+}
+
+/*
+ * The marker sits 18px above a card's top-left corner (30px in) and hops to
+ * the next card along an arc while that card climbs. Card i starts at
+ * i * (card width + gap); card width is (100cqi - 2 gaps) / 3. Heights follow
+ * the climb above: level at 72px, Land settles at 36px, Thrive at 0.
+ */
+@keyframes hop {
+  0%,
+  10% {
+    translate: 30px 54px;
+  }
+  20% {
+    translate: calc((100cqi + 1.25rem) / 3 * 0.25 + 30px) 39px;
+  }
+  30% {
+    translate: calc((100cqi + 1.25rem) / 3 * 0.5 + 30px) 27px;
+  }
+  40% {
+    translate: calc((100cqi + 1.25rem) / 3 * 0.75 + 30px) 21px;
+  }
+  50% {
+    translate: calc((100cqi + 1.25rem) / 3 + 30px) 18px;
+  }
+  60% {
+    translate: calc((100cqi + 1.25rem) / 3 * 1.25 + 30px) 8px;
+  }
+  70% {
+    translate: calc((100cqi + 1.25rem) / 3 * 1.5 + 30px) -2px;
+  }
+  80% {
+    translate: calc((100cqi + 1.25rem) / 3 * 1.75 + 30px) -10px;
+  }
+  90%,
+  100% {
+    translate: calc((100cqi + 1.25rem) / 3 * 2 + 30px) -18px;
+  }
+}
+
+@keyframes label-on {
+  from {
+    color: var(--color-muted);
+  }
+  to {
+    color: var(--color-ink);
+  }
+}
+
+@keyframes label-off {
+  from {
+    color: var(--color-ink);
+  }
+  to {
+    color: var(--color-muted);
+  }
+}
+
+@keyframes fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}

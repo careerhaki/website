@@ -17,12 +17,22 @@ const inter = Inter({
 // Headlines. The design system uses Newsreader at one weight only (500), so
 // only that weight is loaded. The headline is the largest element on most
 // pages, so this file's size sets how fast the page looks finished.
-// The italic (stage numerals) is added with the stage card in module 1.3.
 const newsreader = Newsreader({
   subsets: ["latin"],
   weight: "500",
   variable: "--font-newsreader",
   display: "swap",
+});
+
+// Stage numerals only (01, 02, 03): Newsreader italic 400. Not preloaded,
+// because it is used below the fold and must not compete with the headline.
+const newsreaderItalic = Newsreader({
+  subsets: ["latin"],
+  weight: "400",
+  style: "italic",
+  variable: "--font-newsreader-italic",
+  display: "swap",
+  preload: false,
 });
 
 export const metadata: Metadata = {
@@ -47,7 +57,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${newsreader.variable}`}>
+    <html lang="en" className={`${inter.variable} ${newsreader.variable} ${newsreaderItalic.variable}`}>
       <body>
         <SiteHeader />
         {children}
