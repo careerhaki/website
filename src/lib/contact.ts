@@ -28,3 +28,26 @@ export function whatsappUrl(
   if (digits.length === 0) return null;
   return `https://wa.me/${digits}?text=${encodeURIComponent(message)}`;
 }
+
+/**
+ * Social profiles, shown as links in the footer's "Talk to us" column.
+ * Nithish supplies the addresses; until one is set (empty), its link is left
+ * out of the page rather than pointing nowhere. Paste the full address, for
+ * example "https://www.linkedin.com/company/careerhaki".
+ */
+export const linkedinUrl = "";
+export const instagramUrl = "";
+
+export type SocialLink = { label: string; href: string };
+
+/** A full https address with no spaces. */
+const HTTPS_URL = /^https:\/\/\S+$/;
+
+/** The social links that have an address, in the order they are shown. */
+export function socialLinks(
+  links: Record<string, string> = { LinkedIn: linkedinUrl, Instagram: instagramUrl },
+): SocialLink[] {
+  return Object.entries(links)
+    .map(([label, href]) => ({ label, href: href.trim() }))
+    .filter(({ href }) => HTTPS_URL.test(href));
+}
