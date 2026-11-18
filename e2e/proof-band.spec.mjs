@@ -7,6 +7,7 @@ import { expect, test } from "@playwright/test";
 const BG = "rgb(250, 246, 240)";
 const title = "Better pay, usually within four months.";
 const proofs = [
+  ["120+", "professionals hired through CareerHaki"],
   ["$25K+", "average salary increase"],
   ["1 to 4", "months to an offer, typically"],
 ];

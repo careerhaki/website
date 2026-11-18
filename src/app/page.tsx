@@ -118,13 +118,15 @@ const ascent = {
 } as const;
 
 // "Proof from real people": outcome figures only, from the confirmed proof
-// in the operating brief, and none repeated from the hero. "$" with no
+// in the operating brief. 120+ repeats the hero's lead figure (Nithish asked
+// for three, 17 November). "$" with no
 // currency label (Nithish). The referral share is confirmed but internal: it
 // says how CareerHaki finds students, not what a student gets (17 November).
 const proof = {
   eyebrow: "Results",
   title: "Better pay, usually within four months.",
   proofs: [
+    { id: "hired", figure: "120+", label: "professionals hired through CareerHaki" },
     { id: "salary", figure: "$25K+", label: "average salary increase" },
     { id: "time", figure: "1 to 4", label: "months to an offer, typically" },
   ],
