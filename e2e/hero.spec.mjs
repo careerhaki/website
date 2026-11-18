@@ -90,9 +90,37 @@ test.describe("with motion", () => {
   test.use({ reducedMotion: "no-preference" });
 
   // The page clock is paused, so time moves only when the test moves it.
+  // Waits until the browser has told the page whether the field's box is on
+  // screen. An observer created now is notified after the component's own
+  // (they are delivered in the order they were made), so once this resolves
+  // the field has paused or resumed. A fixed wait failed under load.
+  const onScreenReported = (page, want) =>
+    activeWord(page).evaluate(
+      (word, wanted) =>
+        new Promise((resolve) => {
+          const observer = new IntersectionObserver(([entry]) => {
+            if (entry.isIntersecting === wanted) {
+              observer.disconnect();
+              resolve();
+            }
+          });
+          observer.observe(word.parentElement);
+        }),
+      want,
+    );
+
+  // Pauses the page's clock just ahead of now. On a busy machine the clock
+  // can pass that moment before the pause lands, so try again from the new now.
   const pauseClock = async (page) => {
-    const now = await page.evaluate(() => Date.now());
-    await page.clock.pauseAt(now + 50);
+    for (let attempt = 1; ; attempt += 1) {
+      const now = await page.evaluate(() => Date.now());
+      try {
+        await page.clock.pauseAt(now + 50);
+        return;
+      } catch (error) {
+        if (attempt === 5 || !String(error).includes("to the past")) throw error;
+      }
+    }
   };
 
   test("H4: one round through every field, headline still, then rests", async ({ page }) => {
@@ -136,11 +164,11 @@ test.describe("with motion", () => {
       document.body.style.minHeight = "400vh";
       window.scrollTo(0, 2400);
     });
-    await page.waitForTimeout(300);
+    await onScreenReported(page, false);
     await page.clock.runFor(5000);
     await expect(activeWord(page)).toHaveText("tech");
     await page.evaluate(() => window.scrollTo(0, 0));
-    await page.waitForTimeout(300);
+    await onScreenReported(page, true);
     await page.clock.runFor(2400);
     await expect(activeWord(page)).toHaveText("data");
   });
