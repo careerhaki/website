@@ -21,12 +21,6 @@ for (const { name, path } of pages) {
     );
     expect(overflow, "pixels wider than the screen").toBeLessThanOrEqual(0);
 
-    // Below-the-fold sections use content-visibility: auto. A full-page
-    // screenshot on a phone stretches the picture without scrolling, so
-    // Chrome would leave them blank; draw everything first, as a reader
-    // scrolling down would see it.
-    await page.addStyleTag({ content: "* { content-visibility: visible !important; }" });
-
     await page.screenshot({
       path: `screenshots/${testInfo.project.name}/${name}.png`,
       fullPage: true,
