@@ -1,6 +1,7 @@
 import { Hero } from "@/components/hero/hero";
 import { AscentSection } from "@/components/ascent/ascent-section";
 import { PainSection } from "@/components/pain/pain-section";
+import { PeopleSection } from "@/components/people/people-section";
 import { ProofBand } from "@/components/proof-band/proof-band";
 import { pageMetadata } from "@/lib/site";
 
@@ -132,6 +133,38 @@ const proof = {
   ],
 } as const;
 
+// "The mentors". The two co-founders for now; mentor cards join when the
+// mentor list arrives. Facts from the operating brief only. Nithish said the
+// details will change later (21 November); Bhogeshwar's line is drawn from
+// his role and the delivery steps (welcome, file setup, chat space).
+// Reviewed with the copywriting skill. The About page anchors come in 1.4.
+const team = {
+  id: "team",
+  eyebrow: "Who you’ll work with",
+  title: "Two founders, and mentors who work in your field.",
+  lead: "Mentors who do the job you want coach you on skills, tools, interviews and how you show up online. The founders run everything around them.",
+  people: [
+    {
+      id: "nithish",
+      eyebrow: "Cloud",
+      name: "Nithish Reddy",
+      role: "Co-founder, technology and growth",
+      bio: "A senior enterprise cloud architect who taught 1,400+ students as a professor at Centennial College. He runs the weekly office hours, and a 1:1 with him is there whenever you need one.",
+      href: "/about#nithish",
+      linkLabel: "About Nithish",
+    },
+    {
+      id: "bhogeshwar",
+      eyebrow: "Operations",
+      name: "Bhogeshwar Reddy",
+      role: "Co-founder, business and operations",
+      bio: "He runs CareerHaki’s business and operations, so your sessions, files and chat space are ready when you need them.",
+      href: "/about#bhogeshwar",
+      linkLabel: "About Bhogeshwar",
+    },
+  ],
+} as const;
+
 // The homepage sections below arrive in the next pull requests of
 // module 1.3 and in 1.4.
 export default function HomePage() {
@@ -141,6 +174,7 @@ export default function HomePage() {
       <PainSection {...pain} />
       <AscentSection {...ascent} />
       <ProofBand {...proof} />
+      <PeopleSection {...team} />
     </main>
   );
 }
