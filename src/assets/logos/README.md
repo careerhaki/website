@@ -32,17 +32,28 @@ Not used on any page yet: the strip is built once the list is complete.
 | citi.svg | Citi | Ready | |
 | deloitte.svg | Deloitte | Ready | |
 | euna-solutions.svg | Euna Solutions | Ready | |
-| fluent.png | Fluent | **Not usable** | 133 × 25 px, blurry at strip size. Needs an SVG or a PNG at least 400 px wide, and confirmation of which Fluent |
+| fluent.png | Fluent | Ready, name to confirm | Replaced 21 Nov with a 1580 px transparent PNG. Which Fluent is it? |
 | goeasy.svg | goeasy | Ready | |
 | google.svg | Google | Ready | From SVG Repo; its blue, red, yellow and green are close to but not exactly Google's own. An official file is preferred |
 | hydro-ottawa.svg | Hydro Ottawa | Ready | Invisible helper shapes removed so it trims correctly |
 | intact.svg | Intact Financial Corporation | Ready | |
 | kpmg.svg | KPMG | Ready | |
 | lactalis.svg | Lactalis | Ready | |
+| mckesson.svg | McKesson | Ready | |
+| natures-touch.png | Nature's Touch | Usable, better file wanted | A filled leaf badge with white letters: in one colour at rest it becomes a solid shape with no name. Needs a wordmark-only version, or this logo is always shown in colour |
+| ottawa-hospital.png | The Ottawa Hospital | Usable, better file wanted | Round bilingual badge; its words are too small to read at strip size. A horizontal version is wanted. White background removed from the edges only, so the white inside the cross stays |
+| perion.svg | Perion Network | Ready | 2025 logo |
+| providence-health.svg | Providence Health Care | Ready, name to confirm | Which Providence: Providence Health Care (Vancouver) or Providence (US)? |
+| queens-university.svg | Queen's University | Edited | The file is the version for dark backgrounds (white wordmark). The wordmark is set in Queen's navy (#002452); the crest is unchanged |
+| safeguard-global.png | Safeguard Global | Ready | Transparent PNG, 128 px tall |
+| sita.svg | SITA | Ready | |
+| stella-jones.svg | Stella-Jones | Edited | White "Inc." (for dark backgrounds) set to the logo's blue |
+| ts-imagine.svg | TS Imagine | Edited | White trademark letters set to the wordmark's navy |
+| valsoft.png | ValSoft | Usable, better file wanted | Came on a light blue background (removed) and is 64 px tall, so slightly soft. An SVG is wanted |
+| zs-associates.svg | ZS Associates | Ready | Its light greys are faint at full colour; fine at rest in one colour |
 
-## Still to come (14)
+## Still to come
 
-McKesson, ZS Associates, Queen's University, Safeguard Global, ValSoft,
-Stella-Jones, Nature's Touch, TS Imagine, MineSense, Perion Network,
-Providence Health, SITA, Health Saskatchewan, Ottawa Hospital and Region
-Imaging Associates.
+MineSense and Health Saskatchewan. "Ottawa Hospital and Region Imaging
+Associates" was on the list as one name: if Region Imaging Associates is a
+separate employer, its logo is still to come too.
