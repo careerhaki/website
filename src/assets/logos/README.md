@@ -23,7 +23,7 @@ Not used on any page yet: the strip is built once the list is complete.
 | acosta.png | Acosta Group | Ready | Transparent PNG, 2164 px wide |
 | adastra.png | Adastra | Usable, better file wanted | Came on an opaque white square; white made transparent and trimmed. 54 px tall, so slightly soft on sharp screens. An SVG is wanted |
 | aimco.svg | AIMCo | Ready | |
-| amaris.png | Amaris Consulting | Ready, name to confirm | Transparent PNG |
+| amaris.png | Amaris Consulting | Ready | Transparent PNG |
 | amazon.svg | Amazon | Ready | |
 | autodesk.svg | Autodesk | Usable | Stacked version (mark above a small wordmark); a horizontal version reads better in a strip |
 | bird.png | Bird Construction | Ready | Transparent PNG |
@@ -31,8 +31,9 @@ Not used on any page yet: the strip is built once the list is complete.
 | cihi.svg | Canadian Institute for Health Information | Edited | Tagline removed (unreadable at strip size). The full name is long, so it reads small; CIHI's short "CIHI" version would be better |
 | citi.svg | Citi | Ready | |
 | deloitte.svg | Deloitte | Ready | |
+| ehealth-saskatchewan.png | eHealth Saskatchewan | Ready | Transparent PNG, 820 px wide. On the list as "Health Saskatchewan" |
 | euna-solutions.svg | Euna Solutions | Ready | |
-| fluent.png | Fluent | Ready, name to confirm | Replaced 21 Nov with a 1580 px transparent PNG. Which Fluent is it? |
+| fluent.png | Fluent, Inc. | Ready | Replaced 21 Nov with a 1580 px transparent PNG |
 | goeasy.svg | goeasy | Ready | |
 | google.svg | Google | Ready | From SVG Repo; its blue, red, yellow and green are close to but not exactly Google's own. An official file is preferred |
 | hydro-ottawa.svg | Hydro Ottawa | Ready | Invisible helper shapes removed so it trims correctly |
@@ -43,7 +44,7 @@ Not used on any page yet: the strip is built once the list is complete.
 | natures-touch.png | Nature's Touch | Usable, better file wanted | A filled leaf badge with white letters: in one colour at rest it becomes a solid shape with no name. Needs a wordmark-only version, or this logo is always shown in colour |
 | ottawa-hospital.png | The Ottawa Hospital | Usable, better file wanted | Round bilingual badge; its words are too small to read at strip size. A horizontal version is wanted. White background removed from the edges only, so the white inside the cross stays |
 | perion.svg | Perion Network | Ready | 2025 logo |
-| providence-health.svg | Providence Health Care | Ready, name to confirm | Which Providence: Providence Health Care (Vancouver) or Providence (US)? |
+| providence-health.svg | Providence Health Care | Ready | Vancouver (confirmed by Nithish) |
 | queens-university.svg | Queen's University | Edited | The file is the version for dark backgrounds (white wordmark). The wordmark is set in Queen's navy (#002452); the crest is unchanged |
 | safeguard-global.png | Safeguard Global | Ready | Transparent PNG, 128 px tall |
 | sita.svg | SITA | Ready | |
@@ -54,6 +55,6 @@ Not used on any page yet: the strip is built once the list is complete.
 
 ## Still to come
 
-MineSense and Health Saskatchewan. "Ottawa Hospital and Region Imaging
-Associates" was on the list as one name: if Region Imaging Associates is a
-separate employer, its logo is still to come too.
+MineSense (its website only offers a white logo for dark backgrounds, and
+Claude's sandbox can't download from it). Better versions wanted for The
+Ottawa Hospital (horizontal) and Nature's Touch (see their rows).
