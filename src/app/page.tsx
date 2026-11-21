@@ -174,7 +174,9 @@ const team = {
 // to the student's field before the first session (6.6), sessions around
 // working hours in all three countries (6.7), applying once the resume and
 // plan are ready (6.8). Data and security mentors confirmed by Nithish.
-// Nothing on cost: that is for the discovery call (Nithish, 21 November).
+// Nothing on cost, anywhere on the site (Nithish, 21 November). Q6 added by
+// the copy team under Nithish's go-ahead; assumed, to confirm: a student can
+// start in Land (6.10) and practise the rounds they have booked (6.11).
 const faq = {
   id: "faq",
   eyebrow: "Questions",
@@ -219,6 +221,12 @@ const faq = {
       question: "What if I’m not ready to apply yet?",
       answer:
         "Then you start with Prepare. You build the skills, projects and resume your target role asks for, and you start applying when your plan says you’re ready.",
+    },
+    {
+      id: "interviews",
+      question: "What if I already have interviews lined up?",
+      answer:
+        "Then you start in Land, with mock interviews for the rounds you have booked. Bring that job post to your discovery call.",
     },
     {
       id: "find-job",

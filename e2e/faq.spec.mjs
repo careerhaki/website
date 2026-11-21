@@ -10,6 +10,7 @@ const questions = [
   "Can I do this alongside a full-time job?",
   "How long until I get an offer?",
   "What if I’m not ready to apply yet?",
+  "What if I already have interviews lined up?",
   "Will you find me the job?",
 ];
 
@@ -33,7 +34,7 @@ const rules = (page) =>
     }),
   );
 
-test("faq: heading, six questions, closed at first, nothing on cost", async ({ page }) => {
+test("faq: heading, seven questions, closed at first, nothing on cost", async ({ page }) => {
   await page.goto("/");
   await expect(section(page).getByRole("heading", { level: 2 })).toHaveText("Before you book");
   await expect(summaries(page)).toHaveText(questions);
