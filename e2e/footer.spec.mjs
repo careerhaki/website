@@ -21,8 +21,9 @@ const parts = (page) =>
   );
 
 /** How far the footer's content is still tucked up, in pixels (0 = in place). */
+// + 0 turns -0 into 0: a sub-pixel -0.3 rounds to -0, which is in place.
 const tucked = (page) =>
-  inner(page).evaluate((el) => Math.round(new DOMMatrixReadOnly(getComputedStyle(el).transform).m42));
+  inner(page).evaluate((el) => Math.round(new DOMMatrixReadOnly(getComputedStyle(el).transform).m42) + 0);
 
 test("footer: logo line, three columns, legal links, nothing broken", async ({ page }) => {
   await page.goto("/");
