@@ -65,7 +65,9 @@ test("faq: a click opens an answer and the plus turns into a minus; a second cli
   await expect(first).toHaveJSProperty("open", true);
   await expect(first.locator("p")).toBeVisible();
   await expect(first.locator("p")).toContainText("count as experience");
-  expect(await bar(first)).not.toBe(closedBar);
+  // The bar turns on a short transition (ended at once with reduce motion,
+  // but read on the next frame): wait for it rather than read it once.
+  await expect.poll(() => bar(first)).not.toBe(closedBar);
   await summaries(page).first().click();
   await expect(first).toHaveJSProperty("open", false);
 });
