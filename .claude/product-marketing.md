@@ -8,7 +8,7 @@ End-to-end career coaching and mentorship for people in tech, delivered by worki
 
 ## Who it is for
 
-Recent graduates and candidates with two to three years of experience who want a better role in cloud, data, agentic AI, software, DevOps or security. They are in Canada, the US and India. Most arrive by referral from an alumnus.
+Anyone growing into cloud, data, agentic AI, software, DevOps or security: mostly recent graduates and candidates with two to three years of experience who want a better role, and also experienced people moving into these newer technologies (Nithish, 21 November 2026). Recognise the reader by their situation, not by a label such as "2 to 3 years". They are in Canada, the US and India. Most arrive by referral from an alumnus.
 
 ## What they feel
 

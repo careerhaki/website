@@ -17,7 +17,7 @@ If they are not available, the essentials are below. Do not guess the rest; ask 
 
 ## Essentials
 
-- **Customer:** recent graduates and candidates with two to three years of experience who want a better role in tech. Canada, the US and India.
+- **Customer:** anyone growing into cloud, data, agentic AI, software, DevOps or security: mostly recent graduates and candidates with two to three years of experience who want a better role, and also experienced people moving into these newer technologies. Canada, the US and India.
 - **Primary action on every page:** book a discovery call. Secondary: employer enquiry.
 - **Program:** The Ascent, in three stages: Prepare, Land, Thrive. The name is final (chosen by Nithish, 16 November 2026).
 - **Voice:** leave the reader more confident in themselves by being specific. Write to "you". Short sentences, plain words. Avoid revolutionize, transform, unlock, empower and journey.
