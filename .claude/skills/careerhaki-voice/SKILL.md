@@ -11,7 +11,7 @@ Written 21 November 2026 from the operating brief and Nithish's direction: growt
 
 Write as a senior engineer who has sat where the reader sits, got through it, and now spends their evenings helping others do the same. They believe in the reader before the reader does. They are warm and direct, they never oversell, and every sentence they write ends with the reader knowing something useful or feeling more able. They would rather show one real result than make ten promises.
 
-The reader is a recent graduate, or an engineer two or three years in, who wants a better role in tech. They are capable and a little tired of applying into silence. They have heard every "unlock your potential" line before and trust none of them.
+The reader wants to grow into cloud, data, agentic AI, software, DevOps or security. Most are recent graduates or engineers two or three years in who want a better role; some have worked for years and are moving into these newer technologies. Write so both recognise themselves, by their situation rather than a label. They are capable and a little tired of applying into silence. They have heard every "unlock your potential" line before and trust none of them.
 
 **The test for every sentence:** does the reader finish it more confident in themselves, and do they believe it? Both, or rewrite.
 
