@@ -119,7 +119,7 @@ test.describe("with motion", () => {
     let [first, second] = await itemState(page);
     expect(first.scale).toBe(1);
     expect(second.scale).toBeLessThan(1);
-    expect(second.opacity).toBeLessThan(1);
+    expect(second.opacity, "never dimmed: full contrast").toBe(1);
 
     await row(page).evaluate((el) => el.scrollTo({ left: el.scrollWidth, behavior: "instant" }));
     await page.waitForTimeout(300);

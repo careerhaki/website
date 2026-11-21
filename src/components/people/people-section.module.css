@@ -230,7 +230,7 @@
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     /* B: the card in the middle of the row is full size; its neighbours
-       step back. Runs on the row's own horizontal scroll. */
+       step back (smaller, never dimmed). Runs on the row's own horizontal scroll. */
     @media (width < 53.75rem) {
       .item {
         animation: people-step-back linear both;
@@ -257,16 +257,16 @@
   }
 }
 
+/* Scale only, never dimmed: the neighbour's text keeps its full contrast
+   (dimming it to 55% failed WCAG AA in Lighthouse). */
 @keyframes people-step-back {
   0%,
   100% {
-    opacity: 0.55;
     transform: scale(0.92);
   }
 
   38%,
   62% {
-    opacity: 1;
     transform: scale(1);
   }
 }

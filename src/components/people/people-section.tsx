@@ -16,7 +16,8 @@ type PeopleSectionProps = {
  *
  * Motion, chosen by Nithish (B + A + C), CSS only, no script:
  * - B, swipe row (under 860px): the cards sit in a row you swipe, with scroll
- *   snap; the card in the middle is full size and its neighbours step back.
+ *   snap; the card in the middle is full size and its neighbours step back
+ *   (smaller, never dimmed, so their text keeps full contrast).
  *   The next card peeks in from the edge, so the row reads as more to see.
  * - A, rise in turn (from 860px): the cards rise in turn as the row arrives,
  *   and the short orange rule under each eyebrow draws. Scroll-driven.
