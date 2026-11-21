@@ -30,6 +30,7 @@ These are not negotiable.
 - Publish only proof listed as confirmed in the operating brief.
 - Nothing about price, payment terms, fees or guarantees appears anywhere on the site.
 - Never invent statistics, testimonials, logos, scarcity or outcomes. If proof is missing, design the section to work without it and tell Nithish.
+- Service details the copy team assumes (marked `[ASSUMED: …]`) may be used while building; each is confirmed or removed before launch.
 - Do not promise a job.
 - No placeholder text or grey image boxes in anything merged to `main`.
 
@@ -70,9 +71,16 @@ Third-party skills live in `.claude/skills/` and are listed with their sources i
 
 - `vercel-react-best-practices`: when writing or reviewing React and Next.js code.
 - `web-design-guidelines`: when reviewing a finished page or component.
+- `careerhaki-voice` (ours): the CareerHaki voice and truth rules. Read it before writing any word for CareerHaki; it wins over every other skill.
 - `copywriting`: when writing page copy. Our truth rules and voice win over its examples; its button-text examples are for software products and need adapting.
+- `copy-editing`: when editing copy (Seven Sweeps, AI-tell check). Its guarantee, trial and fear-of-missing-out suggestions do not apply here.
 - `cro`: when reviewing a page for conversion.
 
 The marketing skills read `.claude/product-marketing.md` for context.
 
 Add a new third-party skill only after reading it in full, and record it in `THIRD_PARTY.md`.
+
+## The copy team
+
+All site copy, new or rewritten, goes through the `careerhaki-copy-team` agent (`.claude/agents/careerhaki-copy-team.md`). It proposes ideas, drafts three versions, edits them, scores them with a five-person panel (8 or more each) and returns the winner with its alternatives. Claims it assumes are marked `[ASSUMED: …]` and listed in the project's checkpoint review doc to confirm before launch; figures, testimonials, prices and job promises are never assumed.
+
