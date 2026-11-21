@@ -40,10 +40,11 @@ const menuIcon = (
  * The site navigation: logo, links, "Book a call", and on phones a menu
  * button that opens a full-screen sheet. Motion N1 to N4; see the stylesheet.
  *
- * A page with a hero marks its main button with `data-hero-cta`. While that
- * button is on screen, "Book a call" here is an outline, so only one orange
- * booking button is ever in view (N2). This is pure CSS on first paint; the
- * script below only adds `data-past-hero` once the button has scrolled away.
+ * A page marks its orange booking buttons (the hero's, the call-to-action
+ * band's) with `data-hero-cta`. While one of them is on screen, "Book a call"
+ * here is an outline, so only one orange booking button is ever in view (N2).
+ * This is pure CSS on first paint; the script below only adds
+ * `data-past-hero` while none of them is on screen.
  */
 export function SiteHeader() {
   const pathname = usePathname();
@@ -79,22 +80,27 @@ export function SiteHeader() {
     return () => observer.disconnect();
   }, []);
 
-  // N2: note when the hero's button has scrolled off the top of the screen.
+  // N2: the page's orange booking buttons (the hero's and the call-to-action
+  // band's) carry `data-hero-cta`. "Book a call" here fills orange only while
+  // none of them is on screen, so one orange booking button is in view at a
+  // time. The first observer report arrives at once, for every button.
   useEffect(() => {
     const root = document.documentElement;
-    const target = document.querySelector("[data-hero-cta]");
-    if (!target) return;
+    const targets = document.querySelectorAll("[data-hero-cta]");
+    if (targets.length === 0) return;
+    const onScreen = new Set<Element>();
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
-          root.dataset.pastHero = "";
-        } else {
-          delete root.dataset.pastHero;
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) onScreen.add(entry.target);
+          else onScreen.delete(entry.target);
         }
+        if (onScreen.size === 0) root.dataset.pastHero = "";
+        else delete root.dataset.pastHero;
       },
       { rootMargin: "-64px 0px 0px 0px" },
     );
-    observer.observe(target);
+    for (const target of targets) observer.observe(target);
     return () => {
       observer.disconnect();
       delete root.dataset.pastHero;

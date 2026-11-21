@@ -1,0 +1,172 @@
+/*
+ * Call-to-action band: surface ground across the full width, content in the
+ * site container. H1-size heading (the page's H1 is the hero's, so this is an
+ * h2 set at H1 size). Spacing from the design system's final call-to-action.
+ */
+.band {
+  /* Line two starts out to the right (motion B); clip so it never widens
+     the page. */
+  overflow-x: clip;
+  background-color: var(--color-surface);
+  /* A link to #book lands below the navigation bar. */
+  scroll-margin-top: var(--head-h, 4rem);
+}
+
+.inner {
+  max-width: var(--container-site);
+  margin-inline: auto;
+  padding: var(--spacing-section-cta) var(--spacing-gutter);
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--color-accent-text);
+  font-size: var(--text-eyebrow);
+  font-weight: var(--text-eyebrow--font-weight);
+  line-height: var(--text-eyebrow--line-height);
+  letter-spacing: var(--text-eyebrow--letter-spacing);
+  text-transform: uppercase;
+}
+
+.title {
+  max-width: 19ch;
+  margin: 1rem 0 0; /* 16px */
+  font-size: var(--text-h1);
+  line-height: var(--text-h1--line-height);
+  letter-spacing: var(--tracking-headline);
+  text-wrap: balance;
+}
+
+.line {
+  display: block;
+}
+
+/* The underline sits under the marked words; at rest it is drawn. */
+.mark {
+  position: relative;
+  white-space: nowrap;
+}
+
+.mark::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.02em;
+  height: max(2px, 0.045em);
+  background-color: var(--color-accent);
+  transform-origin: left;
+}
+
+.lead {
+  max-width: 62ch;
+  margin: 1.5rem 0 0; /* 24px */
+  color: var(--color-muted);
+  font-size: var(--text-lead);
+  line-height: var(--text-lead--line-height);
+  text-wrap: pretty;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem; /* 12px */
+  margin-top: 2.25rem; /* 36px */
+}
+
+/* Full-width buttons on phones. */
+@media (width < 53.75rem) {
+  .actions > * {
+    flex: 1 1 100%;
+  }
+}
+
+.note {
+  margin: 1rem 0 0; /* 16px */
+  color: var(--color-muted);
+  font-size: var(--text-small);
+  line-height: var(--text-small--line-height);
+}
+
+/*
+ * Motion A + B. One view timeline on the band; every part finishes by
+ * cover 50% (the band's middle at the screen's middle), which the page
+ * always reaches above the footer. Transform-type properties and opacity
+ * only. The arrow's nudge uses `translate`, so H5's hover (`transform`)
+ * still works on top of it.
+ */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .band {
+      view-timeline: --cta block;
+    }
+
+    /* B: the gap closes. */
+    .line2 {
+      animation: cta-close linear both;
+      animation-timeline: --cta;
+      animation-range: entry 0% cover 35%;
+    }
+
+    /* A: once the line has landed, the underline draws. */
+    .mark::after {
+      animation: cta-mark linear both;
+      animation-timeline: --cta;
+      animation-range: cover 35% cover 46%;
+    }
+
+    /* The lead rises on its own timeline, so it is at full strength by the
+       time it is wholly on screen: text is never left dimmed where it can be
+       read (design system, motion constraints). */
+    .lead {
+      animation: cta-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 100%;
+    }
+
+    .book svg {
+      animation: cta-nudge linear both;
+      animation-timeline: --cta;
+      animation-range: cover 42% cover 50%;
+    }
+  }
+}
+
+@keyframes cta-close {
+  from {
+    translate: min(22%, 9ch) 0;
+  }
+  to {
+    translate: none;
+  }
+}
+
+@keyframes cta-mark {
+  from {
+    scale: 0 1;
+  }
+  to {
+    scale: 1 1;
+  }
+}
+
+@keyframes cta-rise {
+  from {
+    opacity: 0;
+    translate: 0 1.5rem;
+  }
+  to {
+    opacity: 1;
+    translate: none;
+  }
+}
+
+@keyframes cta-nudge {
+  0%,
+  100% {
+    translate: none;
+  }
+  50% {
+    translate: 6px 0;
+  }
+}
