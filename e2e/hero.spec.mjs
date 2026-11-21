@@ -127,6 +127,12 @@ test.describe("with motion", () => {
     await page.clock.install();
     await page.goto("/");
     await pauseClock(page);
+    // The rotation starts when its own observer reports the hero on screen.
+    // On a busy CI runner that report can land after the clock is paused, so
+    // the first 2.4 s would pass before the timer exists ("tech" twice). Wait
+    // for the same report first; observers are told in the order they were
+    // made, so the rotation's timer is set by the time this resolves.
+    await onScreenReported(page, true);
     await page.evaluate(() => document.fonts.ready);
     const box = hero(page).locator("[data-active]").locator("..");
 
@@ -160,6 +166,9 @@ test.describe("with motion", () => {
     await page.clock.install();
     await page.goto("/");
     await pauseClock(page);
+    // Let the rotation see the hero on screen first (see the test above), so
+    // its "off screen" report is the one that follows the scroll.
+    await onScreenReported(page, true);
     await page.evaluate(() => {
       document.body.style.minHeight = "400vh";
       window.scrollTo(0, 2400);
