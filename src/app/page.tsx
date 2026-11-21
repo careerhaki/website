@@ -1,6 +1,7 @@
 import { Hero } from "@/components/hero/hero";
 import { AscentSection } from "@/components/ascent/ascent-section";
 import { CtaBand } from "@/components/cta-band/cta-band";
+import { FaqSection } from "@/components/faq/faq-section";
 import { PainSection } from "@/components/pain/pain-section";
 import { PeopleSection } from "@/components/people/people-section";
 import { ProofBand } from "@/components/proof-band/proof-band";
@@ -166,6 +167,81 @@ const team = {
   ],
 } as const;
 
+// "Before you book": the doubts that stop a candidate from booking, written
+// by the copy team (21 November; checkpoint review 5.11). Q1 widened on
+// Nithish's word: CareerHaki helps anyone growing into these fields, not only
+// people 2 to 3 years in. Assumed, to confirm before launch: mentors matched
+// to the student's field before the first session (6.6), sessions around
+// working hours in all three countries (6.7), applying once the resume and
+// plan are ready (6.8). Data and security mentors confirmed by Nithish.
+// Nothing on cost, anywhere on the site (Nithish, 21 November). Q6 added by
+// the copy team under Nithish's go-ahead; assumed, to confirm: a student can
+// start in Land (6.10) and practise the rounds they have booked (6.11).
+const faq = {
+  id: "faq",
+  eyebrow: "Questions",
+  title: "Before you book",
+  items: [
+    {
+      id: "for-me",
+      question: "Is this for me if I’m just starting out, or moving into a new area of tech?",
+      answer: (
+        <>
+          Yes. <span translate="no">The Ascent</span> is for anyone growing into cloud, data, agentic
+          AI, software, DevOps or security. If you’re just starting out, your internships, capstone
+          and side projects count as experience. If you’ve worked for years, your mentors help you aim
+          that experience at the role you want next.
+        </>
+      ),
+    },
+    {
+      id: "mentors",
+      question: "Will my mentors know my field?",
+      answer:
+        "You’re matched with mentors who work in your area today. A data engineer reviews a data resume, and a security engineer runs your security mock interview.",
+    },
+    {
+      id: "full-time",
+      question: "Can I do this alongside a full-time job?",
+      answer:
+        "Yes. Sessions are booked around your working hours in Canada, the US or India, and the private chat space is open between them.",
+    },
+    {
+      id: "how-long",
+      question: "How long until I get an offer?",
+      answer: (
+        <>
+          Typically 1 to 4 months. You stay in <span translate="no">The Ascent</span> until you’re
+          hired, however long your search takes.
+        </>
+      ),
+    },
+    {
+      id: "not-ready",
+      question: "What if I’m not ready to apply yet?",
+      answer:
+        "Then you start with Prepare. You build the skills, projects and resume your target role asks for, and you start applying when your plan says you’re ready.",
+    },
+    {
+      id: "interviews",
+      question: "What if I already have interviews lined up?",
+      answer:
+        "Then you start in Land, with mock interviews for the rounds you have booked. Bring that job post to your discovery call.",
+    },
+    {
+      id: "find-job",
+      question: "Will you find me the job?",
+      answer: (
+        <>
+          You do the applying and the interviewing. We choose the roles with you, practise every round
+          with you and coach you through the offer. That’s how 120+ professionals have been hired
+          through <span translate="no">CareerHaki</span>.
+        </>
+      ),
+    },
+  ],
+} as const;
+
 // "The call to book". Written by the copy team (21 November; checkpoint
 // review 5.10), approved by Nithish. Two claims are assumed and listed in
 // the checkpoint review to confirm before launch: a founder takes every
@@ -189,7 +265,7 @@ const cta = {
   note: "Bring one job post you’d love to land.",
 } as const;
 
-// More homepage sections (logo strip, testimonials, FAQ) arrive in the next
+// More homepage sections (logo strip, testimonials) arrive in the next
 // pull requests of module 1.3 and in 1.4.
 export default function HomePage() {
   return (
@@ -199,6 +275,7 @@ export default function HomePage() {
       <AscentSection {...ascent} />
       <ProofBand {...proof} />
       <PeopleSection {...team} />
+      <FaqSection {...faq} />
       <CtaBand {...cta} />
     </main>
   );
