@@ -5,7 +5,8 @@ alumni work.", motion L, the spotlight belt). Supplied by Nithish. Shown as
 places alumni work, never as clients. Each logo's alternative text is the
 company's official name (column 2).
 
-Not used on any page yet: the strip is built once the list is complete.
+Used by the homepage strip (`src/components/logo-strip/`, list and order in
+`alumni-logos.ts`). Alumni work at all 34 today (Nithish, 22 November 2026).
 
 ## How the files were prepared (21 November 2026)
 
@@ -42,7 +43,7 @@ Not used on any page yet: the strip is built once the list is complete.
 | lactalis.svg | Lactalis | Ready | |
 | mckesson.svg | McKesson | Ready | |
 | minesense.png | MineSense | Ready | Transparent PNG, 717 px wide; stacked (squares above and below the name), so the name reads a little small at strip height |
-| natures-touch.png | Nature's Touch | Usable, better file wanted | A filled leaf badge with white letters: in one colour at rest it becomes a solid shape with no name. Needs a wordmark-only version, or this logo is always shown in colour |
+| natures-touch.png | Nature's Touch | Usable | A filled leaf badge with white letters. Its white corners made transparent (edges only, 22 Nov). In the strip it gets a lighter one-colour treatment of its own, so the name stays readable at rest. A wordmark-only version would still be welcome |
 | ottawa-hospital.png | The Ottawa Hospital | Ready | Horizontal bilingual version (replaced the round badge 21 Nov). White background removed from the edges only, so the white inside the cross stays |
 | perion.svg | Perion Network | Ready | 2025 logo |
 | providence-health.svg | Providence Health Care | Ready | Vancouver (confirmed by Nithish) |

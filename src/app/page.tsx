@@ -2,6 +2,8 @@ import { Hero } from "@/components/hero/hero";
 import { AscentSection } from "@/components/ascent/ascent-section";
 import { CtaBand } from "@/components/cta-band/cta-band";
 import { FaqSection } from "@/components/faq/faq-section";
+import { alumniRows } from "@/components/logo-strip/alumni-logos";
+import { LogoStrip } from "@/components/logo-strip/logo-strip";
 import { PainSection } from "@/components/pain/pain-section";
 import { PeopleSection } from "@/components/people/people-section";
 import { ProofBand } from "@/components/proof-band/proof-band";
@@ -43,6 +45,17 @@ const hero = {
       ),
     },
   ],
+} as const;
+
+// "Proof from real people", first glance: where alumni work. Label kept by
+// the copy team (22 November; Nithish's line from 21 November, without the
+// full stop). Alumni work at all 34 today (Nithish, 22 November), so the
+// present tense stands. Never labelled as clients.
+const alumni = {
+  id: "alumni",
+  label: "Where our alumni work",
+  listLabel: "Companies where our alumni work",
+  rows: alumniRows,
 } as const;
 
 // "The problem they feel". Copy from the mockup, reviewed with the
@@ -265,12 +278,13 @@ const cta = {
   note: "Bring one job post you’d love to land.",
 } as const;
 
-// More homepage sections (logo strip, testimonials) arrive in the next
+// More homepage sections (testimonials) arrive in the next
 // pull requests of module 1.3 and in 1.4.
 export default function HomePage() {
   return (
     <main id="main">
       <Hero {...hero} />
+      <LogoStrip {...alumni} />
       <PainSection {...pain} />
       <AscentSection {...ascent} />
       <ProofBand {...proof} />
