@@ -31,7 +31,7 @@ Not used on any page yet: the strip is built once the list is complete.
 | cihi.svg | Canadian Institute for Health Information | Edited | Tagline removed (unreadable at strip size). The full name is long, so it reads small; CIHI's short "CIHI" version would be better |
 | citi.svg | Citi | Ready | |
 | deloitte.svg | Deloitte | Ready | |
-| ehealth-saskatchewan.png | eHealth Saskatchewan | Ready | Transparent PNG, 820 px wide. On the list as "Health Saskatchewan" |
+| ehealth-saskatchewan.png | eHealth Saskatchewan | Ready | Transparent PNG, 820 px wide. Name confirmed by Nithish |
 | euna-solutions.svg | Euna Solutions | Ready | |
 | fluent.png | Fluent, Inc. | Ready | Replaced 21 Nov with a 1580 px transparent PNG |
 | goeasy.svg | goeasy | Ready | |
@@ -41,6 +41,7 @@ Not used on any page yet: the strip is built once the list is complete.
 | kpmg.svg | KPMG | Ready | |
 | lactalis.svg | Lactalis | Ready | |
 | mckesson.svg | McKesson | Ready | |
+| minesense.png | MineSense | Ready | Transparent PNG, 717 px wide; stacked (squares above and below the name), so the name reads a little small at strip height |
 | natures-touch.png | Nature's Touch | Usable, better file wanted | A filled leaf badge with white letters: in one colour at rest it becomes a solid shape with no name. Needs a wordmark-only version, or this logo is always shown in colour |
 | ottawa-hospital.png | The Ottawa Hospital | Usable, better file wanted | Round bilingual badge; its words are too small to read at strip size. A horizontal version is wanted. White background removed from the edges only, so the white inside the cross stays |
 | perion.svg | Perion Network | Ready | 2025 logo |
@@ -55,6 +56,5 @@ Not used on any page yet: the strip is built once the list is complete.
 
 ## Still to come
 
-MineSense (its website only offers a white logo for dark backgrounds, and
-Claude's sandbox can't download from it). Better versions wanted for The
-Ottawa Hospital (horizontal) and Nature's Touch (see their rows).
+All 34 are in. Better versions wanted for The Ottawa Hospital (horizontal)
+and the logos marked above.
