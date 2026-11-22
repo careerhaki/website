@@ -60,6 +60,9 @@ type CalBooking = {
   createdAt?: string;
   payload?: {
     uid?: string;
+    /** On a reschedule: the booking it replaces (Cal.com has used both names). */
+    rescheduleUid?: string;
+    fromReschedule?: string;
     startTime?: string;
     attendees?: { name?: string; email?: string }[];
     responses?: Record<string, Response | undefined>;
@@ -92,7 +95,9 @@ const httpUrl = (value: string): string => {
  * cells empty rather than storing blank strings.
  */
 export function bookingToLead(body: CalBooking, now: Date = new Date()): Record<string, string> | null {
-  if (body.triggerEvent !== "BOOKING_CREATED" || !body.payload) return null;
+  const created = body.triggerEvent === "BOOKING_CREATED";
+  const moved = body.triggerEvent === "BOOKING_RESCHEDULED";
+  if ((!created && !moved) || !body.payload) return null;
   const { payload } = body;
   const responses = payload.responses ?? {};
   const attendee = payload.attendees?.[0] ?? {};
@@ -133,4 +138,49 @@ export function bookingToLead(body: CalBooking, now: Date = new Date()): Record<
   };
 
   return Object.fromEntries(Object.entries(fields).filter(([, value]) => value !== ""));
+}
+
+/**
+ * What a webhook asks of the CRM:
+ * - create: a new booking, a new lead.
+ * - update: a rescheduled or cancelled booking; find the lead by the old
+ *   booking ID (`findUids`, in order) and change only `fields`. If no lead is
+ *   found, a rescheduled booking is written as a new lead (`fallback`).
+ * - ignore: anything else, including Cal.com's ping.
+ */
+export type CrmAction =
+  | { kind: "create"; fields: Record<string, string> }
+  | { kind: "update"; findUids: string[]; fields: Record<string, string>; fallback?: Record<string, string> }
+  | { kind: "ignore" };
+
+export function webhookToAction(body: CalBooking, now: Date = new Date()): CrmAction {
+  const f = airtable.fields;
+  const payload = body.payload;
+  if (!payload) return { kind: "ignore" };
+
+  if (body.triggerEvent === "BOOKING_CREATED") {
+    const fields = bookingToLead(body, now);
+    return fields ? { kind: "create", fields } : { kind: "ignore" };
+  }
+
+  if (body.triggerEvent === "BOOKING_RESCHEDULED") {
+    const lead = bookingToLead(body, now);
+    if (!lead) return { kind: "ignore" };
+    const uid = text(payload.uid);
+    const findUids = [text(payload.rescheduleUid), text(payload.fromReschedule), uid].filter(
+      (value, i, all) => value !== "" && all.indexOf(value) === i,
+    );
+    const fields: Record<string, string> = { [f.status]: "Call booked" };
+    if (lead[f.callTime]) fields[f.callTime] = lead[f.callTime];
+    if (uid) fields[f.bookingId] = uid;
+    return { kind: "update", findUids, fields, fallback: lead };
+  }
+
+  if (body.triggerEvent === "BOOKING_CANCELLED") {
+    const uid = text(payload.uid);
+    if (!uid) return { kind: "ignore" };
+    return { kind: "update", findUids: [uid], fields: { [f.status]: "Call cancelled" } };
+  }
+
+  return { kind: "ignore" };
 }

@@ -89,7 +89,44 @@ test("a link inside a sentence is picked out and the full note kept", () => {
   assert.equal(lead[f.message], "This one: https://jobs.example.com/9 thanks");
 });
 
-test("other events and Cal.com's ping are ignored", () => {
+test("bookingToLead skips cancellations and the ping", () => {
   assert.equal(bookingToLead({ triggerEvent: "BOOKING_CANCELLED", payload: {} }), null);
   assert.equal(bookingToLead({ triggerEvent: "PING" }), null);
+});
+
+import { webhookToAction } from "../src/lib/cal-webhook.ts";
+
+test("a new booking is a create", () => {
+  const action = webhookToAction(booking);
+  assert.equal(action.kind, "create");
+  assert.equal(action.fields[f.bookingId], "abc123");
+});
+
+test("a reschedule finds the old booking and moves the call time", () => {
+  const b = structuredClone(booking);
+  b.triggerEvent = "BOOKING_RESCHEDULED";
+  b.payload.uid = "new456";
+  b.payload.rescheduleUid = "abc123";
+  b.payload.startTime = "2026-11-26T16:00:00.000Z";
+  const action = webhookToAction(b);
+  assert.equal(action.kind, "update");
+  assert.deepEqual(action.findUids, ["abc123", "new456"]);
+  assert.deepEqual(action.fields, {
+    [f.status]: "Call booked",
+    [f.callTime]: "2026-11-26T16:00:00.000Z",
+    [f.bookingId]: "new456",
+  });
+  // Not found? It's written as a new lead with the new time.
+  assert.equal(action.fallback[f.callTime], "2026-11-26T16:00:00.000Z");
+  assert.equal(action.fallback[f.bookingId], "new456");
+});
+
+test("a cancellation marks the lead's status", () => {
+  const action = webhookToAction({ triggerEvent: "BOOKING_CANCELLED", payload: { uid: "abc123" } });
+  assert.deepEqual(action, { kind: "update", findUids: ["abc123"], fields: { [f.status]: "Call cancelled" } });
+});
+
+test("the ping and other events are ignored", () => {
+  assert.equal(webhookToAction({ triggerEvent: "PING", payload: {} }).kind, "ignore");
+  assert.equal(webhookToAction({ triggerEvent: "MEETING_ENDED", payload: { uid: "x" } }).kind, "ignore");
 });
