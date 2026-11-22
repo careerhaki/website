@@ -1,0 +1,228 @@
+/*
+ * Book a Call, layout B+C (chosen by Nithish, 21 November 2026).
+ * Phones: heading, lead, job-post line, calendar, then the three steps, so
+ * the calendar is reached in one short scroll.
+ * From 860px: the words on the left (5fr) hold still while the calendar
+ * fills the right (7fr).
+ */
+.page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: var(--container-site);
+  margin-inline: auto;
+  padding: clamp(2.5rem, 6vw, 6rem) var(--spacing-gutter) clamp(3.5rem, 7vw, 7rem);
+}
+
+/* On phones the intro's children join the page's own order. */
+.intro {
+  display: contents;
+}
+
+.title {
+  order: 1;
+  max-width: 19ch;
+  margin: 0;
+  font-size: var(--text-h1);
+  line-height: var(--text-h1--line-height);
+}
+
+/* The orange underline marks the one person you'll meet. */
+.mark {
+  position: relative;
+  white-space: nowrap;
+}
+
+.mark::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.02em;
+  height: max(2px, 0.045em);
+  background-color: var(--color-accent);
+  transform-origin: left;
+}
+
+.lead {
+  order: 2;
+  max-width: 52ch;
+  margin: 1.25rem 0 0; /* 20px */
+  color: var(--color-muted);
+  font-size: var(--text-lead);
+  line-height: var(--text-lead--line-height);
+}
+
+.post {
+  order: 3;
+  max-width: 52ch;
+  margin: 1.25rem 0 0;
+  color: var(--color-muted);
+  font-size: var(--text-small);
+  line-height: var(--text-small--line-height);
+}
+
+.calendar {
+  order: 4;
+  margin-top: 1.75rem; /* 28px */
+  min-width: 0;
+}
+
+.steps {
+  order: 5;
+  max-width: 52ch;
+  margin-top: 2.5rem;
+}
+
+.stepsTitle {
+  margin: 0 0 0.5rem;
+  color: var(--color-accent-text);
+  font-family: var(--font-sans);
+  font-size: var(--text-eyebrow);
+  font-weight: var(--text-eyebrow--font-weight);
+  line-height: var(--text-eyebrow--line-height);
+  letter-spacing: var(--text-eyebrow--letter-spacing);
+  text-transform: uppercase;
+}
+
+.stepList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--color-line);
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 1.75rem 1fr;
+  gap: 0.75rem;
+  padding: 0.875rem 0;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.numeral {
+  padding-top: 0.125rem;
+  color: var(--color-accent-text);
+  font-family: var(--font-newsreader-italic), Georgia, "Times New Roman", serif;
+  font-size: var(--text-numeral);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.after {
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+  color: var(--color-muted);
+  font-size: var(--text-small);
+  line-height: var(--text-small--line-height);
+}
+
+.after li {
+  padding: 0.25rem 0;
+}
+
+/* Inline links: ink, underlined, with a tall enough tap area. */
+.after a {
+  display: inline-block;
+  padding-block: 0.625rem;
+  margin-block: -0.625rem;
+  color: var(--color-ink);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .after a:hover {
+    text-decoration-thickness: 2px;
+  }
+}
+
+@media (min-width: 53.75rem) {
+  .page {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: clamp(2.5rem, 5vw, 4rem);
+    align-items: start;
+  }
+
+  /* A little smaller than the site's H1 in the narrow column, so the
+     heading takes three lines rather than four. */
+  .title {
+    font-size: clamp(2.5rem, 4.4vw, 4.25rem);
+  }
+
+  .intro {
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: calc(var(--head-h, 5.25rem) + 2rem);
+  }
+
+  /* Desktop reads heading, lead, steps, then the job-post line, next to the
+     form it refers to. */
+  .steps {
+    order: 3;
+    margin-top: 2rem;
+  }
+
+  .post {
+    order: 4;
+  }
+
+  .calendar {
+    margin-top: 0;
+  }
+}
+
+/* Motion: a calm arrival. The underline draws once under "Nithish"; the
+   lead and steps rise in under half a second. Nothing moves with reduced
+   motion, and everything is at rest at full strength. */
+@media (prefers-reduced-motion: no-preference) {
+  .mark::after {
+    animation: book-mark 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.35s both;
+  }
+
+  .lead,
+  .post,
+  .steps,
+  .calendar {
+    animation: book-rise 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .lead {
+    animation-delay: 0.08s;
+  }
+
+  .post,
+  .calendar {
+    animation-delay: 0.14s;
+  }
+
+  .steps {
+    animation-delay: 0.2s;
+  }
+}
+
+@keyframes book-mark {
+  from {
+    scale: 0 1;
+  }
+  to {
+    scale: 1 1;
+  }
+}
+
+@keyframes book-rise {
+  from {
+    opacity: 0;
+    translate: 0 0.75rem;
+  }
+  to {
+    opacity: 1;
+    translate: none;
+  }
+}

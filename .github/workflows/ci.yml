@@ -69,3 +69,6 @@ jobs:
 
       - name: Lighthouse, mobile
         run: node scripts/lighthouse-check.mjs http://localhost:3000/
+
+      - name: Lighthouse, mobile, Book a Call
+        run: node scripts/lighthouse-check.mjs http://localhost:3000/book-a-call
