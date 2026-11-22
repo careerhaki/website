@@ -43,7 +43,7 @@ Not used on any page yet: the strip is built once the list is complete.
 | mckesson.svg | McKesson | Ready | |
 | minesense.png | MineSense | Ready | Transparent PNG, 717 px wide; stacked (squares above and below the name), so the name reads a little small at strip height |
 | natures-touch.png | Nature's Touch | Usable, better file wanted | A filled leaf badge with white letters: in one colour at rest it becomes a solid shape with no name. Needs a wordmark-only version, or this logo is always shown in colour |
-| ottawa-hospital.png | The Ottawa Hospital | Usable, better file wanted | Round bilingual badge; its words are too small to read at strip size. A horizontal version is wanted. White background removed from the edges only, so the white inside the cross stays |
+| ottawa-hospital.png | The Ottawa Hospital | Ready | Horizontal bilingual version (replaced the round badge 21 Nov). White background removed from the edges only, so the white inside the cross stays |
 | perion.svg | Perion Network | Ready | 2025 logo |
 | providence-health.svg | Providence Health Care | Ready | Vancouver (confirmed by Nithish) |
 | queens-university.svg | Queen's University | Edited | The file is the version for dark backgrounds (white wordmark). The wordmark is set in Queen's navy (#002452); the crest is unchanged |
@@ -56,5 +56,4 @@ Not used on any page yet: the strip is built once the list is complete.
 
 ## Still to come
 
-All 34 are in. Better versions wanted for The Ottawa Hospital (horizontal)
-and the logos marked above.
+All 34 are in. Better versions wanted for the logos marked above.
