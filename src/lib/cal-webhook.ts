@@ -70,9 +70,6 @@ type CalBooking = {
   };
 };
 
-/** The booking questions set up in Cal.com, by their identifiers. */
-const KNOWN = new Set(["name", "email", "title", "attendeePhoneNumber", "notes", "guests", "rescheduleReason", "location"]);
-
 const text = (value: unknown): string =>
   typeof value === "string" ? value.trim() : typeof value === "number" ? String(value) : "";
 
@@ -104,13 +101,19 @@ export function bookingToLead(body: CalBooking, now: Date = new Date()): Record<
   const meta = payload.metadata ?? {};
   const f = airtable.fields;
 
-  // "How did you hear about us?" was added in Cal.com with its own
-  // identifier, so it is found by its label.
-  const heard = Object.entries(responses).find(
-    ([key, r]) => !KNOWN.has(key) && /hear about/i.test(r?.label ?? ""),
-  );
-
-  const notes = answer(responses, "notes");
+  // Questions are found by their identifier first, then by their label, so
+  // a question re-added or renamed in Cal.com still reaches the right column.
+  const byLabel = (pattern: RegExp, skip: string[] = []): string => {
+    const hit = Object.entries(responses).find(
+      ([key, r]) => !skip.includes(key) && pattern.test(r?.label ?? "") && text(r?.value),
+    );
+    return hit ? text(hit[1]?.value) : "";
+  };
+  const heard = byLabel(/hear about/i);
+  const role = answer(responses, "title") || byLabel(/role/i, ["name", "email", "notes"]);
+  const phone =
+    answer(responses, "attendeePhoneNumber") || byLabel(/phone|whatsapp/i, ["name", "email", "notes"]);
+  const notes = answer(responses, "notes") || byLabel(/job post/i);
   const jobPost = httpUrl(notes);
   const referrer = httpUrl(text(meta.referrer));
 
@@ -121,12 +124,12 @@ export function bookingToLead(body: CalBooking, now: Date = new Date()): Record<
     [f.channel]: "Discovery call booked",
     [f.status]: "Call booked",
     [f.email]: answer(responses, "email") || text(attendee.email),
-    [f.phone]: answer(responses, "attendeePhoneNumber"),
-    [f.roleOrNeed]: answer(responses, "title"),
+    [f.phone]: phone,
+    [f.roleOrNeed]: role,
     [f.jobPost]: jobPost,
     // A note that isn't just a link is kept in full, so nothing is lost.
     [f.message]: notes && notes !== jobPost ? notes : "",
-    [f.heardAboutUs]: heard ? text(heard[1]?.value) : "",
+    [f.heardAboutUs]: heard,
     [f.callTime]: payload.startTime ? new Date(payload.startTime).toISOString() : "",
     [f.page]: text(meta.page),
     [f.referrer]: referrer,

@@ -130,3 +130,16 @@ test("the ping and other events are ignored", () => {
   assert.equal(webhookToAction({ triggerEvent: "PING", payload: {} }).kind, "ignore");
   assert.equal(webhookToAction({ triggerEvent: "MEETING_ENDED", payload: { uid: "x" } }).kind, "ignore");
 });
+
+test("questions added under their own identifiers are found by label", () => {
+  const b = structuredClone(booking);
+  const r = b.payload.responses;
+  delete r.title;
+  delete r.attendeePhoneNumber;
+  r["what-role-do-you-want-next"] = { label: "What role do you want next?", value: "AI engineer" };
+  r["phone-number"] = { label: "Phone number", value: "+14165550100" };
+  const lead = bookingToLead(b);
+  assert.equal(lead[f.roleOrNeed], "AI engineer");
+  assert.equal(lead[f.phone], "+14165550100");
+  assert.equal(lead[f.heardAboutUs], "A friend");
+});
