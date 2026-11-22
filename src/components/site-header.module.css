@@ -169,6 +169,18 @@
   color: var(--color-bg);
 }
 
+/* On the Book a Call page itself the pill stays an outline: the calendar
+   is the main action there. */
+.cta[aria-current="page"] {
+  border-color: var(--color-ink);
+  background-color: transparent;
+}
+
+.cta[aria-current="page"]:hover {
+  background-color: var(--color-ink);
+  color: var(--color-bg);
+}
+
 /* N4 */
 .menuButton {
   display: none;

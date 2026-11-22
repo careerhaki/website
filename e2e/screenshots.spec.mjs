@@ -2,7 +2,10 @@
 // Add each new page to this list when it is built (module 1.4).
 import { expect, test } from "@playwright/test";
 
-const pages = [{ name: "home", path: "/" }];
+const pages = [
+  { name: "home", path: "/" },
+  { name: "book-a-call", path: "/book-a-call" },
+];
 
 for (const { name, path } of pages) {
   test(`${name}: loads, fits the screen, screenshot saved`, async ({ page }, testInfo) => {

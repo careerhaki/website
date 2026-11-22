@@ -187,7 +187,12 @@ export function SiteHeader() {
           </nav>
 
           <div className={styles.actions}>
-            <ButtonLink href={bookingPath} size="small" className={styles.cta}>
+            <ButtonLink
+              href={bookingPath}
+              size="small"
+              className={styles.cta}
+              aria-current={pathname === bookingPath ? "page" : undefined}
+            >
               Book a call
             </ButtonLink>
             <button

@@ -1,0 +1,83 @@
+/*
+ * The calendar's box keeps a fixed minimum height from the first paint, so
+ * the page doesn't jump when Cal.com arrives. The stand-in is shapes only,
+ * in our surface colour, and fades out once the calendar is ready.
+ */
+.frame {
+  position: relative;
+  display: grid;
+  min-height: 40rem; /* Cal.com's month view on a phone, before a day is picked */
+  border: 1px solid var(--color-line);
+  border-radius: 1.125rem; /* 18px */
+  background-color: #fff;
+  overflow: hidden;
+}
+
+@media (min-width: 53.75rem) {
+  .frame {
+    min-height: 34rem;
+  }
+}
+
+.calendar,
+.standIn {
+  grid-area: 1 / 1;
+}
+
+.calendar {
+  min-width: 0;
+  opacity: 0;
+}
+
+.frame[data-state="ready"] .calendar {
+  opacity: 1;
+}
+
+.standIn {
+  display: grid;
+  align-content: start;
+  gap: 0.875rem;
+  padding: 1.5rem;
+  background-color: var(--color-surface);
+  pointer-events: none;
+}
+
+.frame[data-state="ready"] .standIn {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.bar,
+.month {
+  display: block;
+  border-radius: 0.5rem;
+  background-color: var(--color-line);
+  opacity: 0.6;
+}
+
+.bar {
+  width: 45%;
+  height: 0.875rem;
+}
+
+.bar[data-short] {
+  width: 30%;
+}
+
+.month {
+  height: 16rem;
+  border-radius: 0.875rem;
+  opacity: 0.4;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .calendar {
+    transition: opacity 0.3s ease-out;
+  }
+
+  .standIn {
+    transition:
+      opacity 0.3s ease-out,
+      visibility 0s linear 0.3s;
+  }
+}
