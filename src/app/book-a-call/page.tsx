@@ -1,6 +1,6 @@
 import { CalEmbed } from "@/components/cal-embed/cal-embed";
 import { calPageUrl } from "@/lib/booking";
-import { topmateProfileUrl, topmateReviews } from "@/content/topmate-reviews";
+import { TopmateSection } from "@/components/topmate/topmate-section";
 import { whatsappUrl } from "@/lib/contact";
 import { pageMetadata } from "@/lib/site";
 
@@ -24,23 +24,16 @@ const steps = [
   </>,
 ];
 
-// Topmate reviews (testimonials doc, 22 November 2026): label and bridge
-// line from the copy team, used as is. The bridge line links to the
-// homepage stories only once they exist, never as a dead link.
-const reviewsLabel = "What people said after a 1:1 session with Nithish on Topmate";
-const bridge =
-  "Prathyusha, Karandeep, Rahul and Dheeraj each had a Topmate session with Nithish before they joined CareerHaki.";
-
 /**
  * Layout B+C: from 860px the words sit on the left and hold still while the
  * calendar fills the right. On phones the calendar comes straight after the
  * lead and the job-post line, and the three steps follow it.
  *
- * Topmate reviews (Nithish, 22 November): on desktop in the left column
- * under the steps, beside the calendar, which holds still while you read
- * them; on phones after the calendar, so booking stays first. In the page's
- * code they come after the calendar, so the keyboard reaches the calendar
- * first on every screen.
+ * Topmate proof (Nithish, 22 November; option E1): on desktop in the left
+ * column under the steps, beside the calendar, which holds still while you
+ * read it; on phones after the calendar, so booking stays first. In the
+ * page's code it comes after the calendar, so the keyboard reaches the
+ * calendar first on every screen.
  */
 export default function BookACallPage() {
   const whatsapp = whatsappUrl();
@@ -76,7 +69,7 @@ export default function BookACallPage() {
         </section>
       </div>
 
-      <div className={styles.calendar}>
+      <div id="calendar" className={styles.calendar}>
         <CalEmbed />
         <ul className={styles.after}>
           <li>You’ll get a confirmation email and a calendar invite with the Google Meet link.</li>
@@ -92,48 +85,9 @@ export default function BookACallPage() {
         </ul>
       </div>
 
-      <section className={styles.reviews} aria-labelledby="topmate-reviews">
-        <h2 id="topmate-reviews" className={styles.reviewsTitle}>
-          {reviewsLabel}
-        </h2>
-        <ul className={styles.reviewList}>
-          {topmateReviews.map((review) => (
-            <li key={review.id}>
-              <figure className={styles.review}>
-                <blockquote className={styles.reviewText}>
-                  <p>
-                    “{review.before}
-                    <strong className={styles.pull}>{review.quote}</strong>
-                    {review.after}”
-                  </p>
-                </blockquote>
-                <figcaption className={styles.reviewer}>
-                  <span className={styles.reviewerName} translate="no">
-                    {review.name}
-                  </span>
-                  <span>
-                    <span translate="no">Topmate</span>, {review.date}
-                  </span>
-                </figcaption>
-              </figure>
-            </li>
-          ))}
-        </ul>
-        <p className={styles.topmateLink}>
-          <a
-            href={topmateProfileUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Read all reviews on Topmate (opens in a new tab)"
-          >
-            Read all reviews on Topmate
-            <span className={styles.external} aria-hidden="true">
-              ↗
-            </span>
-          </a>
-        </p>
-        <p className={styles.bridge}>{bridge}</p>
-      </section>
+      <div className={styles.reviews}>
+        <TopmateSection calendarId="calendar" />
+      </div>
     </main>
   );
 }

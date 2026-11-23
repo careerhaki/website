@@ -59,3 +59,57 @@ export const topmateReviews: readonly TopmateReview[] = [
     after: ". Thanks 🙏🏻",
   },
 ];
+
+/**
+ * The four people who had a Topmate 1:1 with Nithish, then joined CareerHaki
+ * (confirmed by Nithish, 22 November 2026), in the order picked for the Book
+ * a Call page: Prathyusha last, because her Topmate review is one word.
+ *
+ * `topmate` is their Topmate review, word for word (`quote` is the part
+ * shown large; `fullReviewId` points at the whole review when it is longer).
+ * `changed` is one or two sentences from their approved story's "What
+ * changed", unchanged (a test checks it against src/content/stories.ts).
+ * No timeframes in the rows, so none reads as typical.
+ */
+export type TopmateJourney = {
+  storyId: string;
+  topmate: { date: string; quote: string; fullReviewId?: string };
+  changed: string;
+};
+
+export const topmateJourneys: readonly TopmateJourney[] = [
+  {
+    storyId: "karandeep",
+    topmate: {
+      date: "July 2025",
+      quote: "shared clear, actionable guidance on how to navigate challenges and perform at my best",
+      fullReviewId: "karandeep-singh",
+    },
+    changed:
+      "We repositioned my profile and worked on my interview answers, all aimed at the fintech roles I wanted.",
+  },
+  {
+    storyId: "rahul",
+    topmate: { date: "January 2025", quote: "Exactly knows what will be helpful and give proper insights" },
+    changed:
+      "My mentor helped me polish my profile and the way I interview, and I got confident presenting my AWS skills.",
+  },
+  {
+    storyId: "dheeraj",
+    topmate: { date: "August 2025", quote: "The session was very insightful." },
+    changed: "The roadmap gave me direction, and I got much more intentional about applying.",
+  },
+  {
+    storyId: "prathyusha",
+    topmate: { date: "March 2026", quote: "Helpful" },
+    changed:
+      "My mentor was easy to reach and kept me motivated. He took me through interview prep, and his feedback was honest, so I got better a step at a time.",
+  },
+];
+
+/**
+ * For a pull-quote taken out of a longer review: a cut from inside a
+ * sentence is marked with ellipses at both ends. (A review shown whole, like
+ * "Helpful", is never marked.)
+ */
+export const isFragment = (quote: string) => /^[a-z]/.test(quote) || !/[.!?]$/.test(quote);
