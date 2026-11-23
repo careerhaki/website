@@ -4,14 +4,15 @@ The marketing site, tools and student portal for CareerHaki, an end-to-end caree
 
 ## Read first
 
-The full context lives in the Claude project "CareerHaki - Site", in four documents. Read them in this order at the start of a work session when the project is attached:
+The full context lives in the Claude project "CareerHaki - Site", in five documents. Read them in this order at the start of a work session when the project is attached:
 
 - `careerhaki-operating-brief.md`: the business, confirmed proof, truth rules, voice, brand.
 - `careerhaki-build-plan.md`: product definition, stack, stages, modules and what "done" means.
 - `careerhaki-decisions.md`: the decisions log, newest first.
 - `careerhaki-design-system.md`: final colours, type, spacing, components, motion rules.
+- `careerhaki-testimonials.md`: every approved success story and Topmate review, the editing rules and where each one goes. Use its approved text word for word; never write or change a student's words.
 
-Where they disagree, the decisions log and the design system win, because they are newer.
+Where they disagree, the decisions log, the design system and the testimonials doc win, because they are newer.
 
 If they are not available, the essentials are below. Do not guess the rest; ask Nithish.
 
