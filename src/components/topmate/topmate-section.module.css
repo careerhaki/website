@@ -343,8 +343,8 @@
   }
 }
 
-/* Phones: back up to the calendar. An outline button, because it repeats
-   the page's main action. Hidden where the calendar sits beside this. */
+/* Back up to the calendar, on every screen. An outline button, because it
+   repeats the page's main action. */
 .pick {
   display: flex;
   align-items: center;
@@ -361,7 +361,8 @@
 
 @media (min-width: 53.75rem) {
   .pick {
-    display: none;
+    width: fit-content;
+    padding-inline: 1.75rem;
   }
 }
 

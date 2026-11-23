@@ -179,18 +179,16 @@
     order: 4;
   }
 
-  /* The calendar spans both rows and holds still while the words and the
-     reviews pass beside it, so the reviews are in view while choosing a
-     time. (The words held still before the reviews came; with them the
-     left column is taller than the screen.) */
+  /* The calendar spans both rows on the right and scrolls with the page,
+     so all of it, the list of times included, can always be reached. The
+     reviews continue down the left; "Pick a time" at their end leads back
+     up (Nithish, 22 November). */
   .intro {
     grid-column: 1;
     grid-row: 1;
   }
 
   .calendar {
-    position: sticky;
-    top: calc(var(--head-h, 5.25rem) + 2rem);
     grid-column: 2;
     grid-row: 1 / span 2;
     margin-top: 0;

@@ -30,8 +30,9 @@ const steps = [
  * lead and the job-post line, and the three steps follow it.
  *
  * Topmate proof (Nithish, 22 November; option E1): on desktop in the left
- * column under the steps, beside the calendar, which holds still while you
- * read it; on phones after the calendar, so booking stays first. In the
+ * column under the steps, beside the calendar (which scrolls with the page,
+ * so all of it can be reached); on phones after the calendar, so booking
+ * stays first. "Pick a time" at its end leads back to the calendar. In the
  * page's code it comes after the calendar, so the keyboard reaches the
  * calendar first on every screen.
  */

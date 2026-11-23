@@ -135,7 +135,7 @@ function Journey({ journey, story }: { journey: TopmateJourney; story: Story }) 
  *    lands a role.
  * 2. Reviews: Bebin's in full on a panel, then two pull-quotes that open to
  *    the full review, then the Topmate link (new tab).
- * 3. Phones only: "Pick a time" back up to the calendar.
+ * 3. "Pick a time": back up to the calendar, on every screen.
  *
  * Motion, CSS scroll-driven, transform only: each row's line draws in two
  * segments (1:1 → Joined, Joined → Now), and each dot grows as the line

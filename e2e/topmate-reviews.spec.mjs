@@ -109,27 +109,28 @@ test("reviews: Bebin in full on the panel, two pull-quotes that open, the Topmat
   expect(await link.evaluate((a) => a.getBoundingClientRect().height)).toBeGreaterThanOrEqual(44);
 });
 
-test("placement: beside the calendar on desktop, after it on phones; Pick a time on phones only", async ({ page }, testInfo) => {
+test("placement: beside the calendar on desktop, after it on phones; Pick a time leads back to it", async ({ page }, testInfo) => {
   await page.goto("/book-a-call");
   const cal = await page.locator("#calendar").boundingBox();
   const steps = await page.getByRole("heading", { name: "What happens on the call" }).boundingBox();
   const j = await journeys(page).boundingBox();
-  const pick = page.getByRole("link", { name: "Pick a time" });
   if (isPhone(testInfo)) {
     expect(j.y).toBeGreaterThan(cal.y + cal.height);
-    await expect(pick).toBeVisible();
-    await expect(pick).toHaveAttribute("href", "#calendar");
-    await pick.click();
-    await expect.poll(() => page.locator("#calendar").evaluate((el) => Math.round(el.getBoundingClientRect().top))).toBeLessThan(page.viewportSize().height / 3);
   } else {
     expect(j.x + j.width).toBeLessThan(cal.x);
     expect(j.y).toBeGreaterThan(steps.y);
-    await expect(pick).toBeHidden();
-    await reviews(page).scrollIntoViewIfNeeded();
-    const calNow = await page.locator("#calendar").boundingBox();
-    expect(calNow.y).toBeGreaterThanOrEqual(0);
-    expect(calNow.y).toBeLessThan(page.viewportSize().height / 2);
+    // The calendar scrolls with the page, so a tall list of times can always be reached.
+    expect(await page.locator("#calendar").evaluate((el) => getComputedStyle(el).position)).not.toBe("sticky");
   }
+  const pick = page.getByRole("link", { name: "Pick a time" });
+  await pick.scrollIntoViewIfNeeded();
+  await expect(pick).toBeVisible();
+  await expect(pick).toHaveAttribute("href", "#calendar");
+  expect(await pick.evaluate((a) => a.getBoundingClientRect().height)).toBeGreaterThanOrEqual(44);
+  await pick.click();
+  await expect
+    .poll(() => page.locator("#calendar").evaluate((el) => Math.round(el.getBoundingClientRect().top)))
+    .toBeLessThan(page.viewportSize().height / 3);
 });
 
 test("still version: lines and dots drawn", async ({ page }) => {
