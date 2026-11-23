@@ -1,5 +1,6 @@
 import { CalEmbed } from "@/components/cal-embed/cal-embed";
 import { calPageUrl } from "@/lib/booking";
+import { TopmateSection } from "@/components/topmate/topmate-section";
 import { whatsappUrl } from "@/lib/contact";
 import { pageMetadata } from "@/lib/site";
 
@@ -27,6 +28,13 @@ const steps = [
  * Layout B+C: from 860px the words sit on the left and hold still while the
  * calendar fills the right. On phones the calendar comes straight after the
  * lead and the job-post line, and the three steps follow it.
+ *
+ * Topmate proof (Nithish, 22 November; option E1): on desktop in the left
+ * column under the steps, beside the calendar (which scrolls with the page,
+ * so all of it can be reached); on phones after the calendar, so booking
+ * stays first. "Pick a time" at its end leads back to the calendar. In the
+ * page's code it comes after the calendar, so the keyboard reaches the
+ * calendar first on every screen.
  */
 export default function BookACallPage() {
   const whatsapp = whatsappUrl();
@@ -62,7 +70,7 @@ export default function BookACallPage() {
         </section>
       </div>
 
-      <div className={styles.calendar}>
+      <div id="calendar" className={styles.calendar}>
         <CalEmbed />
         <ul className={styles.after}>
           <li>You’ll get a confirmation email and a calendar invite with the Google Meet link.</li>
@@ -76,6 +84,10 @@ export default function BookACallPage() {
             </li>
           ) : null}
         </ul>
+      </div>
+
+      <div className={styles.reviews}>
+        <TopmateSection calendarId="calendar" />
       </div>
     </main>
   );

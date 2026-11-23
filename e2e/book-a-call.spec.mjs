@@ -21,7 +21,7 @@ test("copy, title and the fallback link", async ({ page }) => {
   await expect(page.locator("h1")).toHaveText("Book your discovery call with Nithish");
   await expect(page.getByText("30 minutes with him on Google Meet")).toBeVisible();
   await expect(page.getByRole("heading", { name: "What happens on the call" })).toBeVisible();
-  await expect(page.locator("main ol li")).toHaveCount(3);
+  await expect(page.locator("main ol").first().locator(":scope > li")).toHaveCount(3);
   await expect(page.getByRole("link", { name: "Open the booking page" })).toHaveAttribute(
     "href",
     "https://cal.com/careerhaki/discovery-call",
@@ -62,7 +62,7 @@ test("layout: phones get the calendar before the steps; desktop splits", async (
   await page.goto("/book-a-call");
   const lead = await box(page.locator("main p").first());
   const calendar = await box(page.locator("[aria-busy]"));
-  const steps = await box(page.locator("main ol"));
+  const steps = await box(page.locator("main ol").first());
   if (testInfo.project.name === "phone") {
     expect(calendar.top).toBeGreaterThan(lead.bottom);
     expect(steps.top).toBeGreaterThan(calendar.bottom);

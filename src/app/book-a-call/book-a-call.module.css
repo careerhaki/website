@@ -64,6 +64,7 @@
 
 .calendar {
   order: 4;
+  scroll-margin-top: calc(var(--head-h, 5.25rem) + 1rem);
   margin-top: 1.75rem; /* 28px */
   min-width: 0;
 }
@@ -141,6 +142,13 @@
   }
 }
 
+/* ----- Topmate proof (its own styles in src/components/topmate) ----- */
+
+.reviews {
+  order: 6;
+  margin-top: 3rem;
+}
+
 @media (min-width: 53.75rem) {
   .page {
     display: grid;
@@ -158,8 +166,6 @@
   .intro {
     display: flex;
     flex-direction: column;
-    position: sticky;
-    top: calc(var(--head-h, 5.25rem) + 2rem);
   }
 
   /* Desktop reads heading, lead, steps, then the job-post line, next to the
@@ -173,8 +179,25 @@
     order: 4;
   }
 
+  /* The calendar spans both rows on the right and scrolls with the page,
+     so all of it, the list of times included, can always be reached. The
+     reviews continue down the left; "Pick a time" at their end leads back
+     up (Nithish, 22 November). */
+  .intro {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
   .calendar {
+    grid-column: 2;
+    grid-row: 1 / span 2;
     margin-top: 0;
+  }
+
+  .reviews {
+    grid-column: 1;
+    grid-row: 2;
+    margin-top: 0.5rem;
   }
 }
 

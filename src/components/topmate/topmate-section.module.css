@@ -1,0 +1,419 @@
+/*
+ * Topmate proof on the Book a Call page. Desktop: the left column, under
+ * "What happens on the call", beside the calendar (which holds still).
+ * Phones: after the calendar.
+ */
+.wrap {
+  max-width: 52ch;
+}
+
+.title {
+  max-width: 26ch;
+  margin: 0;
+  font-size: 1.375rem; /* 22px */
+  line-height: 1.3;
+  text-wrap: balance;
+}
+
+.context {
+  margin: 0.5rem 0 0;
+  color: var(--color-muted);
+  font-size: var(--text-small);
+  line-height: var(--text-small--line-height);
+}
+
+.vh {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ----- The journeys ----- */
+
+.journeys {
+  margin: 1.25rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.journey {
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--color-line);
+}
+
+.person {
+  margin: 0 0 0.875rem;
+  font-family: var(--font-sans);
+  font-size: var(--text-small);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.4;
+}
+
+.steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.step {
+  position: relative;
+  padding-left: 1.75rem; /* 28px */
+}
+
+.step:not(:last-child) {
+  padding-bottom: 2rem; /* 32px between steps */
+}
+
+/* Dots: 8px orange for the 1:1 and Joined, 12px charcoal for Now. Each is
+   centred on its label's line (16px line, so 8px from the top). */
+.step::before {
+  position: absolute;
+  z-index: 1;
+  top: 4px;
+  left: 2px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-accent);
+  content: "";
+}
+
+.step:last-child::before {
+  top: 2px;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  background-color: var(--color-ink);
+}
+
+/* The track: a faint still line from this dot to the next one, never past
+   the last dot. The orange segment draws over it. */
+.step:not(:last-child)::after {
+  position: absolute;
+  top: 8px;
+  bottom: -8px;
+  left: 5px;
+  width: 2px;
+  background-color: rgb(38 38 38 / 0.12);
+  content: "";
+}
+
+.seg {
+  position: absolute;
+  z-index: 0;
+  top: 8px;
+  bottom: -8px;
+  left: 5px;
+  width: 2px;
+  background-color: var(--color-accent);
+  transform-origin: top;
+}
+
+.label {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.75rem; /* 12px */
+  font-weight: var(--font-weight-semibold);
+  line-height: 1rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.step:nth-child(2) .label {
+  color: var(--color-ink);
+}
+
+.topmate {
+  margin: 0.25rem 0 0;
+}
+
+.topmate blockquote,
+.changed,
+.featured blockquote,
+.review blockquote {
+  margin: 0;
+}
+
+.topmateQuote {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 1.375rem; /* 22px, the serif minimum */
+  font-weight: 500;
+  line-height: 1.3;
+  text-wrap: pretty;
+}
+
+.source {
+  margin-top: 0.25rem;
+  color: var(--color-muted);
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.changed {
+  max-width: 44ch;
+  margin-top: 0.375rem;
+}
+
+.changed p {
+  margin: 0;
+  font-size: var(--text-small);
+  line-height: 1.55;
+}
+
+.logo {
+  display: block;
+  width: auto;
+  max-width: min(100%, 14rem);
+  margin: 0.5rem 0 0.25rem;
+  object-fit: contain;
+  object-position: left;
+  filter: grayscale(1) brightness(0.35) contrast(1.4);
+  opacity: 0.82;
+}
+
+.now {
+  margin: 0;
+  font-size: var(--text-small);
+  line-height: var(--text-small--line-height);
+}
+
+/* ----- Toggles: controls, not links ----- */
+
+.toggle summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  min-height: 2.75rem;
+  color: var(--color-ink);
+  font-size: var(--text-small);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  list-style: none;
+}
+
+.toggle summary::-webkit-details-marker {
+  display: none;
+}
+
+.chevron {
+  flex: none;
+  transition: transform 200ms ease;
+}
+
+.toggle[open] .chevron {
+  transform: rotate(180deg);
+}
+
+.toggle[open] .whenClosed,
+.toggle:not([open]) .whenOpen {
+  display: none;
+}
+
+.toggleBody {
+  padding-bottom: 0.5rem;
+}
+
+.toggleBody p {
+  margin: 0;
+  font-size: var(--text-small);
+  line-height: 1.6;
+}
+
+.toggleBody blockquote {
+  margin: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .toggle summary:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 0.3125rem;
+  }
+}
+
+/* ----- Reviews ----- */
+
+.reviews {
+  margin-top: 1.5rem;
+}
+
+.eyebrow {
+  margin: 0 0 1rem;
+  color: var(--color-accent-text);
+  font-family: var(--font-sans);
+  font-size: var(--text-eyebrow);
+  font-weight: var(--text-eyebrow--font-weight);
+  line-height: var(--text-eyebrow--line-height);
+  letter-spacing: var(--text-eyebrow--letter-spacing);
+  text-transform: uppercase;
+}
+
+.featured {
+  margin: 0;
+  padding: 1.5rem;
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface);
+}
+
+.featured p {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: var(--text-small);
+  line-height: 1.6;
+}
+
+/* The pull-quote in ink inside a full review; the rest stays muted. */
+.pull {
+  color: var(--color-ink);
+  font-weight: var(--font-weight-medium);
+}
+
+.list {
+  margin: 0.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.list > li {
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--color-line);
+}
+
+.list > li + li {
+  margin-top: 0.5rem;
+}
+
+.review {
+  margin: 0;
+}
+
+.reviewQuote {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 1.375rem;
+  font-weight: 500;
+  line-height: 1.3;
+  text-wrap: pretty;
+}
+
+.reviewer {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.625rem;
+  color: var(--color-muted);
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.reviewerName {
+  color: var(--color-ink);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* ----- Links ----- */
+
+.external {
+  margin: 0.5rem 0 0;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--color-line);
+}
+
+.link {
+  display: inline-block;
+  padding-block: 0.625rem;
+  color: var(--color-ink);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: underline;
+  text-decoration-color: var(--color-line);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.3125rem;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .link:hover {
+    text-decoration-color: var(--color-ink);
+  }
+}
+
+/* Back up to the calendar, on every screen. An outline button, because it
+   repeats the page's main action. */
+.pick {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 3rem;
+  margin-top: 1.5rem;
+  border: 1.5px solid var(--color-ink);
+  border-radius: 999px;
+  color: var(--color-ink);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: none;
+}
+
+@media (min-width: 53.75rem) {
+  .pick {
+    width: fit-content;
+    padding-inline: 1.75rem;
+  }
+}
+
+/* ----- Motion: the segmented draw ----- */
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .steps {
+      view-timeline: --journey block;
+    }
+
+    .step:nth-child(1) .seg {
+      animation: topmate-seg linear both;
+      animation-timeline: --journey;
+      animation-range: cover 3% cover 20%;
+    }
+
+    .step:nth-child(2) .seg {
+      animation: topmate-seg linear both;
+      animation-timeline: --journey;
+      animation-range: cover 22% cover 33%;
+    }
+
+    .step:nth-child(1)::before {
+      animation: topmate-dot ease-out both;
+      animation-timeline: --journey;
+      animation-range: cover 0% cover 3%;
+    }
+
+    .step:nth-child(2)::before {
+      animation: topmate-dot ease-out both;
+      animation-timeline: --journey;
+      animation-range: cover 20% cover 22%;
+    }
+
+    .step:nth-child(3)::before {
+      animation: topmate-dot ease-out both;
+      animation-timeline: --journey;
+      animation-range: cover 33% cover 35%;
+    }
+  }
+}
+
+@keyframes topmate-seg {
+  from {
+    transform: scaleY(0);
+  }
+}
+
+@keyframes topmate-dot {
+  from {
+    transform: scale(0);
+  }
+}
