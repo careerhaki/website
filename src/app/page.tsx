@@ -7,6 +7,8 @@ import { LogoStrip } from "@/components/logo-strip/logo-strip";
 import { PainSection } from "@/components/pain/pain-section";
 import { PeopleSection } from "@/components/people/people-section";
 import { ProofBand } from "@/components/proof-band/proof-band";
+import { SuccessStories } from "@/components/stories/success-stories";
+import { homeStories } from "@/content/stories";
 import { pageMetadata } from "@/lib/site";
 
 export const metadata = pageMetadata({ path: "/" });
@@ -148,6 +150,22 @@ const proof = {
   ],
 } as const;
 
+// "Proof from real people": three approved success stories (testimonials
+// doc, 22 November; picked by Nithish: Karandeep featured, Rahul, Dheeraj).
+// The students' words live in src/content/stories.ts, word for word. Section
+// copy by the copy team, used as is; the context line keeps Karandeep's
+// 4 weeks from reading as typical.
+const successStories = {
+  id: "stories",
+  eyebrow: "Where they started",
+  title: "Applying for months, graduated with internships, stuck at Amazon.",
+  lead: "All three had support through their first 90 days in the new job, and Nithish still talks to them regularly.",
+  stories: homeStories.map(({ story }) => story),
+  context:
+    "Karandeep’s offer came faster than most. An offer typically takes 1 to 4 months, and 82 in 100 students land a role.",
+  link: { href: "/book-a-call", label: "Tell us where you’re starting on a discovery call" },
+} as const;
+
 // "The mentors". The two co-founders for now; mentor cards join when the
 // mentor list arrives. Facts from the operating brief only. Nithish said the
 // details will change later (21 November); Bhogeshwar's line is drawn from
@@ -278,8 +296,6 @@ const cta = {
   note: "Bring one job post you’d love to land.",
 } as const;
 
-// More homepage sections (testimonials) arrive in the next
-// pull requests of module 1.3 and in 1.4.
 export default function HomePage() {
   return (
     <main id="main">
@@ -288,6 +304,7 @@ export default function HomePage() {
       <PainSection {...pain} />
       <AscentSection {...ascent} />
       <ProofBand {...proof} />
+      <SuccessStories {...successStories} />
       <PeopleSection {...team} />
       <FaqSection {...faq} />
       <CtaBand {...cta} />
