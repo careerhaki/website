@@ -1,9 +1,10 @@
 import Image from "next/image";
 import type { CSSProperties } from "react";
 
-import { BAR_SCALE_MONTHS, type Story } from "@/content/stories";
+import type { Story } from "@/content/stories";
 
 import styles from "./success-stories.module.css";
+import { TimeBars } from "./time-bars";
 
 /** Logo height on the card before its optical boost, in px. */
 const LOGO_H = 22;
@@ -41,24 +42,7 @@ export function StoryCard({
           <p>{card}</p>
         </blockquote>
 
-        {bars && bars.length > 0 ? (
-          <ul className={styles.bars}>
-            {bars.map((bar) => (
-              <li key={bar.label} className={styles.bar}>
-                <span className={styles.barLabel}>{bar.label}</span>
-                <span className={styles.vh}>: </span>
-                <span className={styles.rail} aria-hidden="true">
-                  <span
-                    className={styles.fill}
-                    data-tone={bar.tone}
-                    style={{ "--w": Math.min(1, bar.months / BAR_SCALE_MONTHS) } as CSSProperties}
-                  />
-                </span>
-                <span className={styles.barValue}>{bar.value}</span>
-              </li>
-            ))}
-          </ul>
-        ) : null}
+        {bars ? <TimeBars bars={bars} /> : null}
 
         <figcaption className={styles.caption}>
           {showPhoto && photo ? (

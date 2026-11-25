@@ -100,3 +100,16 @@ export const alumniRows: readonly (readonly AlumniLogo[])[] = [
     { id: "adastra", name: "Adastra", src: adastra },
   ],
 ];
+
+/** A logo's width over its height. */
+export const logoRatio = (logo: AlumniLogo) => logo.src.width / logo.src.height;
+
+/**
+ * Optical size factor: equal visual area, so a long wordmark doesn't tower
+ * over a square mark (clamped 0.62 to 1.45), then the logo's own boost.
+ * Shared by the logo strip and the Results page's logo wall.
+ */
+export function logoScale(logo: AlumniLogo) {
+  const k = Math.min(1.45, Math.max(0.62, Math.sqrt(3.2 / logoRatio(logo))));
+  return k * (logo.boost ?? 1);
+}
