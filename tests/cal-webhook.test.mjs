@@ -144,10 +144,10 @@ test("questions added under their own identifiers are found by label", () => {
   assert.equal(lead[f.heardAboutUs], "A friend");
 });
 
-test("picker answer: left out of the lead while the Starting point column has no id", () => {
+test("picker answer: written to Starting point; left out when there is none", () => {
   const withAnswer = structuredClone(booking);
   withAnswer.payload.metadata.starting_point = "My applications aren’t landing · Data";
-  const lead = bookingToLead(withAnswer);
-  assert.ok(!Object.values(lead).includes("My applications aren’t landing · Data"));
-  assert.ok(!Object.keys(lead).includes(""));
+  assert.equal(bookingToLead(withAnswer)[f.startingPoint], "My applications aren’t landing · Data");
+  assert.equal(f.startingPoint in bookingToLead(booking), false);
+  assert.ok(!Object.keys(bookingToLead(withAnswer)).includes(""));
 });
