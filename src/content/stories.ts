@@ -198,6 +198,7 @@ export const stories: readonly Story[] = [
     first90Days:
       "Nithish helped me understand the wider business and how to handle stakeholders and what they ask for. He also showed me how to make an impact on my team.",
     monthsToOffer: 3,
+    bars: [{ label: "Joining to offer", value: "Within 3 months", months: 3, tone: "with" }],
     placements: [{ page: "ascent", stage: "prepare" }, { page: "results" }],
   },
   {
@@ -257,6 +258,10 @@ export const stories: readonly Story[] = [
     first90Days:
       "At KOHO I focused on the business problems the company was solving, beyond the SQL and dashboards. Nithish had trained me to ask how my analysis would help stakeholders decide faster, and that helped me build trust with senior leadership right away.",
     monthsToOffer: 2,
+    bars: [
+      { label: "On his own", value: "6 months applying", months: 6, tone: "before" },
+      { label: "With CareerHaki", value: "Offer in 2 months", months: 2, tone: "with" },
+    ],
     placements: [{ page: "ascent", stage: "thrive" }, { page: "results" }],
   },
 ];

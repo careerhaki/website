@@ -22,3 +22,11 @@ export const legalLinks = [
   { href: "/privacy", label: "Privacy" },
   { href: "/terms", label: "Terms" },
 ] as const;
+
+/**
+ * Pages that exist today. A link to a page that isn't built yet is left out
+ * (never a dead link): the Results page's stage links appear by themselves
+ * once "/the-ascent" is added here. A unit test checks this list against
+ * src/app, both ways for "/the-ascent".
+ */
+export const builtPages: ReadonlySet<string> = new Set(["/", "/book-a-call", "/results"]);

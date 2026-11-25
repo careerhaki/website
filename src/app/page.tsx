@@ -8,6 +8,7 @@ import { PainSection } from "@/components/pain/pain-section";
 import { PeopleSection } from "@/components/people/people-section";
 import { ProofBand } from "@/components/proof-band/proof-band";
 import { SuccessStories } from "@/components/stories/success-stories";
+import { ctaBand } from "@/content/cta-band";
 import { homeStories } from "@/content/stories";
 import { pageMetadata } from "@/lib/site";
 
@@ -273,29 +274,6 @@ const faq = {
   ],
 } as const;
 
-// "The call to book". Written by the copy team (21 November; checkpoint
-// review 5.10), approved by Nithish. Two claims are assumed and listed in
-// the checkpoint review to confirm before launch: a founder takes every
-// discovery call (6.2) and names the first thing to fix (6.4), and a
-// candidate can bring a job post to it (6.5). Nothing on price or length.
-const cta = {
-  id: "book",
-  eyebrow: "Your next step",
-  title: {
-    before: "See ",
-    mark: "how close",
-    after: " you are",
-    line2: "to your next role.",
-  },
-  lead: (
-    <>
-      One of our two founders looks at the role you want next to the experience you have. You
-      leave knowing what to fix first, whether or not you join <span translate="no">The Ascent</span>.
-    </>
-  ),
-  note: "Bring one job post you’d love to land.",
-} as const;
-
 export default function HomePage() {
   return (
     <main id="main">
@@ -307,7 +285,7 @@ export default function HomePage() {
       <SuccessStories {...successStories} />
       <PeopleSection {...team} />
       <FaqSection {...faq} />
-      <CtaBand {...cta} />
+      <CtaBand {...ctaBand} />
     </main>
   );
 }

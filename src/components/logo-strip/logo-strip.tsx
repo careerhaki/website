@@ -1,4 +1,4 @@
-import type { AlumniLogo } from "./alumni-logos";
+import { type AlumniLogo, logoRatio, logoScale } from "./alumni-logos";
 import styles from "./logo-strip.module.css";
 import { type BeltRow, SpotlightBelt } from "./spotlight-belt";
 
@@ -18,16 +18,8 @@ const GAP = { phone: 36, wide: 56 } as const;
 /** Drift speed in px per second; a phone row moves as calmly as a desktop's. */
 const SPEED = { phone: 26, wide: 32 } as const;
 
-const ratio = (logo: AlumniLogo) => logo.src.width / logo.src.height;
-
-/**
- * Equal visual area, so a long wordmark doesn't tower over a square mark,
- * then the logo's own boost (small lettering drawn larger).
- */
-function scale(logo: AlumniLogo) {
-  const k = Math.min(1.45, Math.max(0.62, Math.sqrt(3.2 / ratio(logo))));
-  return k * (logo.boost ?? 1);
-}
+const ratio = logoRatio;
+const scale = logoScale;
 
 /** One copy of the row's set, in seconds of drift at the size's speed. */
 function duration(row: readonly AlumniLogo[], size: "phone" | "wide") {
