@@ -143,3 +143,11 @@ test("questions added under their own identifiers are found by label", () => {
   assert.equal(lead[f.phone], "+14165550100");
   assert.equal(lead[f.heardAboutUs], "A friend");
 });
+
+test("picker answer: left out of the lead while the Starting point column has no id", () => {
+  const withAnswer = structuredClone(booking);
+  withAnswer.payload.metadata.starting_point = "My applications aren’t landing · Data";
+  const lead = bookingToLead(withAnswer);
+  assert.ok(!Object.values(lead).includes("My applications aren’t landing · Data"));
+  assert.ok(!Object.keys(lead).includes(""));
+});

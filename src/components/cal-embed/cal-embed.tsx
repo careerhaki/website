@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { preconnect } from "react-dom";
 
 import { attributionKeys, calBrandColor, calLink } from "@/lib/booking";
+import { pickerMetadata, readPickerAnswer } from "@/lib/picker-answer";
 
 import styles from "./cal-embed.module.css";
 
@@ -60,10 +61,15 @@ function installCal(): CalApi {
   return cal;
 }
 
-/** Where the visitor came from, sent with the booking so it reaches the CRM. */
+/** Where the visitor came from, and their Results picker answer if they gave
+    one in this tab, sent with the booking so it reaches the CRM. Metadata is
+    never shown on the booking form. */
 function attribution(): Record<string, string> {
   const params = new URLSearchParams(window.location.search);
-  const meta: Record<string, string> = { page: window.location.pathname };
+  const meta: Record<string, string> = {
+    page: window.location.pathname,
+    ...pickerMetadata(readPickerAnswer()),
+  };
   for (const key of attributionKeys) {
     const value = params.get(key);
     if (value) meta[key] = value.slice(0, 200);
@@ -111,7 +117,11 @@ export function CalEmbed() {
       cal("on", {
         action: "bookingSuccessful",
         callback: () => {
-          window.posthog?.capture("discovery_call_booked");
+          const answer = readPickerAnswer();
+          window.posthog?.capture(
+            "discovery_call_booked",
+            answer ? { picker_start: answer.start, picker_field: answer.field } : undefined,
+          );
           window.gtag?.("event", "discovery_call_booked");
         },
       });
