@@ -3,6 +3,7 @@
 import { type ReactNode, useEffect, useRef, useState } from "react";
 
 import { type Field, fields, type StartingPoint, startingPoints } from "@/content/results";
+import { pickerText, savePickerAnswer } from "@/lib/picker-answer";
 
 import styles from "./results.module.css";
 
@@ -15,6 +16,21 @@ export type PickerRow = {
 };
 
 const fieldName = new Map<Field, string>(fields.map((f) => [f.id, f.label.toLowerCase()]));
+
+const startLabel = new Map<StartingPoint, string>(startingPoints.map((p) => [p.id, p.label]));
+const fieldLabel = new Map<Field, string>(fields.map((f) => [f.id, f.label]));
+
+/**
+ * After each tap: remember the answer for the booking (hidden Cal.com
+ * metadata, decided with Nithish 24 Nov) and count it in PostHog.
+ * `window.posthog` exists on the production deployment only, so previews
+ * and local work count nothing, like the rest of analytics.
+ */
+function recordAnswer(start: StartingPoint | null, field: Field | null, matches: number) {
+  const text = pickerText(start && (startLabel.get(start) ?? null), field && (fieldLabel.get(field) ?? null));
+  savePickerAnswer(text ? { start, field, text } : null);
+  if (text) window.posthog?.capture("results_picker_answer", { start, field, matches });
+}
 
 const stories = (n: number) => (n === 1 ? "1 story" : `${n} stories`);
 
@@ -84,9 +100,17 @@ export function StoryPicker({ rows, showAllLabel }: { rows: readonly PickerRow[]
   const formRef = useRef<HTMLFormElement>(null);
   // "Clear choices" goes away once used, so focus moves to the first answer
   // rather than being lost to the page.
+  const choose = (nextStart: StartingPoint | null, nextField: Field | null) => {
+    setStart(nextStart);
+    setField(nextField);
+    const n = rows.filter(
+      (r) => (nextStart === null || r.matches.includes(nextStart)) && (nextField === null || r.field === nextField),
+    ).length;
+    recordAnswer(nextStart, nextField, n);
+  };
+
   const clear = () => {
-    setStart(null);
-    setField(null);
+    choose(null, null);
     formRef.current?.querySelector<HTMLInputElement>("input")?.focus();
   };
 
@@ -103,7 +127,7 @@ export function StoryPicker({ rows, showAllLabel }: { rows: readonly PickerRow[]
                   name="start"
                   value={p.id}
                   checked={start === p.id}
-                  onChange={() => setStart(p.id)}
+                  onChange={() => choose(p.id, field)}
                 />
                 <span>{p.label}</span>
               </label>
@@ -120,7 +144,7 @@ export function StoryPicker({ rows, showAllLabel }: { rows: readonly PickerRow[]
                   name="field"
                   value={f.id}
                   checked={field === f.id}
-                  onChange={() => setField(f.id)}
+                  onChange={() => choose(start, f.id)}
                 />
                 <span>{f.label}</span>
               </label>

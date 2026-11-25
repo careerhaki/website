@@ -230,3 +230,31 @@ test("no sideways scroll on a 360px phone, with every story open and the wall ex
     expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBe(0);
   }
 });
+
+test("picker answer: kept for this tab for the booking, counted, cleared with the choices", async ({ page }) => {
+  await page.addInitScript(() => {
+    window.__events = [];
+    window.posthog = { capture: (name, props) => window.__events.push({ name, props }) };
+  });
+  await page.goto("/results");
+  const stored = () => page.evaluate(() => JSON.parse(sessionStorage.getItem("careerhaki:picker") ?? "null"));
+  expect(await stored()).toBeNull();
+
+  await pick(page, "My applications aren’t landing");
+  await pick(page, "Data");
+  expect(await stored()).toEqual({
+    start: "applications",
+    field: "data",
+    text: "My applications aren’t landing · Data",
+  });
+  const events = await page.evaluate(() => window.__events);
+  expect(events.at(-1)).toEqual({
+    name: "results_picker_answer",
+    props: { start: "applications", field: "data", matches: 3 },
+  });
+
+  await page.getByRole("button", { name: "Clear choices" }).click();
+  expect(await stored()).toBeNull();
+  // Nothing new on screen: no text mentions the booking.
+  await expect(page.locator("main")).not.toContainText("booking");
+});

@@ -33,6 +33,10 @@ export const airtable = {
     jobPost: "flduiQJVuNWxqsMV0",
     heardAboutUs: "fldmC8KTy2JOnt8yN",
     bookingId: "fld0lfszVjoTOgCIm",
+    /** "Starting point": the Results picker's answer. Empty until the column
+        exists in Airtable (a field id it doesn't know would make Airtable
+        reject the whole lead), so the answer is simply left out until then. */
+    startingPoint: "",
   },
 } as const;
 
@@ -139,6 +143,8 @@ export function bookingToLead(body: CalBooking, now: Date = new Date()): Record<
     [f.referredBy]: text(meta.ref),
     [f.bookingId]: text(payload.uid),
   };
+  const startingPointField: string = f.startingPoint;
+  if (startingPointField) fields[startingPointField] = text(meta.starting_point).slice(0, 200);
 
   return Object.fromEntries(Object.entries(fields).filter(([, value]) => value !== ""));
 }

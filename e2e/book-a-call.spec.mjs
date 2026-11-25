@@ -96,3 +96,36 @@ test("on this page the navigation's button is a quiet outline", async ({ page },
   const bg = await pill.evaluate((el) => getComputedStyle(el).backgroundColor);
   expect(bg).toBe("rgba(0, 0, 0, 0)");
 });
+
+test("the Results picker answer rides with the booking as hidden metadata", async ({ page }) => {
+  await page.addInitScript(() => {
+    sessionStorage.setItem(
+      "careerhaki:picker",
+      JSON.stringify({ start: "graduate", field: "cloud", text: "I’m a recent graduate · Cloud" }),
+    );
+    // A stand-in for Cal.com's loader that records what the page asks of it.
+    window.__cal = [];
+    const ns = (...args) => window.__cal.push(args);
+    const cal = (...args) => window.__cal.push(args);
+    cal.ns = { "discovery-call": ns };
+    cal.q = [];
+    cal.loaded = true;
+    window.Cal = cal;
+  });
+  await page.goto("/book-a-call");
+  // The calendar starts on the visitor's first move, once the page has hydrated.
+  let x = 10;
+  await expect
+    .poll(async () => {
+      await page.mouse.move((x += 7), 20);
+      return page.evaluate(() => window.__cal.some((c) => c[0] === "inline"));
+    })
+    .toBe(true);
+  const inline = await page.evaluate(() => window.__cal.find((c) => c[0] === "inline")[1].config);
+  expect(inline["metadata[starting_point]"]).toBe("I’m a recent graduate · Cloud");
+  expect(inline["metadata[picker_start]"]).toBe("graduate");
+  expect(inline["metadata[picker_field]"]).toBe("cloud");
+  expect(inline["metadata[page]"]).toBe("/book-a-call");
+  // Prefill keys (name, notes, title…) are not touched: the visitor sees nothing new.
+  for (const key of ["name", "email", "notes", "title"]) expect(inline).not.toHaveProperty(key);
+});
