@@ -54,7 +54,7 @@ export default function ResultsPage() {
           </p>
         </header>
 
-        <StoryPicker rows={rows} showAllLabel="All eight stories" />
+        <StoryPicker rows={rows} showAllLabel="Where they started, where they work now" />
 
         <div className={styles.closing}>
           <ul className={styles.figures}>

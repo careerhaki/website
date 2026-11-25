@@ -60,7 +60,7 @@ test("all eight stories, in order, every part word for word from stories.ts", as
 
 test("picker: a tap reorders and hides nothing; feedback and subheadings", async ({ page }) => {
   await page.goto("/results");
-  await expect(page.locator("#main h2").first()).toHaveText("All eight stories");
+  await expect(page.locator("#main h2").first()).toHaveText("Where they started, where they work now");
   await expect(feedback(page)).toHaveText("");
 
   await pick(page, "I’m junior and ready to move up");
@@ -78,7 +78,7 @@ test("picker: a tap reorders and hides nothing; feedback and subheadings", async
   await pick(page, "Cloud");
   await expect(feedback(page)).toHaveText("None of the eight started exactly here. All eight are still below ↓");
   expect(await rowIds(page)).toEqual(ORDER);
-  await expect(page.locator("#results-all")).toHaveText("All eight stories");
+  await expect(page.locator("#results-all")).toHaveText("Where they started, where they work now");
 
   await pick(page, "I’m a recent graduate");
   await expect(feedback(page)).toHaveText("1 story started where you are, in cloud ↓");
