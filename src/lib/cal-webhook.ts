@@ -33,10 +33,10 @@ export const airtable = {
     jobPost: "flduiQJVuNWxqsMV0",
     heardAboutUs: "fldmC8KTy2JOnt8yN",
     bookingId: "fld0lfszVjoTOgCIm",
-    /** "Starting point": the Results picker's answer. Empty until the column
-        exists in Airtable (a field id it doesn't know would make Airtable
-        reject the whole lead), so the answer is simply left out until then. */
-    startingPoint: "",
+    /** "Starting point": the Results picker's answer (column added by Nithish,
+        25 November 2026). If it is ever deleted, set this to "" so leads
+        aren't rejected for an unknown field. */
+    startingPoint: "fldFmI18ZpncYIJvR",
   },
 } as const;
 
