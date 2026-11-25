@@ -52,7 +52,7 @@ Used by the homepage strip (`src/components/logo-strip/`, list and order in
 | sita.svg | SITA | Ready | |
 | stella-jones.svg | Stella-Jones | Edited | White "Inc." (for dark backgrounds) set to the logo's blue |
 | ts-imagine.svg | TS Imagine | Edited | White trademark letters set to the wordmark's navy |
-| valsoft.png | ValSoft | Usable, better file wanted | Came on a light blue background (removed) and is 64 px tall, so slightly soft. An SVG is wanted |
+| valsoft.png | ValSoft | Usable, better file wanted | Came on a light blue background (removed, at the edges and, since 25 Nov, inside the O and A, where it turned grey in one colour) and is 64 px tall, so slightly soft. An SVG is wanted |
 | zs-associates.svg | ZS Associates | Ready | Its light greys are faint at full colour; fine at rest in one colour |
 
 ## Still to come
