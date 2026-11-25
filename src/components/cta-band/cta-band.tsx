@@ -4,7 +4,6 @@ import { ButtonAnchor, ButtonLink } from "@/components/button";
 import { whatsappUrl } from "@/lib/contact";
 import { bookingPath } from "@/lib/navigation";
 
-import styles from "./cta-band.module.css";
 
 type CtaBandProps = {
   id: string;
@@ -46,20 +45,20 @@ const whatsapp = whatsappUrl();
 export function CtaBand({ id, eyebrow, title, lead, note }: CtaBandProps) {
   const titleId = `${id}-title`;
   return (
-    <section id={id} className={styles.band} aria-labelledby={titleId}>
-      <div className={styles.inner}>
-        <p className={styles.eyebrow}>{eyebrow}</p>
-        <h2 id={titleId} className={styles.title}>
-          <span className={styles.line}>
+    <section id={id} className="cta-band" aria-labelledby={titleId}>
+      <div className="cta-band-inner">
+        <p className="cta-band-eyebrow">{eyebrow}</p>
+        <h2 id={titleId} className="cta-band-title">
+          <span className="cta-band-line">
             {title.before}
-            <span className={styles.mark}>{title.mark}</span>
+            <span className="cta-band-mark">{title.mark}</span>
             {title.after}
           </span>{" "}
-          <span className={`${styles.line} ${styles.line2}`}>{title.line2}</span>
+          <span className="cta-band-line cta-band-line2">{title.line2}</span>
         </h2>
-        <p className={styles.lead}>{lead}</p>
-        <div className={styles.actions}>
-          <ButtonLink href={bookingPath} arrow className={styles.book} data-hero-cta="">
+        <p className="cta-band-lead">{lead}</p>
+        <div className="cta-band-actions">
+          <ButtonLink href={bookingPath} arrow className="cta-band-book" data-hero-cta="">
             Book a discovery call
           </ButtonLink>
           {whatsapp ? (
@@ -68,7 +67,7 @@ export function CtaBand({ id, eyebrow, title, lead, note }: CtaBandProps) {
             </ButtonAnchor>
           ) : null}
         </div>
-        <p className={styles.note}>{note}</p>
+        <p className="cta-band-note">{note}</p>
       </div>
     </section>
   );
