@@ -258,3 +258,33 @@ test("picker answer: kept for this tab for the booking, counted, cleared with th
   // Nothing new on screen: no text mentions the booking.
   await expect(page.locator("main")).not.toContainText("booking");
 });
+
+test("closing, option C: figures centred on the ink band; logo tiles in an even grid", async ({ page }, testInfo) => {
+  await page.goto("/results");
+  const fig = page.locator("main ul li", { hasText: "average salary increase" }).first();
+  const band = fig.locator("xpath=ancestor::section[1]");
+  expect(await band.evaluate((el) => getComputedStyle(el, "::before").backgroundColor)).toBe("rgb(38, 38, 38)");
+  expect(await band.evaluate((el) => getComputedStyle(el).textAlign)).toBe("center");
+  const value = fig.locator("span").first();
+  expect(await value.evaluate((el) => getComputedStyle(el).color)).toBe("rgb(225, 112, 50)");
+  // Each figure stays on one line and inside its column.
+  for (const li of await page.locator("main ul li", { has: page.locator("span") }).filter({ hasText: /CareerHaki|salary|land a role/ }).all()) {
+    const [v, box] = await Promise.all([li.locator("span").first().boundingBox(), li.boundingBox()]);
+    expect(v.height).toBeLessThan(140);
+    expect(v.x).toBeGreaterThanOrEqual(box.x - 1);
+    expect(v.x + v.width).toBeLessThanOrEqual(box.x + box.width + 1);
+  }
+  const list = page.locator("#alumni-wall-list");
+  const cols = await list.evaluate((el) => getComputedStyle(el).gridTemplateColumns.split(" ").length);
+  expect(cols).toBe(isPhone(testInfo) ? 2 : 6);
+  if (!isPhone(testInfo)) {
+    // The label covers the first two tiles; 34 logos fill six full rows.
+    const label = await page.locator("#alumni-wall-label").boundingBox();
+    const first = await list.locator("li").first().boundingBox();
+    expect(Math.abs(label.y - first.y)).toBeLessThan(2);
+    expect(Math.abs(label.x + label.width + 1 - first.x)).toBeLessThan(2);
+    const last = await list.locator("li").last().boundingBox();
+    const box = await list.boundingBox();
+    expect(Math.abs(last.x + last.width + 1 - (box.x + box.width))).toBeLessThan(2);
+  }
+});

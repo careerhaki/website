@@ -480,18 +480,40 @@ a.name {
   margin: 1.25rem 0 0;
 }
 
-/* ----- Closing: figures, notes, the logo wall ----- */
+/* ----- Closing: the ink band (figures, centred), then the logo tiles -----
+   Option C, picked by Nithish on 25 November 2026: the figures take the
+   page's one ink band, centred (a deliberate exception to left-aligned text:
+   three figures in equal columns are a display, not reading text); the wall
+   becomes an even grid of tiles. */
 
-.closing {
-  margin-top: clamp(3.5rem, 7vw, 5.5rem);
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--color-line);
+.band {
+  position: relative;
+  isolation: isolate;
+  overflow-x: clip; /* the ink layer's rounded corners sit outside */
+  color: var(--color-bg);
+  text-align: center;
+  --lights-from: 0.84;
+}
+
+/* The ink ground is its own layer, so it can grow with a transform alone
+   (as the homepage results band, R-A), without touching the text. */
+.band::before {
+  content: "";
+  position: absolute;
+  inset: 0 calc(var(--radius-card) * -1);
+  z-index: -1;
+  border-radius: var(--radius-card);
+  background-color: var(--color-ink);
+}
+
+.bandInner {
+  max-width: var(--container-site);
+  margin-inline: auto;
+  padding: var(--spacing-section) var(--spacing-gutter);
 }
 
 .figures {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.75rem clamp(2.5rem, 6vw, 5rem);
+  display: grid;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -500,28 +522,36 @@ a.name {
 .figure {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.5rem 0;
+}
+
+.figure + .figure {
+  border-top: 1px solid var(--color-on-ink-line);
 }
 
 .figureValue {
+  color: var(--color-accent); /* orange on ink passes AA */
   font-family: var(--font-serif);
-  font-size: var(--text-stat);
+  font-size: var(--text-stat-lg);
   font-weight: 500;
-  line-height: var(--text-stat--line-height);
+  line-height: var(--text-stat-lg--line-height);
   letter-spacing: var(--tracking-headline);
   white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 
 .figureLabel {
-  color: var(--color-muted);
+  color: var(--color-on-ink-muted);
   font-size: var(--text-small);
   line-height: var(--text-small--line-height);
 }
 
 .note {
   max-width: 62ch;
-  margin: 1.5rem 0 0;
-  color: var(--color-muted);
+  margin: 2rem auto 0;
+  color: var(--color-on-ink-muted);
   font-size: var(--text-small);
   line-height: var(--text-small--line-height);
 }
@@ -530,10 +560,16 @@ a.name {
   margin-top: 0.5rem;
 }
 
+.wallPage {
+  max-width: var(--container-site);
+  margin-inline: auto;
+  padding: var(--spacing-section) var(--spacing-gutter);
+}
+
 .wall {
-  margin-top: 2.5rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--color-line);
+  --tile-h: 5.5rem; /* 88px */
+
+  position: relative;
 }
 
 /* Quiet, like the strip's label: the logos are the proof. */
@@ -548,15 +584,18 @@ a.name {
   text-transform: uppercase;
 }
 
+/* Equal tiles divided by hairlines: the 1px gaps show the line colour
+   behind the tiles. Phones: two columns. */
 .wallList {
-  --logo-h: 1.625rem; /* 26px on phones */
+  --logo-h: 1.375rem; /* 22px on phones */
 
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 1.25rem 2.25rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
   margin: 0;
   padding: 0;
+  border: 1px solid var(--color-line);
+  background-color: var(--color-line);
   list-style: none;
 }
 
@@ -573,22 +612,37 @@ a.name {
 .wallItem {
   display: flex;
   align-items: center;
-  max-width: 100%;
+  justify-content: center;
+  height: var(--tile-h);
+  padding: 0 0.875rem;
+  background-color: var(--color-bg);
 }
 
 .wallLogo {
   display: block;
   width: auto;
-  max-width: 100%;
+  max-width: 86%;
   height: calc(var(--logo-h) * var(--k));
+  max-height: 62%;
   object-fit: contain;
   filter: grayscale(1) brightness(0.35) contrast(1.4);
   opacity: 0.82;
+  transition:
+    filter 0.25s,
+    opacity 0.25s;
 }
 
 .wallLogo[data-tone="soft"] {
   filter: grayscale(1) contrast(1.1);
   opacity: 0.9;
+}
+
+/* Pointing at a tile shows the logo in its own colours (real pointers only). */
+@media (hover: hover) and (pointer: fine) {
+  .wallItem:hover .wallLogo {
+    filter: none;
+    opacity: 1;
+  }
 }
 
 /* Phones: the first 12, then "Show all 34 companies". */
@@ -653,10 +707,60 @@ a.name {
     padding-right: 1rem;
   }
 
-  .wallList {
-    --logo-h: 2rem; /* 32px */
+  .band {
+    --lights-from: 0.9;
+  }
 
-    gap: 1.75rem 3.5rem;
+  .figures {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .figure {
+    padding: 0.5rem 1.5rem;
+  }
+
+  /* Three figures share the width: sized so "82 in 100" fits its column. */
+  .figureValue {
+    font-size: min(var(--text-stat-lg), 5.25vw);
+  }
+
+  .figure + .figure {
+    border-top: 0;
+    border-left: 1px solid var(--color-on-ink-line);
+  }
+
+  .note:first-of-type {
+    margin-top: 2.75rem;
+  }
+
+  /* Six columns: the label takes the first two tiles of the top row, so
+     the 34 logos fill the rest exactly (36 tiles, six full rows). */
+  .wall {
+    --tile-h: 7.5rem; /* 120px */
+  }
+
+  .wallList {
+    --logo-h: 1.875rem; /* 30px */
+
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .wallItem:first-child {
+    grid-column-start: 3;
+  }
+
+  .wallLabel {
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    width: calc((100% - 2px - 5px) / 6 * 2 + 1px);
+    height: var(--tile-h);
+    margin: 0;
+    padding: 0 1.25rem;
+    background-color: var(--color-bg);
   }
 
   .more {
@@ -665,6 +769,56 @@ a.name {
 }
 
 /* ----- Motion ----- */
+
+/* The ink band grows from a rounded panel inside the page margins to the
+   full width while it enters the screen (R-A, as on the homepage); each
+   figure rises as it enters, finished before it is wholly on screen; the
+   logo tiles settle in as they arrive. Scroll-driven, inside no-preference
+   (the global reduce-motion rule doesn't stop scroll-driven animation). */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .band {
+      view-timeline: --results-band block;
+    }
+
+    .band::before {
+      animation: results-lights linear both;
+      animation-timeline: --results-band;
+      animation-range: entry 0% entry 90%;
+    }
+
+    .figure {
+      animation: results-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 100%;
+    }
+
+    .wallItem {
+      animation: results-tile linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 100%;
+    }
+  }
+}
+
+@keyframes results-lights {
+  from {
+    scale: var(--lights-from) 1;
+  }
+}
+
+@keyframes results-rise {
+  from {
+    opacity: 0;
+    translate: 0 1rem;
+  }
+}
+
+@keyframes results-tile {
+  from {
+    opacity: 0;
+  }
+}
 
 @media (prefers-reduced-motion: no-preference) {
   /* The opened story's space opens smoothly where the browser can animate

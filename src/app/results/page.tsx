@@ -55,8 +55,11 @@ export default function ResultsPage() {
         </header>
 
         <StoryPicker rows={rows} showAllLabel="Where they started, where they work now" />
+      </div>
 
-        <div className={styles.closing}>
+      {/* The page's one ink band: the figures, centred (Nithish, 25 Nov, option C). */}
+      <section className={styles.band}>
+        <div className={styles.bandInner}>
           <ul className={styles.figures}>
             {figures.map((f) => (
               <li key={f.id} className={styles.figure}>
@@ -81,8 +84,11 @@ export default function ResultsPage() {
             All eight had support through their first 90 days in the new job, and Nithish still talks to
             them regularly.
           </p>
-          <LogoWall id="alumni-wall" label="Where our alumni work" listLabel="Companies where our alumni work" />
         </div>
+      </section>
+
+      <div className={styles.wallPage}>
+        <LogoWall id="alumni-wall" label="Where our alumni work" listLabel="Companies where our alumni work" />
       </div>
       <CtaBand {...ctaBand} />
     </main>
