@@ -1,0 +1,502 @@
+/*
+ * The Ascent page (/the-ascent), layout D: A's chapters on every screen plus
+ * B's phone bar (picked by Nithish, 25 November 2026). Used by this page
+ * only, so a CSS module. The fact row, story card, time bars and the
+ * call-to-action band keep their own styles.
+ *
+ * Motion (all scroll-driven, inside `prefers-reduced-motion: no-preference`;
+ * the global reduce-motion rule doesn't stop scroll-driven animation):
+ * numerals settle as they enter; each definition row's hairline draws and
+ * its words settle, each on its own view timeline; Thrive's ink band grows
+ * from a rounded panel to the full width (R-A); the phone bar's line fills
+ * through the stages and the stage you're reading turns ink. M2 bars come
+ * with `TimeBars`. Still version: everything in place, bars full, band full
+ * width, bar without its line.
+ */
+
+/* ----- Head ----- */
+
+.head {
+  max-width: var(--container-site);
+  margin-inline: auto;
+  padding: clamp(3rem, 6vw, 5.5rem) var(--spacing-gutter) clamp(2.5rem, 5vw, 4.5rem);
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--color-accent-text);
+  font-size: var(--text-eyebrow);
+  font-weight: var(--text-eyebrow--font-weight);
+  line-height: var(--text-eyebrow--line-height);
+  letter-spacing: var(--text-eyebrow--letter-spacing);
+  text-transform: uppercase;
+}
+
+.title {
+  max-width: 19ch;
+  margin: 1rem 0 0;
+  font-size: var(--text-h1);
+  line-height: var(--text-h1--line-height);
+}
+
+.lead {
+  max-width: 62ch;
+  margin: 1.25rem 0 0;
+  color: var(--color-muted);
+  font-size: var(--text-lead);
+  line-height: var(--text-lead--line-height);
+  text-wrap: pretty;
+}
+
+/* The stage index: three links above Prepare, between two hairlines. */
+.index {
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--color-line);
+}
+
+.index ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.indexLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  min-height: 2.75rem; /* 44px target */
+  color: var(--color-ink);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: none;
+}
+
+.indexNumeral,
+.numeral {
+  font-family: var(--font-newsreader-italic), Georgia, "Times New Roman", serif;
+  font-size: var(--text-numeral);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--color-accent-text);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .indexLink:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--color-ink);
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 0.3125rem;
+  }
+}
+
+/* ----- The stages ----- */
+
+.stages {
+  /* The ink, kept here: inside Thrive the ink token is set to bg. */
+  --band-ink: var(--color-ink);
+
+  position: relative;
+}
+
+
+.inner {
+  max-width: var(--container-site);
+  margin-inline: auto;
+  padding: clamp(3.5rem, 7vw, 6.5rem) var(--spacing-gutter);
+}
+
+/* A hairline above each light stage, between the container's side paddings. */
+.stage:not([data-stage="thrive"]) .inner {
+  background-image: linear-gradient(var(--color-line), var(--color-line));
+  background-position: var(--spacing-gutter) 0;
+  background-size: calc(100% - var(--spacing-gutter) * 2) 1px;
+  background-repeat: no-repeat;
+}
+
+.numeral {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.name {
+  margin: 0;
+  font-size: var(--text-h2);
+  line-height: var(--text-h2--line-height);
+}
+
+.line {
+  margin: 0.875rem 0 0;
+  font-weight: var(--font-weight-semibold);
+}
+
+.body {
+  max-width: 52ch;
+  margin: 0.5rem 0 0;
+  color: var(--color-muted);
+  text-wrap: pretty;
+}
+
+.start,
+.note {
+  max-width: 52ch;
+  margin: 1rem 0 0;
+  color: var(--color-muted);
+  font-size: var(--text-small);
+  line-height: var(--text-small--line-height);
+  text-wrap: pretty;
+}
+
+.start {
+  padding-left: 0.875rem;
+  border-left: 2px solid var(--color-accent);
+}
+
+/* Definition rows: a hairline above each, a serif label, one sentence. */
+.rows {
+  margin: 2rem 0 0;
+  padding: 0;
+}
+
+.row {
+  position: relative;
+  padding: 1.125rem 0;
+}
+
+/* The hairline is its own layer so it can draw with a transform. */
+.row::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  background-color: var(--color-line);
+  transform-origin: left;
+}
+
+.term {
+  font-family: var(--font-serif);
+  font-size: 1.375rem; /* 22px, the serif minimum */
+  font-weight: var(--font-weight-medium);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+.detail {
+  max-width: 52ch;
+  margin: 0.375rem 0 0;
+  color: var(--color-muted);
+  text-wrap: pretty;
+}
+
+/* ----- The story panel (the featured story card) ----- */
+
+.panel {
+  margin-top: 2.5rem;
+}
+
+/* Doubled class: the featured card's own sizes are more specific. */
+.panel.panel[data-featured] h3 {
+  max-width: 24ch;
+  font-size: var(--text-h3);
+  line-height: var(--text-h3--line-height);
+  letter-spacing: var(--tracking-headline);
+}
+
+.panel.panel[data-featured] blockquote {
+  max-width: 60ch;
+}
+
+.context {
+  max-width: 62ch;
+  margin: 1rem 0 0;
+  color: var(--color-muted);
+  font-size: var(--text-small);
+  line-height: var(--text-small--line-height);
+}
+
+.more {
+  margin: 0.5rem 0 0;
+}
+
+/* Inline-block, so the arrow follows the last word when the text wraps;
+   the padding keeps a 44px target. */
+.go {
+  display: inline-block;
+  padding-block: 0.625rem;
+  color: var(--color-ink);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.5;
+  text-decoration: underline;
+  text-decoration-color: var(--color-line);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.3125rem;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .go:hover {
+    text-decoration-color: var(--color-ink);
+  }
+}
+
+/* ----- Thrive: the page's one ink band -----
+   The design tokens are set to their on-ink values inside the band, so the
+   story card, time bars, links and focus ring follow without rules of their
+   own. The ink is its own layer (::before) so it can grow with a transform
+   alone, as on the homepage and Results (R-A). */
+
+.stage[data-stage="thrive"] {
+  --color-ink: var(--color-bg);
+  --color-muted: var(--color-on-ink-muted);
+  --color-line: var(--color-on-ink-line);
+  --color-accent-text: var(--color-accent);
+  /* The story panel on the band: a faint light tint. */
+  --color-surface: rgb(250 246 240 / 0.06);
+  --lights-from: 0.84;
+
+  position: relative;
+  isolation: isolate;
+  overflow-x: clip; /* the ink layer's rounded corners sit outside */
+  color: var(--color-bg);
+}
+
+.stage[data-stage="thrive"]::before {
+  content: "";
+  position: absolute;
+  inset: 0 calc(var(--radius-card) * -1);
+  z-index: -1;
+  border-radius: var(--radius-card);
+  background-color: var(--band-ink);
+}
+
+/* A logo in one colour reads light on the band (Jothi has none yet). */
+.stage[data-stage="thrive"] figcaption img {
+  filter: grayscale(1) brightness(0) invert(1);
+  opacity: 0.82;
+}
+
+.facts {
+  max-width: var(--container-site);
+  margin-inline: auto;
+  padding: clamp(3.5rem, 7vw, 6.5rem) var(--spacing-gutter) var(--spacing-section);
+}
+
+/* ----- The phone bar (under 860px only) ----- */
+
+.bar {
+  display: none;
+}
+
+@media (width < 53.75rem) {
+  .bar {
+    position: sticky;
+    top: calc(var(--head-h, 5.25rem) - 1.25rem);
+    z-index: 30;
+    display: block;
+    padding: 0 var(--spacing-gutter);
+    border-bottom: 1px solid var(--color-line);
+    /* Solid: the stages scroll under it and must not show through. */
+    background-color: var(--color-bg);
+  }
+
+  .bar ol {
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .barLink {
+    display: flex;
+    align-items: center;
+    min-height: 2.75rem; /* 44px target */
+    padding-inline: 0.25rem;
+    color: var(--color-muted);
+    font-size: 0.75rem; /* 12px, step-label style */
+    font-weight: var(--font-weight-semibold);
+    line-height: 1;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .barFill {
+    position: absolute;
+    right: 0;
+    bottom: -1px;
+    left: 0;
+    display: none;
+    height: 2px;
+    background-color: var(--color-accent);
+    transform-origin: left;
+  }
+}
+
+/* Phones: anchors and keyboard focus stop below the bar as well as the
+   navigation, never under it. */
+@media (width < 53.75rem) {
+  :global(html):has(.bar) {
+    scroll-padding-top: calc(var(--head-h, 5.25rem) + 2.75rem);
+  }
+}
+
+/* ----- Desktop ----- */
+
+@media (width >= 53.75rem) {
+
+  .chapter {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: 0 clamp(2.5rem, 6vw, 6rem);
+    align-items: start;
+  }
+
+  .rows {
+    margin-top: 0;
+  }
+
+  .panel {
+    margin-top: 3rem;
+  }
+
+  .stage[data-stage="thrive"] {
+    --lights-from: 0.9;
+  }
+}
+
+/* ----- Motion ----- */
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* Numerals settle as they enter. Decorative (aria-hidden). */
+    .numeral {
+      animation: ascent-settle linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 100%;
+    }
+
+    /* P1 family: each row's hairline draws from the left, then its words
+       settle, on the row's own view timeline; finished as the row is wholly
+       on screen, so its words are at full strength when read. */
+    .row {
+      view-timeline: --ascent-row block;
+    }
+
+    .row::before {
+      animation: ascent-draw linear both;
+      animation-timeline: --ascent-row;
+      animation-range: entry 0% entry 80%;
+    }
+
+    .row > * {
+      animation: ascent-settle linear both;
+      animation-timeline: --ascent-row;
+      animation-range: entry 30% entry 100%;
+    }
+
+    /* R-A: the ink grows from a rounded panel inside the margins to the
+       full width while the band enters. */
+    .stage[data-stage="thrive"] {
+      view-timeline: --ascent-thrive block;
+    }
+
+    .stage[data-stage="thrive"]::before {
+      animation: ascent-lights linear both;
+      animation-timeline: --ascent-thrive;
+      animation-range: entry 0% entry 70%;
+    }
+
+    /* The phone bar: its line fills through the stages, and each label
+       turns ink while its stage holds the middle of the screen. */
+    @media (width < 53.75rem) {
+      .stages {
+        timeline-scope: --ascent-prepare, --ascent-land, --ascent-thrive;
+        view-timeline: --ascent-stages block;
+      }
+
+      .stage[data-stage="prepare"] {
+        view-timeline: --ascent-prepare block;
+      }
+
+      .stage[data-stage="land"] {
+        view-timeline: --ascent-land block;
+      }
+
+      .barFill {
+        display: block;
+        animation: ascent-fill linear both;
+        animation-timeline: --ascent-stages;
+        animation-range: contain 0% contain 100%;
+      }
+
+      .barLink {
+        animation-timing-function: linear;
+        animation-range: cover 50vh cover calc(50vh + 1px);
+      }
+
+      .barLink[data-bar="prepare"] {
+        animation-name: ascent-on, ascent-off;
+        animation-fill-mode: both, forwards;
+        animation-timeline: --ascent-prepare, --ascent-land;
+      }
+
+      .barLink[data-bar="land"] {
+        animation-name: ascent-on, ascent-off;
+        animation-fill-mode: both, forwards;
+        animation-timeline: --ascent-land, --ascent-thrive;
+      }
+
+      .barLink[data-bar="thrive"] {
+        animation-name: ascent-on;
+        animation-fill-mode: both;
+        animation-timeline: --ascent-thrive;
+      }
+    }
+  }
+}
+
+@keyframes ascent-settle {
+  from {
+    opacity: 0;
+    translate: 0 0.75rem;
+  }
+}
+
+@keyframes ascent-draw {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes ascent-lights {
+  from {
+    scale: var(--lights-from) 1;
+  }
+}
+
+@keyframes ascent-fill {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes ascent-on {
+  from {
+    color: var(--color-muted);
+  }
+  to {
+    color: var(--color-ink);
+  }
+}
+
+@keyframes ascent-off {
+  from {
+    color: var(--color-ink);
+  }
+  to {
+    color: var(--color-muted);
+  }
+}

@@ -29,4 +29,4 @@ export const legalLinks = [
  * once "/the-ascent" is added here. A unit test checks this list against
  * src/app, both ways for "/the-ascent".
  */
-export const builtPages: ReadonlySet<string> = new Set(["/", "/book-a-call", "/results"]);
+export const builtPages: ReadonlySet<string> = new Set(["/", "/the-ascent", "/results", "/book-a-call"]);

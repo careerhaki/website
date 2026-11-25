@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "../components/cta-band/cta-band.css";
+@import "../components/fact-row/fact-row.css";
 
 /*
  * CareerHaki design tokens.

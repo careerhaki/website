@@ -1,5 +1,5 @@
 import Image from "next/image";
-import type { CSSProperties } from "react";
+import type { CSSProperties, ReactNode } from "react";
 
 import type { Story } from "@/content/stories";
 
@@ -20,26 +20,51 @@ const LOGO_H = 22;
  * - The photo shows only when `showPhoto` is true (the photo rule is applied
  *   by the section, across the row).
  * - The bars are decorative; their numbers are always plain text.
+ *
+ * The Ascent page uses the featured card as each stage's story panel, with
+ * an eyebrow-style `label`, another of the student's approved texts in
+ * quotes (`words`), and a context line and link after the figure (`after`).
+ * The homepage passes none of these.
  */
 export function StoryCard({
   story,
   featured = false,
   showPhoto,
+  label,
+  words,
+  after,
+  className,
+  headingId,
 }: {
   story: Story;
   featured?: boolean;
   showPhoto: boolean;
+  label?: string;
+  /** Which approved text to show; the card text by default. */
+  words?: "card" | "changed" | "first90Days";
+  after?: ReactNode;
+  className?: string;
+  headingId?: string;
 }) {
-  const { name, role, company, logo, linkedinUrl, photo, headline, card, bars } = story;
+  const { name, role, company, logo, linkedinUrl, photo, headline, bars } = story;
+  const text = story[words ?? "card"];
   const logoH = Math.round(LOGO_H * (logo?.boost ?? 1));
   const logoW = logo ? Math.round((logoH * logo.src.width) / logo.src.height) : 0;
 
   return (
-    <article className={styles.card} data-featured={featured ? "" : undefined}>
-      <h3 className={styles.headline}>{headline}</h3>
+    <article
+      className={className ? `${styles.card} ${className}` : styles.card}
+      data-featured={featured ? "" : undefined}
+      aria-labelledby={headingId}
+    >
+      {label ? <p className={styles.label}>{label}</p> : null}
+      <h3 id={headingId} className={styles.headline}>
+        {headline}
+      </h3>
       <figure className={styles.figure}>
         <blockquote className={styles.quote}>
-          <p>{card}</p>
+          {/* The homepage shows the card text as is; other texts in quotes. */}
+          <p>{words ? `“${text}”` : text}</p>
         </blockquote>
 
         {bars ? <TimeBars bars={bars} /> : null}
@@ -81,6 +106,7 @@ export function StoryCard({
           ) : null}
         </figcaption>
       </figure>
+      {after}
     </article>
   );
 }

@@ -75,3 +75,6 @@ jobs:
 
       - name: Lighthouse, mobile, Results
         run: node scripts/lighthouse-check.mjs http://localhost:3000/results
+
+      - name: Lighthouse, mobile, The Ascent
+        run: node scripts/lighthouse-check.mjs http://localhost:3000/the-ascent

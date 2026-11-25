@@ -67,6 +67,17 @@
   border-top: 1px solid var(--color-line);
 }
 
+/* An eyebrow-style label above the headline (The Ascent page's panels). */
+.label {
+  margin: 0 0 0.75rem;
+  color: var(--color-accent-text);
+  font-size: var(--text-eyebrow);
+  font-weight: var(--text-eyebrow--font-weight);
+  line-height: var(--text-eyebrow--line-height);
+  letter-spacing: var(--text-eyebrow--letter-spacing);
+  text-transform: uppercase;
+}
+
 .headline {
   max-width: 24ch;
   margin: 0;

@@ -1,7 +1,5 @@
 import type { CSSProperties } from "react";
 
-import styles from "./fact-row.module.css";
-
 export type Fact = {
   label: string;
   line: string;
@@ -23,15 +21,15 @@ export function FactRow({
 }) {
   if (facts.length === 0) return null;
   return (
-    <ul role="list" className={[styles.row, className ?? ""].join(" ")} data-facts="">
+    <ul role="list" className={className ? `fact-row ${className}` : "fact-row"} data-facts="">
       {facts.map((fact, index) => (
         <li
           key={fact.label}
-          className={styles.fact}
+          className="fact-row-fact"
           style={{ "--fact-index": index } as CSSProperties}
         >
-          <span className={styles.label}>{fact.label}</span>
-          <span className={styles.line}>{fact.line}</span>
+          <span className="fact-row-label">{fact.label}</span>
+          <span className="fact-row-line">{fact.line}</span>
         </li>
       ))}
     </ul>
