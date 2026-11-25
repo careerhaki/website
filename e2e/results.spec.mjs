@@ -117,17 +117,15 @@ test("an opened story stays open when the list reorders", async ({ page }) => {
   await expect(page.locator("#priya details")).toHaveAttribute("open", "");
 });
 
-test("opened story: toggle text, the booking panel, no stage link until The Ascent page exists", async ({ page }) => {
+test("opened story: toggle text, no booking panel, no stage link until The Ascent page exists", async ({ page }) => {
   await page.goto("/results");
   const row = page.locator("#prathyusha");
   const shown = () => row.locator("summary").evaluate((el) => el.innerText.trim());
   expect(await shown()).toBe("Read Prathyusha’s story");
   await row.locator("summary").click();
   await expect.poll(shown).toBe("Hide story");
-  await expect(row).toContainText("Your starting point isn’t Prathyusha’s.");
-  const book = row.getByRole("link", { name: "Book a discovery call" });
-  await expect(book).toHaveAttribute("href", "/book-a-call");
-  expect(await book.evaluate((a) => a.getBoundingClientRect().height)).toBeGreaterThanOrEqual(44);
+  // The call-to-action band ends the page; no booking panel per story.
+  await expect(page.locator("main details a[href='/book-a-call']")).toHaveCount(0);
   await expect(page.locator("main a[href^='/the-ascent']")).toHaveCount(0);
 });
 

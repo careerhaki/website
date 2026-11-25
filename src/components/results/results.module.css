@@ -480,20 +480,6 @@ a.name {
   margin: 1.25rem 0 0;
 }
 
-.book {
-  margin-top: 1.75rem;
-  padding: 1.5rem;
-  border-radius: var(--radius-card);
-  background-color: var(--color-surface);
-}
-
-.book p {
-  margin: 0 0 1rem;
-  font-size: var(--text-body);
-  line-height: 1.5;
-  text-wrap: pretty;
-}
-
 /* ----- Closing: figures, notes, the logo wall ----- */
 
 .closing {

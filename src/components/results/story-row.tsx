@@ -2,10 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
 
-import { ButtonLink } from "@/components/button";
 import { TimeBars } from "@/components/stories/time-bars";
 import type { ResultsStory } from "@/content/results";
-import { bookingPath, builtPages } from "@/lib/navigation";
+import { builtPages } from "@/lib/navigation";
 
 import styles from "./results.module.css";
 
@@ -40,8 +39,9 @@ function withName(text: string): ReactNode {
  * as the eyebrow, the approved headline and pull-quote, the M2 time bars,
  * then logo, name and role today. "Read {first}’s story" opens the rest in
  * place: Before / What changed / After / First 90 days on a path (as the
- * Book a Call journeys), the stage link once The Ascent page exists, and a
- * booking panel. Every word of the student's is from stories.ts, unchanged.
+ * Book a Call journeys) and the stage link once The Ascent page exists. No
+ * booking panel per story: the call-to-action band ends the page (Nithish,
+ * 24 November). Every word of the student's is from stories.ts, unchanged.
  */
 export function StoryRow({ story, showPhoto }: { story: ResultsStory; showPhoto: boolean }) {
   const { id, first, name, role, company, logo, linkedinUrl, photo } = story;
@@ -129,17 +129,6 @@ export function StoryRow({ story, showPhoto }: { story: ResultsStory; showPhoto:
               </Link>
             </p>
           ) : null}
-          <div className={styles.book}>
-            {/* [ASSUMED] On the call CareerHaki looks at the candidate's
-                situation and says what to work on first (checkpoint 6). */}
-            <p>
-              Your starting point isn’t {first}’s. On a discovery call, we look at yours with you and tell
-              you plainly what to work on first.
-            </p>
-            <ButtonLink href={bookingPath} arrow data-hero-cta="">
-              Book a discovery call
-            </ButtonLink>
-          </div>
         </div>
       </details>
     </article>
