@@ -1,8 +1,8 @@
 import type { StaticImageData } from "next/image";
 
-// The About page's copy. Written by the copy team (round 3, direction B "The
-// hiring standard", panel average 9.2; careerhaki-about-page-decisions.md),
-// pending Nithish's pick of the heading direction. Facts from Nithish: his
+// The About page's copy. Written by the copy team (round 3, direction A
+// "From inside the job market", picked by Nithish on 26 November; H1 panel
+// 9.3; careerhaki-about-page-decisions.md). Facts from Nithish: his
 // title at Insight (26 Nov); why CareerHaki exists, in his words (26 Nov);
 // 1,400+ students taught at Centennial, attributed to him personally. Only
 // confirmed facts for Bhogeshwar until Nithish has asked him.
@@ -53,17 +53,17 @@ export const founders: readonly Founder[] = [
 export const aboutPage = {
   title: "About Nithish Reddy and Bhogeshwar Reddy",
   description:
-    "Meet Nithish Reddy and Bhogeshwar Reddy, CareerHaki’s co-founders in Ottawa, and why they coach you to the standard of the teams that hire.",
+    "Meet Nithish Reddy and Bhogeshwar Reddy, CareerHaki’s co-founders in Ottawa, and the mentors who coach you from inside the job market.",
   head: {
     eyebrow: "About CareerHaki",
-    title: "Held to the standard of the teams that hire you.",
+    title: "Coached from inside the job market.",
     lead: "CareerHaki is led from Ottawa by its co-founders, Nithish Reddy and Bhogeshwar Reddy, with mentors who work in your field. We coach candidates in Canada, the US and India.",
   },
   /** For screen readers: the founders follow the head with no visible heading. */
   foundersTitle: "The founders",
   why: {
     eyebrow: "Why we exist",
-    title: "The job market is the syllabus.",
+    title: "Hiring teams set the syllabus.",
     body: [
       "Colleges and universities teach the subject. Hiring teams test whether you can do the job, and the two have drifted far apart. Nithish has seen both sides, as a professor at Centennial College and as a working cloud architect.",
       "CareerHaki brings the real market to you: mentors who work as engineers in your field today, the job posts you’d actually apply to, interview rounds run the way teams run them, and the tools those teams use now. A data engineer reviews a data resume, and a security engineer runs your security mock interview. You have access to several mentors.",
@@ -73,8 +73,8 @@ export const aboutPage = {
   },
   ascent: {
     eyebrow: "The Ascent",
-    title: "Until you’re hired, and 90 days beyond.",
-    lead: "Start at the stage that matches where you are.",
+    title: "Prepare. Land. Thrive.",
+    lead: "Start at the stage that matches where you are, and stay until you’re hired.",
     rows: [
       {
         term: "Not ready to apply yet?",

@@ -132,8 +132,11 @@ export default function AboutPage() {
         <div className={styles.inner}>
           <div className={styles.split}>
             <div>
-              <p className={styles.eyebrow}>{ascent.eyebrow}</p>
-              <h2 id="ascent-title" className={styles.h2}>
+              {/* Program and stage names stay in English under auto-translation. */}
+              <p className={styles.eyebrow} translate="no">
+                {ascent.eyebrow}
+              </p>
+              <h2 id="ascent-title" className={styles.h2} translate="no">
                 {ascent.title}
               </h2>
               <p className={styles.body}>{ascent.lead}</p>
