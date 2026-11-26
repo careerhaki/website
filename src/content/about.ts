@@ -63,7 +63,7 @@ export const aboutPage = {
   foundersTitle: "The founders",
   why: {
     eyebrow: "Why we exist",
-    title: "The market is the syllabus.",
+    title: "The job market is the syllabus.",
     body: [
       "Colleges and universities teach the subject. Hiring teams test whether you can do the job, and the two have drifted far apart. Nithish has seen both sides, as a professor at Centennial College and as a working cloud architect.",
       "CareerHaki brings the real market to you: mentors who work as engineers in your field today, the job posts you’d actually apply to, interview rounds run the way teams run them, and the tools those teams use now. A data engineer reviews a data resume, and a security engineer runs your security mock interview. You have access to several mentors.",
