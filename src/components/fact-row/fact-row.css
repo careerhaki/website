@@ -1,5 +1,9 @@
-/* Fact row: hairline above, short label-and-line pairs. */
-.row {
+/*
+ * Fact row: hairline above, short label-and-line pairs. On the homepage and
+ * The Ascent page, so its styles are global (imported by globals.css): shared
+ * as a CSS module it split the homepage's CSS into a third stylesheet.
+ */
+.fact-row {
   position: relative;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
@@ -10,7 +14,7 @@
 }
 
 /* The hairline, as its own layer so it can draw across with a transform. */
-.row::before {
+.fact-row::before {
   content: "";
   position: absolute;
   inset: 0 0 auto;
@@ -19,17 +23,17 @@
   transform-origin: left;
 }
 
-.fact {
+.fact-row-fact {
   display: flex;
   flex-direction: column;
   gap: 0.25rem; /* 4px */
 }
 
-.label {
+.fact-row-label {
   font-weight: 600;
 }
 
-.line {
+.fact-row-line {
   color: var(--color-muted);
   font-size: var(--text-small);
   line-height: var(--text-small--line-height);
@@ -40,20 +44,20 @@
  * Reveal. Hidden at once, out of sight, while waiting; on arrival the
  * hairline draws across, then the facts rise in turn.
  */
-.row[data-facts-ready]:not([data-facts-in])::before {
+.fact-row[data-facts-ready]:not([data-facts-in])::before {
   transform: scaleX(0);
 }
 
-.row[data-facts-ready]:not([data-facts-in]) > .fact {
+.fact-row[data-facts-ready]:not([data-facts-in]) > .fact-row-fact {
   opacity: 0;
   transform: translateY(0.75rem);
 }
 
-.row[data-facts-in]::before {
+.fact-row[data-facts-in]::before {
   transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
-.row[data-facts-in] > .fact {
+.fact-row[data-facts-in] > .fact-row-fact {
   transition:
     opacity 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) calc(0.2s + var(--fact-index) * 90ms),
     transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) calc(0.2s + var(--fact-index) * 90ms);

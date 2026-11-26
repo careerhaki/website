@@ -117,7 +117,7 @@ test("an opened story stays open when the list reorders", async ({ page }) => {
   await expect(page.locator("#priya details")).toHaveAttribute("open", "");
 });
 
-test("opened story: toggle text, no booking panel, no stage link until The Ascent page exists", async ({ page }) => {
+test("opened story: toggle text, no booking panel, the stage link to The Ascent", async ({ page }) => {
   await page.goto("/results");
   const row = page.locator("#prathyusha");
   const shown = () => row.locator("summary").evaluate((el) => el.innerText.trim());
@@ -126,7 +126,8 @@ test("opened story: toggle text, no booking panel, no stage link until The Ascen
   await expect.poll(shown).toBe("Hide story");
   // The call-to-action band ends the page; no booking panel per story.
   await expect(page.locator("main details a[href='/book-a-call']")).toHaveCount(0);
-  await expect(page.locator("main a[href^='/the-ascent']")).toHaveCount(0);
+  // The Ascent page exists, so each opened story links to its stage.
+  await expect(row.locator("a[href='/the-ascent#prepare']")).toBeVisible();
 });
 
 test("a link for each story: /results#jothi opens it under the navigation; hashchange too", async ({ page }) => {
