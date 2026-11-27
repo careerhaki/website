@@ -1,9 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 
+import { ConsentBanner } from "@/components/consent-banner/consent-banner";
 import { SiteFooter } from "@/components/site-footer/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { Analytics } from "@/lib/analytics";
+import { builtPages } from "@/lib/navigation";
 import { site } from "@/lib/site";
 
 import "./globals.css";
@@ -48,6 +50,10 @@ const newsreaderItalic = localFont({
   preload: false,
 });
 
+// The banner's "How we use your data" link appears once the Privacy page is
+// built (never a dead link).
+const privacyHref = builtPages.has("/privacy") ? "/privacy#cookies-and-analytics" : null;
+
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
@@ -75,6 +81,7 @@ export default function RootLayout({
         <SiteHeader />
         {children}
         <SiteFooter />
+        <ConsentBanner privacyHref={privacyHref} />
         <Analytics />
       </body>
     </html>

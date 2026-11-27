@@ -125,6 +125,11 @@ export function SiteFooter() {
                 {link.label}
               </Link>
             ))}
+            {/* Reopens the cookie banner (ConsentBanner listens for clicks
+                on this attribute), so the footer stays a server component. */}
+            <button type="button" className={`${styles.link} ${styles.linkButton}`} data-cookie-settings="">
+              Cookie settings
+            </button>
           </nav>
         </div>
       </div>

@@ -1,0 +1,124 @@
+/*
+ * The cookie banner (legal pages doc; layout B's card). Global, not a CSS
+ * module: the banner is on every page, and a module shared by every page
+ * would add a stylesheet to each (design system, CSS for shared sections).
+ *
+ * A card in the bottom corner: 400px wide at most, the full width less 32px
+ * on phones; `bg` ground, 1px `line` border, 18px radius. Fixed, so it
+ * shifts nothing. Under the phone menu sheet (z-index 39), above the page.
+ */
+.consent-banner {
+  position: fixed;
+  bottom: calc(1rem + env(safe-area-inset-bottom));
+  left: calc(1rem + env(safe-area-inset-left));
+  z-index: 30;
+  box-sizing: border-box;
+  width: min(25rem, calc(100% - 2rem));
+  padding: 1.25rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-card);
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+  box-shadow: 0 0.5rem 1.5rem rgb(38 38 38 / 0.08);
+}
+
+/* Keyboard focus is never hidden under the open card (WCAG 2.4.11; the
+   component scrolls a covered element clear). On phones, where the card
+   spans the width, the page ends with room for it, so the footer's last
+   links can scroll clear too. Not scroll-padding: view() timelines use it as
+   their inset, so it would shift every scroll-driven animation on the page. */
+@media (width < 53.75rem) {
+  html:has(.consent-banner) body {
+    padding-bottom: calc(var(--consent-h, 0px) + 1rem);
+  }
+}
+
+.consent-banner:focus {
+  outline: none;
+}
+
+.consent-banner:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 3px;
+}
+
+.consent-banner-text {
+  margin: 0 0 0.875rem;
+  font-size: var(--text-small);
+  line-height: var(--text-small--line-height);
+}
+
+/* A link to another page of the site: line underline, trailing →. */
+.consent-banner-link {
+  display: inline-block;
+  padding-block: 0.5rem;
+  margin-block: -0.5rem;
+  color: var(--color-ink);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: underline;
+  text-decoration-color: var(--color-line);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.3125rem;
+}
+
+.consent-banner-nowrap {
+  white-space: nowrap;
+}
+
+/* Accept and Reject carry equal weight: the same outline button, equal
+   widths, side by side (stacked only if a very narrow screen needs it). */
+.consent-banner-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+}
+
+.consent-banner-button {
+  flex: 1 1 0;
+  min-height: 2.75rem;
+  padding: 0 1rem;
+  border: 1.5px solid var(--color-ink);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+  font: inherit;
+  font-size: var(--text-small);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    color 0.2s,
+    transform 0.12s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.consent-banner-button:active {
+  transform: scale(0.97);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .consent-banner-button:hover {
+    background-color: var(--color-ink);
+    color: var(--color-bg);
+  }
+
+  .consent-banner-link:hover {
+    text-decoration-color: var(--color-ink);
+  }
+}
+
+/* The banner rises 12px into place once, in 0.3 s, as it appears (it
+   appears after the page has painted). Still version: in place. */
+@media (prefers-reduced-motion: no-preference) {
+  .consent-banner {
+    animation: consent-banner-rise 0.3s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+}
+
+@keyframes consent-banner-rise {
+  from {
+    opacity: 0;
+    translate: 0 0.75rem;
+  }
+}
