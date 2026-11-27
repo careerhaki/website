@@ -136,6 +136,16 @@
   color: var(--color-muted);
 }
 
+/* Cookie settings is a button (it opens the banner), styled as a link. */
+.linkButton {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: var(--text-small);
+  cursor: pointer;
+}
+
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     /*
